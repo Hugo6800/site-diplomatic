@@ -1,5 +1,5 @@
 import { articles } from "@/app/utils/articles";
-import Article from "../Article";
+import ArticleSpotlight from "../ArticleSpotlight";
 
 export default function SpotlightSection() {
     const spotlightArticle = articles.find(article => article.spotlight)
@@ -7,9 +7,9 @@ export default function SpotlightSection() {
     if (!spotlightArticle) return null
 
     return (
-        <section className="flex flex-col gap-4 p-4 mt-32">
+        <section className="flex flex-col gap-4 mt-32">
             <h2 className="font-bold text-[2rem]">À la une</h2>
-            <Article
+            <ArticleSpotlight
                 key={spotlightArticle.id}
                 colorCircle={`bg-tag-${spotlightArticle.category.toLowerCase()}`}
                 name={spotlightArticle.category}

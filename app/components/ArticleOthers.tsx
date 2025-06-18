@@ -14,6 +14,13 @@ interface ArticleProps {
 export default function Article({ colorCircle, name, className, author, title, date, coverImage }: ArticleProps) {
     return (
         <article className="flex flex-col">
+            <Image
+                src={coverImage}
+                alt="Image"
+                width={200}
+                height={100}
+                className="w-full h-auto mb-4"
+            />
             <TagNavigationArticles
                 colorCircle={colorCircle}
                 name={name}
@@ -21,14 +28,7 @@ export default function Article({ colorCircle, name, className, author, title, d
                 variant="article"
             />
             <p className="mt-2 font-semibold text-[1rem]">{author} - {date}</p>
-            <h3 className="font-bold text-5xl font-fractul line-clamp-3 tracking-[0.03em] leading-[110%]">{title}</h3>
-            <Image
-                src={coverImage}
-                alt="Image"
-                width={200}
-                height={100}
-                className="w-full h-auto mt-4"
-            />
+            <h3 className="font-bold text-2xl font-fractul line-clamp-3 tracking-[0.03em] leading-[110%]">{title}</h3>
         </article>
     )
 }
