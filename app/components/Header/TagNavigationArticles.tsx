@@ -11,13 +11,14 @@ export default function TagNavigationArticles({
     className,
     variant = 'menu'
 }: TagNavigationArticlesProps) {
-    const baseColor = className.match(/tag-[^\s]+/)?.[0] || ''
+    const category = className.match(/tag-([^\s]+)/)?.[1] || ''
+    const baseColor = `tag-${category}`
 
     const variantStyles = variant === 'menu' ? {
         container: `text-${baseColor} border-2 border-${baseColor}`,
         text: 'text-sm'
     } : {
-        container: `bg-${baseColor}/30 text-${baseColor}`,
+        container: `bg-background-tag-${category} text-${baseColor}`,
         text: 'text-sm'
     }
 
