@@ -11,7 +11,6 @@ export default function TagNavigationArticles({
     className,
     variant = 'menu'
 }: TagNavigationArticlesProps) {
-    // Extraire la couleur de base (ex: tag-international)
     const baseColor = className.match(/tag-[^\s]+/)?.[0] || ''
 
     const variantStyles = variant === 'menu' ? {

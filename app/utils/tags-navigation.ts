@@ -19,7 +19,7 @@ export const tagsNavigation: TagNavigation[] = [
         className: "text-tag-culture border-2 border-tag-culture transition-colors"
     },
     {
-        name: "Société",
+        name: "Societe",
         href: "/societe",
         colorCircle: "bg-tag-societe",
         className: "text-tag-societe border-2 border-tag-societe transition-colors"

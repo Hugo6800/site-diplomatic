@@ -11,12 +11,32 @@ export const articles = [
     },
     {
       id: "2",
-      title: "Une révolution verte dans les villes européennes",
-      slug: "revolution-verte-europe",
-      category: "Société",
-      author: "Marie Dupont",
-      date: "2025-06-01",
-      coverImage: "/images/revolution-verte.jpg",
+      title: "Les défis de la protection des forêts face aux nouvelles menaces",
+      slug: "defis-protection-forêts-menaces",
+      category: "Societe",
+      author: "Léa Martin",
+      date: "09.06.2025",
+      coverImage: "/foret.png",
+      spotlight: false
+    },
+    {
+      id: "3",
+      title: "La biodiversité en péril : l'impact des espèces invasives",
+      slug: "biodiversite-invasives",
+      category: "International",
+      author: "Marc Dubois",
+      date: "08.06.2025",
+      coverImage: "/biodiversite.png",
+      spotlight: false
+    },
+    {
+      id: "4",
+      title: "Agriculture durable : vers de nouvelles pratiques pour préserver les cultures",
+      slug: "agriculture-durable",
+      category: "Culture",
+      author: "Sophie Fournier",
+      date: "07.06.2025",
+      coverImage: "/agriculture.png",
       spotlight: false
     },
   ]
