@@ -27,6 +27,7 @@
   --color-tag-societe: #5E4007;
   --color-tag-culture: #153A03;
   --color-tag-politic: #071652;
+  --color-accent: #DE595C;
 }
 
 @media (prefers-color-scheme: dark) {

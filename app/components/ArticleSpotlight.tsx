@@ -29,7 +29,7 @@ export default function Article({ colorCircle, name, className, author, title, d
                 alt="Image"
                 width={200}
                 height={100}
-                className="w-full h-auto mt-4"
+                className="w-full md:w-1/2 h-auto mt-4"
             />
         </article>
     )
