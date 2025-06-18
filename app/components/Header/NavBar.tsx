@@ -13,8 +13,12 @@ export default function NavBar() {
       setIsMenuOpen(true)
       setAnimation("in")
     } else {
-      setAnimation("out")
+      closeMenu()
     }
+  }
+
+  const closeMenu = () => {
+    setAnimation("out")
   }
 
   const handleAnimationEnd = () => {
@@ -47,7 +51,7 @@ export default function NavBar() {
             ${animation === "out" ? "slide-out" : ""}
           `}
         >
-          <MenuNavigation />
+          <MenuNavigation onNavigate={closeMenu} />
         </div>
       )}
     </div>

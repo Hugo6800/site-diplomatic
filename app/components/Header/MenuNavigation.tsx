@@ -7,20 +7,34 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import TagNavigationArticles from "./TagNavigationArticles";
 
-export default function MenuNavigation() {
+interface MenuNavigationProps {
+  onNavigate?: () => void;
+}
+
+export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
   const pathname = usePathname();
 
+  const handleClick = () => {
+    if (onNavigate) {
+      onNavigate();
+    }
+  };
+
   return (
-    <nav className="flex flex-col items-center gap-4 bg-background p-4">
-      <div className="flex justify-center items-center gap-4 w-full">
+    <nav className="flex flex-col xl:flex-row items-center px-6 md:px-24 xl:px-36 gap-4 bg-background p-4">
+      <div className="flex justify-center xl:hidden items-center gap-4 w-full">
         <DarkTheme />
         <User />
       </div>
-      <ul className="flex flex-col gap-4 w-full font-bold">
+      <ul className="flex flex-col xl:flex-row xl:items-center gap-4 w-full font-bold">
         <li className="flex">
           <Link
             href="/"
-            className={`px-4 py-1 text-lg rounded-full transition-colors ${pathname === '/' ? 'bg-gray' : 'hover:bg-gray/50'}`}
+            onClick={handleClick}
+            className={`
+              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
+              ${pathname === "/" ? "bg-gray" : ""}
+            `}
           >
             Accueil
           </Link>
@@ -28,7 +42,11 @@ export default function MenuNavigation() {
         <li className="flex">
           <Link
             href="/podcasts"
-            className={`px-4 py-1 text-lg rounded-full transition-colors ${pathname === '/podcasts' ? 'bg-gray' : 'hover:bg-gray/50'}`}
+            onClick={handleClick}
+            className={`
+              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
+              ${pathname === "/podcasts" ? "bg-gray" : ""}
+            `}
           >
             Podcasts
           </Link>
@@ -39,6 +57,7 @@ export default function MenuNavigation() {
             colorCircle={tag.colorCircle}
             name={tag.name}
             className={tag.className}
+            variant="menu"
           />
         ))}
       </ul>
