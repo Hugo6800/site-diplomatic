@@ -58,6 +58,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             name={tag.name}
             className={tag.className}
             variant="menu"
+            onClick={handleClick}
           />
         ))}
       </ul>
