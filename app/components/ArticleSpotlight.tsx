@@ -13,7 +13,7 @@ interface ArticleProps {
 
 export default function Article({ colorCircle, name, className, author, title, date, coverImage }: ArticleProps) {
     return (
-        <article className="flex flex-col md:flex-row">
+        <article className="flex flex-col md:flex-row gap-4">
             <div className="flex flex-col md:w-1/2">
                 <TagNavigationArticles
                     colorCircle={colorCircle}
