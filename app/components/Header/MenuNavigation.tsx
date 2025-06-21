@@ -5,7 +5,7 @@ import DarkTheme from "./DarkTheme";
 import User from "./User";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import TagNavigationArticles from "./TagNavigationArticles";
+import TagNavigationArticles from "../TagNavigationArticles";
 
 interface MenuNavigationProps {
   onNavigate?: () => void;

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import TagNavigationArticles from "./Header/TagNavigationArticles";
+import TagNavigationArticles from "./TagNavigationArticles";
 
 interface ArticleProps {
     colorCircle: string;
