@@ -7,7 +7,7 @@ export default function SpotlightSection() {
     if (!spotlightArticle) return null
 
     return (
-        <section className="flex flex-col gap-4 mt-48">
+        <section className="flex flex-col gap-4 mt-28 lg:mt-48">
             <h2 className="font-bold text-[2rem]">À la une</h2>
             <ArticleSpotlight
                 key={spotlightArticle.id}
