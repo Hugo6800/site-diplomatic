@@ -2,13 +2,20 @@
 
 @font-face {
   font-family: 'Fractul';
-  src: url('/fonts/Fractul-regular.woff2') format('woff2');
+  src: url('/fonts/Fractul-Regular.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'NeulisAlt';
-  src: url('/fonts/NeulisAlt-regular.woff2') format('woff2');
+  src: url('/fonts/NeulisAlt-Regular.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'NeulisAltBlack';
+  src: url('/fonts/NeulisAlt-Black.woff2') format('woff2');
+  font-weight: 900;
+}
+
 
 :root {
   --background: #FEF5F5;
@@ -21,7 +28,6 @@
   --color-gray: #F3DEDE;
   --color-accent: #DE595C;
 }
-
 
 /* Classes de background pour les tags */
 .bg-background-tag-international { background-color: #FFDFD2; }

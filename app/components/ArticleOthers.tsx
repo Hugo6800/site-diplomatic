@@ -28,7 +28,7 @@ export default function Article({ colorCircle, name, className, author, title, d
                 variant="article"
             />
             <p className="mt-2 font-semibold text-[1rem]">{author} - {date}</p>
-            <h3 className="font-bold text-2xl font-fractul line-clamp-3 tracking-[0.03em] leading-[110%]">{title}</h3>
+            <h3 className="font-bold text-2xl line-clamp-3 tracking-[0.03em] leading-[110%] cursor-pointer hover:font-black">{title}</h3>
         </article>
     )
 }
