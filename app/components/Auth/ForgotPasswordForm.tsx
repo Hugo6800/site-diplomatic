@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react';
-import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '@/app/lib/firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 interface ForgotPasswordFormProps {
     onSwitchToLogin: () => void;
@@ -18,7 +18,6 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
         try {
             await sendPasswordResetEmail(auth, email);
             setSuccess(true);
-            setError('');
         } catch (err) {
             console.error(err);
             setError('Une erreur est survenue. Vérifiez votre adresse email.');
@@ -26,44 +25,43 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
     };
 
     return (
-        <div className="w-full max-w-md mx-auto p-6">
-            <h1 className="text-3xl font-bold font-fractul mb-6">Mot de passe oublié</h1>
+        <div className="w-full max-w-md mx-auto">
+            <h2 className="text-2xl font-fractul font-bold mb-4 text-center">Mot de passe oublié</h2>
             {success ? (
                 <div className="text-center">
-                    <p className="text-green-600 mb-4">Un email de réinitialisation a été envoyé !</p>
+                    <p className="mb-4 font-neulisalt">Un email de réinitialisation a été envoyé à {email}.</p>
                     <button
-                        type="button"
                         onClick={onSwitchToLogin}
-                        className="text-[#DE595C] hover:underline"
+                        className="text-primary hover:text-primary/80 font-semibold"
                     >
                         Retour à la connexion
                     </button>
                 </div>
             ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
+                    <div className="flex flex-col items-center">
                         <label htmlFor="email" className="block font-neulisalt mb-2">Adresse mail</label>
                         <input
                             type="email"
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full p-2 border rounded-md bg-white/5"
+                            className="w-3/4 p-2 border rounded-md bg-white/5 focus:outline-none focus:border-primary"
                             required
                         />
                     </div>
-                    {error && <p className="text-red-500 text-sm">{error}</p>}
-                    <button
-                        type="submit"
-                        className="w-full bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
-                    >
-                        Envoyer
-                    </button>
-                    <div className="text-center mt-4">
+                    {error && <p className="text-red-500 text-sm font-neulisalt">{error}</p>}
+                    <div className="flex flex-col items-center gap-4">
+                        <button
+                            type="submit"
+                            className="w-3/4 bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
+                        >
+                            Envoyer le lien de réinitialisation
+                        </button>
                         <button
                             type="button"
                             onClick={onSwitchToLogin}
-                            className="text-[#DE595C] hover:underline text-sm"
+                            className="text-[#DE595C] hover:underline"
                         >
                             Retour à la connexion
                         </button>

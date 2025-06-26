@@ -7,6 +7,7 @@ import { db } from '../lib/firebase';
 import { doc, getDoc, Timestamp } from 'firebase/firestore';
 import LoginForm from '../components/Auth/LoginForm';
 import SignUpForm from '../components/Auth/SignUpForm';
+import ForgotPasswordForm from '../components/Auth/ForgotPasswordForm';
 
 interface FirestoreArticle {
     id: number;
@@ -34,7 +35,11 @@ export default function ArticlePage() {
     const showAuth = searchParams.get('auth') === 'true';
     const [article, setArticle] = useState<Article | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [authMode, setAuthMode] = useState<'buttons' | 'login' | 'signup'>('buttons');
+    const [authMode, setAuthMode] = useState<'buttons' | 'login' | 'signup' | 'forgot'>('buttons');
+
+    const handleForgotPassword = () => {
+        setAuthMode('forgot');
+    };
 
     useEffect(() => {
         async function fetchArticle() {
@@ -132,13 +137,17 @@ export default function ArticlePage() {
                         ) : authMode === 'login' ? (
                             <LoginForm
                                 onSwitchToSignUp={() => setAuthMode('signup')}
-                                onForgotPassword={() => {}}
+                                onForgotPassword={handleForgotPassword}
                                 redirectUrl={`/article?id=${id}`}
                             />
-                        ) : (
+                        ) : authMode === 'signup' ? (
                             <SignUpForm
                                 onSwitchToLogin={() => setAuthMode('login')}
                                 redirectUrl={`/article?id=${id}`}
+                            />
+                        ) : (
+                            <ForgotPasswordForm
+                                onSwitchToLogin={() => setAuthMode('login')}
                             />
                         )}
                             </div>
