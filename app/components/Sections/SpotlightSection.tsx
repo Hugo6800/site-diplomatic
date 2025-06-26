@@ -51,8 +51,8 @@ export default function SpotlightSection() {
     }
 
     return (
-        <section className="py-24">
-            <div className="container">
+        <section className="pt-24 mt-16">
+            <div className="container mt-12">
                 <ArticleSpotlight
                     id={article.id}
                     colorCircle={`bg-tag-${article.category.toLowerCase()}`}

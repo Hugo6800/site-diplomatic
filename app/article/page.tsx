@@ -30,9 +30,11 @@ export default function ArticlePage() {
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
     const [article, setArticle] = useState<Article | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function fetchArticle() {
+            setIsLoading(true);
             if (id) {                
                 const articleRef = doc(db, 'articles', id);
                 const articleSnap = await getDoc(articleRef);
@@ -48,21 +50,41 @@ export default function ArticlePage() {
                         imageUrl: articleData.imageUrl,
                         createdAt: new Date(articleData.createdAt.seconds * 1000).toLocaleDateString('fr-FR')
                     });
-                } else {
-                    console.log("Article non trouvé");
                 }
             }
+            setIsLoading(false);
         }
 
         fetchArticle();
     }, [id]);
 
+    if (isLoading) {
+        return (
+            <main className="min-h-screen py-24">
+                <div className="container mx-auto px-4">
+                    <div className="animate-pulse">
+                        <div className="h-8 w-32 bg-gray-200 mb-4 rounded"></div>
+                        <div className="h-12 w-3/4 bg-gray-200 mb-8 rounded"></div>
+                        <div className="h-96 w-full bg-gray-200 rounded"></div>
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
     if (!article) {
-        return <div>Article non trouvé</div>;
+        return (
+            <main className="min-h-screen py-24">
+                <div className="container mx-auto px-4">
+                    <h1 className="text-2xl font-bold mb-4">Article non trouvé</h1>
+                    <p>{`L'article que vous recherchez n'existe pas ou a été supprimé.`}</p>
+                </div>
+            </main>
+        );
     }
 
     return (
-        <main className="min-h-screen py-12">
+        <main className="min-h-screen py-24">
             <ArticleFull
                 id={article.id}
                 category={article.category}

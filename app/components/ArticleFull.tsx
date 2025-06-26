@@ -45,9 +45,10 @@ export default function ArticleFull({ category, title, authorName, date, imageUr
             </div>
 
             {/* Contenu de l'article */}
-            <div className="prose prose-lg max-w-none">
-                {content}
-            </div>
+            <div 
+                className="prose prose-lg max-w-none prose-headings:font-fractul prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-lg"
+                dangerouslySetInnerHTML={{ __html: content }}
+            />
         </article>
     );
 }
