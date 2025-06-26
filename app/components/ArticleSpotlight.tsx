@@ -2,10 +2,7 @@
 
 import Image from "next/image";
 import TagNavigationArticles from "./TagNavigationArticles";
-import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import LoginForm from './Auth/LoginForm';
-import SignUpForm from './Auth/SignUpForm';
 
 export interface ArticleProps {
     id: string;
@@ -20,15 +17,9 @@ export interface ArticleProps {
 
 export default function Article({ id, colorCircle, name, className, author, title, date, imageUrl }: ArticleProps) {
     const { user } = useAuth();
-    const [showAuthModal, setShowAuthModal] = useState(false);
-    const [authMode, setAuthMode] = useState<'buttons' | 'login' | 'signup'>('buttons');
 
     const handleArticleClick = () => {
-        if (!user) {
-            setShowAuthModal(true);
-        } else {
-            window.location.href = `/article?id=${id}`;
-        }
+        window.location.href = `/article?id=${id}${!user ? '&auth=true' : ''}`;
     };
 
     return (
@@ -54,56 +45,7 @@ export default function Article({ id, colorCircle, name, className, author, titl
                 </div>
             </article>
 
-            {showAuthModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div className="bg-white p-8 rounded-lg max-w-md w-full mx-4">
-                        <h2 className="text-2xl font-fractul font-bold mb-4 text-center">Soutenez The Diplomatic Post</h2>
-                        <p className="text-center mb-6 font-neulisalt">Cet article est réservé aux membres. Connectez-vous ou créez un compte gratuit !</p>
 
-                        {authMode === 'buttons' ? (
-                            <div className="flex flex-col gap-4">
-                                <button
-                                    onClick={() => setAuthMode('login')}
-                                    className="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary/10 transition-colors text-center"
-                                >
-                                    Se connecter
-                                </button>
-                                <button
-                                    onClick={() => setAuthMode('signup')}
-                                    className="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary/10 transition-colors text-center"
-                                >
-                                    Créer un compte
-                                </button>
-                            </div>
-                        ) : authMode === 'login' ? (
-                            <>
-                                <LoginForm
-                                    onSwitchToSignUp={() => setAuthMode('signup')}
-                                    onForgotPassword={() => { }}
-                                    redirectUrl={`/article?id=${id}`}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <SignUpForm
-                                    onSwitchToLogin={() => setAuthMode('login')}
-                                    redirectUrl={`/article?id=${id}`}
-                                />
-                            </>
-                        )}
-
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowAuthModal(false);
-                            }}
-                            className="mt-4 w-full text-gray-500 hover:text-gray-700"
-                        >
-                            Fermer
-                        </button>
-                    </div>
-                </div>
-            )}
         </>
     )
 }

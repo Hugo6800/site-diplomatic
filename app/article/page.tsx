@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import ArticleFull from '../components/ArticleFull';
 import { db } from '../lib/firebase';
 import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import LoginForm from '../components/Auth/LoginForm';
+import SignUpForm from '../components/Auth/SignUpForm';
 
 interface FirestoreArticle {
     id: number;
@@ -29,8 +31,10 @@ interface Article {
 export default function ArticlePage() {
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
+    const showAuth = searchParams.get('auth') === 'true';
     const [article, setArticle] = useState<Article | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [authMode, setAuthMode] = useState<'buttons' | 'login' | 'signup'>('buttons');
 
     useEffect(() => {
         async function fetchArticle() {
@@ -84,16 +88,65 @@ export default function ArticlePage() {
     }
 
     return (
-        <main className="min-h-screen py-24">
-            <ArticleFull
-                id={article.id}
-                category={article.category}
-                title={article.title}
-                authorName={article.authorName}
-                date={article.createdAt}
-                imageUrl={article.imageUrl}
-                content={article.content}
-            />
+        <main className="min-h-screen py-24 relative">
+            {/* Article avec effet de flou/coupure si non connecté */}
+            <div className={`${showAuth ? 'max-h-[100vh] overflow-hidden relative' : ''}`}>
+                <ArticleFull
+                    id={article.id}
+                    category={article.category}
+                    title={article.title}
+                    authorName={article.authorName}
+                    date={article.createdAt}
+                    imageUrl={article.imageUrl}
+                    content={article.content}
+                />
+                {showAuth && (
+                    <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent" />
+                )}
+            </div>
+
+            {/* Modal d'authentification */}
+            {showAuth && (
+                <>
+                    <div className="fixed inset-x-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/40 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-8 md:bottom-24">
+                        <div className="container mx-auto max-w-md px-4 py-8">
+                            <div className="max-h-[80vh] md:max-h-none overflow-y-auto">
+                            <h2 className="text-2xl font-fractul font-bold mb-4 text-center">Soutenez The Diplomatic Post</h2>
+                            <p className="text-center mb-6 font-neulisalt">Cet article est réservé aux membres. Connectez-vous ou créez un compte gratuit !</p>
+
+                        {authMode === 'buttons' ? (
+                            <div className="flex flex-col gap-4">
+                                <button
+                                    onClick={() => setAuthMode('login')}
+                                    className="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary/10 transition-colors text-center"
+                                >
+                                    Se connecter
+                                </button>
+                                <button
+                                    onClick={() => setAuthMode('signup')}
+                                    className="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary/10 transition-colors text-center"
+                                >
+                                    Créer un compte
+                                </button>
+                            </div>
+                        ) : authMode === 'login' ? (
+                            <LoginForm
+                                onSwitchToSignUp={() => setAuthMode('signup')}
+                                onForgotPassword={() => {}}
+                                redirectUrl={`/article?id=${id}`}
+                            />
+                        ) : (
+                            <SignUpForm
+                                onSwitchToLogin={() => setAuthMode('login')}
+                                redirectUrl={`/article?id=${id}`}
+                            />
+                        )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="fixed inset-0 bg-black/20 z-40" aria-hidden="true" />
+                </>
+            )}
         </main>
     );
 }
