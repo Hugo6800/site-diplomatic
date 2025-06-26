@@ -3,9 +3,12 @@
 import { useState } from 'react';
 import Image from "next/image";
 import AuthModal from "../Auth/AuthModal";
+import { LogoutButton } from "../Auth/LogoutButton";
+import { useAuth } from '@/app/hooks/useAuth';
 
-export default function User() {
+export function User() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { user } = useAuth();
 
     return (
         <>
@@ -19,14 +22,13 @@ export default function User() {
                     width={40}
                     height={40}
                 />
-                {/* <Image
-                    src="/Logo_user.png"
-                    alt="User"
-                    width={40}
-                    height={40}
-                />
-                <p className="font-bold">S4W6 Design</p> */}
+                {user && (
+                    <span className="text-sm text-gray-700">
+                        {user.email}
+                    </span>
+                )}
             </div>
+            {user && <LogoutButton />}
 
             <AuthModal 
                 isOpen={isModalOpen}

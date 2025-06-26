@@ -1,8 +1,8 @@
 import Image from "next/image";
 import NavBar from "./NavBar";
 import DarkTheme from "./DarkTheme";
-import User from "./User";
 import Link from "next/link";
+import { User } from "./User";
 
 export default function Header() {
     return (

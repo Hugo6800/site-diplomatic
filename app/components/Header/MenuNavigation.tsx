@@ -2,10 +2,10 @@
 
 import { tagsNavigation, TagNavigation } from "@/app/utils/tags-navigation";
 import DarkTheme from "./DarkTheme";
-import User from "./User";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import TagNavigationArticles from "../TagNavigationArticles";
+import { User } from "./User";
 
 interface MenuNavigationProps {
   onNavigate?: () => void;

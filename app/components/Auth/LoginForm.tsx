@@ -7,9 +7,10 @@ import { auth } from '@/app/lib/firebase';
 interface LoginFormProps {
     onSwitchToSignUp: () => void;
     onForgotPassword: () => void;
+    redirectUrl?: string;
 }
 
-export default function LoginForm({ onSwitchToSignUp, onForgotPassword }: LoginFormProps) {
+export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirectUrl = '/' }: LoginFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -19,7 +20,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword }: LoginF
         try {
             await signInWithEmailAndPassword(auth, email, password);
             // Redirection après connexion réussie
-            window.location.href = '/';
+            window.location.href = redirectUrl;
         } catch (err) {
             console.error(err);
             setError('Email ou mot de passe incorrect');

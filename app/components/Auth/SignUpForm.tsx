@@ -7,9 +7,10 @@ import { auth, db } from '@/app/lib/firebase';
 
 interface SignUpFormProps {
     onSwitchToLogin: () => void;
+    redirectUrl?: string;
 }
 
-export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
+export default function SignUpForm({ onSwitchToLogin, redirectUrl = '/' }: SignUpFormProps) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -20,6 +21,8 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
         e.preventDefault();
         try {
           const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      
+          window.location.href = redirectUrl;
       
           await updateProfile(user, {
             displayName: `${firstName} ${lastName}`
