@@ -8,7 +8,7 @@ export default function SpotlightSection() {
 
     return (
         <section className="flex flex-col gap-4 mt-28 lg:mt-48">
-            <h2 className="font-bold text-[2rem]">À la une</h2>
+            <h2 className="font-bold font-neulisalt text-[2rem]">À la une</h2>
             <ArticleSpotlight
                 key={spotlightArticle.id}
                 colorCircle={`bg-tag-${spotlightArticle.category.toLowerCase()}`}

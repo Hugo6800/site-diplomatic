@@ -12,7 +12,7 @@ export default function LastArticlesSection() {
 
     return (
         <section className="flex flex-col gap-4 mt-28 mb-20">
-            <h2 className="font-bold text-[2rem]">Derniers articles</h2>
+            <h2 className="font-bold font-neulisalt text-[2rem]">Derniers articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {sortedArticles.map(article => (
                     <ArticleOthers

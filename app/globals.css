@@ -32,6 +32,8 @@
   --color-foreground: var(--foreground);
   --color-gray: #F3DEDE;
   --color-accent: #DE595C;
+  --font-fractul: 'Fractul', sans-serif;
+  --font-neulisalt: 'NeulisAlt', sans-serif;
 }
 
 /* Classes de background pour les tags */
@@ -67,20 +69,10 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Fractul, sans-serif';
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'NeulisAlt, sans-serif';
 }
 
 .test {
-  font-family: 'NeulisAltBlack, sans-serif';
+  font-family: var(--font-family-neulisalt);
 }
 
 @keyframes slide-in {

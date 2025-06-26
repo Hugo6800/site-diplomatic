@@ -13,8 +13,8 @@ export default function CollectionCard({ colorCircle, name, description, backgro
         <Link href={`/collections?tag=${name.toLowerCase()}`}>
             <article className={`flex flex-col p-4 rounded-lg ${backgroundColor} cursor-pointer transition-transform hover:scale-105`}>
                <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
-               <p className={`font-bold mt-2 text-2xl ${titleColor}`}>{name}</p>
-               <p>{description}</p>
+               <p className={`font-bold font-fractul mt-2 text-2xl ${titleColor}`}>{name}</p>
+               <p className="font-neulisalt">{description}</p>
             </article>
         </Link>
     )

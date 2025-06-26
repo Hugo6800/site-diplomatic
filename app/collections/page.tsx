@@ -28,7 +28,7 @@ export default function CollectionsPage() {
         <main className="px-6 md:px-24 xl:px-36 mt-28 lg:mt-48 mb-20">
             <div className="flex items-center gap-2 mb-8">
                 <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
-                <h2 className={`font-bold text-[2rem] ${titleColor}`}>{formattedTag}</h2>
+                <h2 className={`font-bold font-fractul text-[2rem] ${titleColor}`}>{formattedTag}</h2>
             </div>
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {sortedArticles.map(article => (
