@@ -36,20 +36,20 @@ export default function NavBar() {
         aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
       >
         <Image
-          src={isMenuOpen ? '/icons/arrow-left.svg' : '/icons/ellipsis.svg'}
+          src={isMenuOpen ? '/icons/xmark-solid.svg' : '/icons/menu_burger.svg'}
           alt={isMenuOpen ? 'Fermer' : 'Menu'}
           width={30}
           height={30}
         />
       </button>
-      
+
       {(isMenuOpen || animation === "out") && (
         <div
           onAnimationEnd={handleAnimationEnd}
           className={`absolute top-24 left-0 right-0 z-50 bg-white dark:bg-foreground shadow-lg
             ${animation === "in" ? "slide-in" : ""}
             ${animation === "out" ? "slide-out" : ""}
-          `}
+            `}
         >
           <MenuNavigation onNavigate={closeMenu} />
         </div>

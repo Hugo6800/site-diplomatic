@@ -8,12 +8,17 @@
 @font-face {
   font-family: 'NeulisAlt';
   src: url('/fonts/NeulisAlt-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NeulisAltBlack';
   src: url('/fonts/NeulisAlt-Black.woff2') format('woff2');
   font-weight: 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 
@@ -72,6 +77,10 @@ h4,
 h5,
 h6 {
   font-family: 'NeulisAlt, sans-serif';
+}
+
+.test {
+  font-family: 'NeulisAltBlack, sans-serif';
 }
 
 @keyframes slide-in {

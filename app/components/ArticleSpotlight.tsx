@@ -27,9 +27,10 @@ export default function Article({ colorCircle, name, className, author, title, d
             <Image
                 src={coverImage}
                 alt="Image"
-                width={200}
-                height={100}
-                className="w-full md:w-1/2 h-auto mt-4"
+                width={800}
+                height={400}
+                quality={100}
+                className="w-full md:w-1/2 h-auto mt-4 object-cover"
             />
         </article>
     )
