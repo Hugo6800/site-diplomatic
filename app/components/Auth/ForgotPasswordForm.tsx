@@ -25,8 +25,8 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
     };
 
     return (
-        <div className="w-full max-w-md mx-auto">
-            <h2 className="text-2xl font-fractul font-bold mb-4 text-center">Mot de passe oublié</h2>
+        <div className="w-full max-w-md mx-auto p-6">
+            <h2 className="text-2xl font-fractul font-bold mb-4">Mot de passe oublié</h2>
             {success ? (
                 <div className="text-center">
                     <p className="mb-4 font-neulisalt">Un email de réinitialisation a été envoyé à {email}.</p>
@@ -39,22 +39,22 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
                 </div>
             ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col">
                         <label htmlFor="email" className="block font-neulisalt mb-2">Adresse mail</label>
                         <input
                             type="email"
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-3/4 p-2 border rounded-md bg-white/5 focus:outline-none focus:border-primary"
+                            className=" p-2 border rounded-md bg-white/5 focus:outline-none focus:border-primary"
                             required
                         />
                     </div>
                     {error && <p className="text-red-500 text-sm font-neulisalt">{error}</p>}
-                    <div className="flex flex-col items-center gap-4">
+                    <div className="flex flex-col gap-4">
                         <button
                             type="submit"
-                            className="w-3/4 bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
+                            className=" bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
                         >
                             Envoyer le lien de réinitialisation
                         </button>
