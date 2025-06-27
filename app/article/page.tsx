@@ -4,30 +4,12 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ArticleFull from '../components/ArticleFull';
 import { db } from '../lib/firebase';
-import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import LoginForm from '../components/Auth/LoginForm';
 import SignUpForm from '../components/Auth/SignUpForm';
 import ForgotPasswordForm from '../components/Auth/ForgotPasswordForm';
-
-interface FirestoreArticle {
-    id: number;
-    title: string;
-    authorName: string;
-    category: string;
-    content: string;
-    imageUrl: string;
-    createdAt: Timestamp;
-}
-
-interface Article {
-    id: string;
-    title: string;
-    authorName: string;
-    category: string;
-    content: string;
-    imageUrl: string;
-    createdAt: string;
-}
+import { FirestoreArticle } from '../types/firestore-article';
+import { Article } from '../types/article';
 
 export default function ArticlePage() {
     const searchParams = useSearchParams();
@@ -94,8 +76,7 @@ export default function ArticlePage() {
 
     return (
         <main className="min-h-screen py-24 relative">
-            {/* Article avec effet de flou/coupure si non connecté */}
-            <div className={`${showAuth ? 'max-h-[100vh] overflow-hidden relative' : ''}`}>
+            <section className={`${showAuth ? 'mt-11 max-h-[100vh] overflow-hidden relative' : ''}`}>
                 <ArticleFull
                     id={article.id}
                     category={article.category}
@@ -108,12 +89,11 @@ export default function ArticlePage() {
                 {showAuth && (
                     <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent" />
                 )}
-            </div>
+            </section>
 
-            {/* Modal d'authentification */}
             {showAuth && (
                 <>
-                    <div className="fixed inset-x-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/40 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-8 md:bottom-24">
+                    <div className="absolute left-0 right-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/40 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-8">
                         <div className="container mx-auto max-w-md px-4 py-8">
                             <div className="max-h-[80vh] md:max-h-none overflow-y-auto">
                             <h2 className="text-2xl font-fractul font-bold mb-4 text-center">Soutenez The Diplomatic Post</h2>
@@ -153,7 +133,7 @@ export default function ArticlePage() {
                             </div>
                         </div>
                     </div>
-                    <div className="fixed inset-0 bg-black/20 z-40" aria-hidden="true" />
+                    <div className="absolute inset-0 bg-black/20 z-40" aria-hidden="true" />
                 </>
             )}
         </main>

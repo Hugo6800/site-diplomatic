@@ -16,14 +16,13 @@ interface ArticleFullProps {
 export default function ArticleFull({ category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
     return (
         <article className="max-w-5xl mx-auto px-4">
-            {/* En-tête de l'article */}
             <header className="mb-8">
                 <TagNavigationArticles
                     name={category}
                     colorCircle={`bg-tag-${category.toLowerCase()}`}
                     className={`text-tag-${category.toLowerCase()} border-2 border-tag-${category.toLowerCase()} transition-colors`}
                 />
-                <h1 className="font-bold font-fractul text-6xl mt-6 mb-4 tracking-[0.03em] leading-[110%]">
+                <h1 className="font-bold font-fractul text-2xl md:text-6xl mt-6 mb-4 tracking-[0.03em] leading-[110%]">
                     {title}
                 </h1>
                 <div className="flex items-center gap-4 text-gray-600">
@@ -33,7 +32,6 @@ export default function ArticleFull({ category, title, authorName, date, imageUr
                 </div>
             </header>
 
-            {/* Image principale */}
             <div className="relative w-full aspect-[16/9] mb-8">
                 <Image
                     src={imageUrl}
@@ -44,7 +42,6 @@ export default function ArticleFull({ category, title, authorName, date, imageUr
                 />
             </div>
 
-            {/* Contenu de l'article */}
             <div 
                 className="prose prose-lg max-w-none prose-headings:font-fractul prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-p:text-lg prose-p:leading-relaxed prose-p:mb-6 prose-a:text-primary hover:prose-a:text-primary/80 prose-img:rounded-lg"
                 dangerouslySetInnerHTML={{ __html: content }}
