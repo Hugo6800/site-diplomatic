@@ -9,7 +9,6 @@ import { useAuth } from '@/app/hooks/useAuth';
 export function User() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { user } = useAuth();
-    console.log("🚀 ~ User ~ user:", user)
 
     return (
         <>

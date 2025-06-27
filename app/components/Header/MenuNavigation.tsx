@@ -33,7 +33,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             onClick={handleClick}
             className={`
               inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
-              ${pathname === "/" ? "bg-gray" : ""}
+              ${pathname === "/" ? "bg-gray" : "hover:bg-gray"}
             `}
           >
             Accueil
@@ -45,7 +45,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             onClick={handleClick}
             className={`
               inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
-              ${pathname === "/podcasts" ? "bg-gray" : ""}
+              ${pathname === "/podcasts" ? "bg-gray" : "hover:bg-gray"}
             `}
           >
             Podcasts

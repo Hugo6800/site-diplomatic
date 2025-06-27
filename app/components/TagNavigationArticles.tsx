@@ -2,14 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-
-interface TagNavigationArticlesProps {
-    colorCircle: string;
-    name: string;
-    className: string;
-    variant?: 'menu' | 'article';
-    onClick?: () => void;
-}
+import { TagNavigationArticlesProps } from '@/app/types/tag-navigation-articles';
 
 export default function TagNavigationArticles({
     colorCircle,
@@ -24,7 +17,6 @@ export default function TagNavigationArticles({
     const category = className.match(/tag-([^\s]+)/)?.[1] || '';
     const baseColor = `tag-${category}`;
 
-    // Use article variant if we're on collections page and this tag is selected
     const isSelected = pathname.startsWith('/collections') && urlTag === name.toLowerCase();
     const variant = isSelected ? 'article' : defaultVariant;
 
@@ -42,13 +34,14 @@ export default function TagNavigationArticles({
                 href={`/collections?tag=${name.toLowerCase()}`}
                 onClick={onClick}
                 className={`
+                    group
                     inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
                     ${variantStyles.container}
                     ${variantStyles.text}
-                    transition-transform hover:scale-105
+                    transition-transform hover:border active:border-[3px]
                 `}>
                 <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
-                <p className="font-bold">{name}</p>
+                <p className="font-bold group-hover:font-normal group-active:font-black transition-all">{name}</p>
             </Link>
         </li>
     )
