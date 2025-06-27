@@ -110,7 +110,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                 )}
                 <button
                     type="submit"
-                    className="w-full bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
+                    className="w-full bg-[#DE595C] font-bold tracking-wider cursor-pointer font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/80 transition-colors"
                 >
                     Se connecter
                 </button>
@@ -118,13 +118,13 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                     <button
                         type="button"
                         onClick={() => onSwitchToSignUp()}
-                        className="text-[#DE595C] hover:underline"
+                        className="text-[#DE595C] hover:font-bold cursor-pointer"
                     >
                         Créer un compte
                     </button>
                     <button
                         type="button"
-                        className="text-[#DE595C] hover:underline text-sm"
+                        className="text-[#DE595C] hover:font-bold text-sm cursor-pointer"
                         onClick={onForgotPassword}
                     >
                         Mot de passe oublié ?

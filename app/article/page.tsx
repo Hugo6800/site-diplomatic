@@ -103,13 +103,13 @@ export default function ArticlePage() {
                             <div className="flex flex-col gap-4">
                                 <button
                                     onClick={() => setAuthMode('login')}
-                                    className="bg-[#DE595C] text-primary tracking-wider cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-[#DE595C]/90 transition-colors text-center"
+                                    className="bg-[#DE595C] font-bold tracking-wider cursor-pointer px-6 py-3 rounded-lg hover:bg-[#DE595C]/80 transition-colors text-center"
                                 >
                                     Se connecter
                                 </button>
                                 <button
                                     onClick={() => setAuthMode('signup')}
-                                    className="bg-[#F3DEDE] text-primary tracking-wider cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-[#F3DEDE]/90 transition-colors text-center"
+                                    className="bg-[#F3DEDE] font-bold tracking-wider cursor-pointer px-6 py-3 rounded-lg hover:bg-[#DE595C]/80 transition-colors text-center"
                                 >
                                     Créer un compte
                                 </button>

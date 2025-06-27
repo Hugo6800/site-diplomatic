@@ -132,15 +132,15 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                 )}
                 <button
                     type="submit"
-                    className="w-full bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
+                    className="w-full bg-[#DE595C] font-bold tracking-wider cursor-pointer font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/80 transition-colors"
                 >
-                    S&apos;inscrire
+                    {"S'inscrire"}
                 </button>
                 <div className="text-sm text-center mt-4">
                     <button
                         type="button"
                         onClick={() => onSwitchToLogin()}
-                        className="text-[#DE595C] hover:underline"
+                        className="text-[#DE595C] hover:font-bold cursor-pointer"
                     >
                         Déjà membre ? Se connecter
                     </button>
