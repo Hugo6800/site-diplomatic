@@ -24,24 +24,31 @@
   font-display: swap;
 }
 
-:root {
-  --background: #FEF5F5;
-  --foreground: #1B0505;
-}
+@layer base {
+  :root {
+    --color-background: #FEF5F5;
+    --color-foreground: #1B0505;
+    --color-gray: #F3DEDE;
+    --color-accent: #DE595C;
+    --color-header: #FEF5F5;
+    --font-fractul: 'Fractul', sans-serif;
+    --font-neulisalt: 'NeulisAlt', sans-serif;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-gray: #F3DEDE;
-  --color-accent: #DE595C;
-  --font-fractul: 'Fractul', sans-serif;
-  --font-neulisalt: 'NeulisAlt', sans-serif;
-}
-
-@layer theme {
   .dark {
     --color-background: #1B0505;
     --color-foreground: #FEF5F5;
+    --color-gray: #2D2D2D;
+    --color-header: #1B0505;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .bg-header {
+    background-color: var(--color-header);
   }
 }
 
@@ -68,10 +75,7 @@
 
 .bg-gray { background-color: #F3DEDE; }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-}
+
 
 .test {
   font-family: var(--font-family-neulisalt);

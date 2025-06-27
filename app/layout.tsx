@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className="font-fractul antialiased bg-white dark:bg-gray-900 text-black dark:text-white">
+      <body className="font-fractul antialiased">
         <ThemeProvider>
           <Header />
           {children}
