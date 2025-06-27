@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@/app/lib/firebase';
+import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification, AuthError } from 'firebase/auth';
+import { auth } from '@/app/lib/firebase';
 import { validateAuthFields, isValidAuth } from '@/app/hooks/authValidation';
 
 interface SignUpFormProps {
@@ -30,30 +29,42 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
         if (!isValidAuth(errors)) {
             return;
         }
-        try {
-          const { user } = await createUserWithEmailAndPassword(auth, email, password);
-      
-          await updateProfile(user, {
-            displayName: `${firstName} ${lastName}`
-          });
-      
-          await sendEmailVerification(user);
-      
-          await setDoc(doc(db, 'users', user.uid), {
-            email,
-            firstName,
-            lastName,
-            role: "reader",
-            createdAt: new Date()
-          });
-      
-          setError('Un email de vérification vous a été envoyé. Veuillez vérifier votre boîte de réception.');
-      
-        } catch (err) {
-          console.error(err);
-          setError('Une erreur est survenue lors de la création du compte');
+
+        if (!firstName || !lastName) {
+            setError('Veuillez remplir tous les champs');
+            return;
         }
-      };
+
+        try {
+            const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        
+            // Stocker le nom/prénom dans le profil Firebase Auth
+            await updateProfile(user, {
+                displayName: `${firstName} ${lastName}`
+            });
+
+            // Stocker les données temporairement dans localStorage
+            localStorage.setItem('pendingUserData', JSON.stringify({
+                firstName,
+                lastName,
+                email
+            }));
+        
+            // Envoyer l'email de vérification
+            await sendEmailVerification(user);
+        
+            setError('Un email de vérification vous a été envoyé. Veuillez vérifier votre boîte de réception et vous connecter ensuite.');
+        
+        } catch (err) {
+            const authError = err as AuthError;
+            console.error(err);
+            if (authError.code === 'auth/email-already-in-use') {
+                setError('Cette adresse email est déjà utilisée');
+            } else {
+                setError('Une erreur est survenue lors de la création du compte');
+            }
+        }
+    };
       
 
     return (

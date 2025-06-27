@@ -93,7 +93,7 @@ export default function ArticlePage() {
 
             {showAuth && (
                 <>
-                    <div className="absolute left-0 right-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/40 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-8">
+                    <div className="absolute left-0 right-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-8">
                         <div className="container mx-auto max-w-md px-4 py-8">
                             <div className="max-h-[80vh] md:max-h-none overflow-y-auto">
                             <h2 className="text-2xl font-fractul font-bold mb-4 text-center">Soutenez The Diplomatic Post</h2>
@@ -103,13 +103,13 @@ export default function ArticlePage() {
                             <div className="flex flex-col gap-4">
                                 <button
                                     onClick={() => setAuthMode('login')}
-                                    className="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary/10 transition-colors text-center"
+                                    className="bg-[#DE595C] text-primary tracking-wider cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-[#DE595C]/90 transition-colors text-center"
                                 >
                                     Se connecter
                                 </button>
                                 <button
                                     onClick={() => setAuthMode('signup')}
-                                    className="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary/10 transition-colors text-center"
+                                    className="bg-[#F3DEDE] text-primary tracking-wider cursor-pointer px-6 py-3 rounded-lg font-semibold hover:bg-[#F3DEDE]/90 transition-colors text-center"
                                 >
                                     Créer un compte
                                 </button>

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/app/lib/firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/app/lib/firebase';
 import { validateAuthFields, isValidAuth } from '@/app/hooks/authValidation';
 
 interface LoginFormProps {
@@ -36,6 +37,29 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
             if (!user.emailVerified) {
                 setError('Veuillez vérifier votre email avant de vous connecter.');
                 return;
+            }
+
+            // Vérifier si l'utilisateur existe déjà dans Firestore
+            const userDoc = await getDoc(doc(db, 'users', user.uid));
+
+            if (!userDoc.exists()) {
+                // Récupérer les données temporaires du localStorage
+                const pendingData = localStorage.getItem('pendingUserData');
+                let userData = null;
+
+                if (pendingData) {
+                    userData = JSON.parse(pendingData);
+                    localStorage.removeItem('pendingUserData'); // Nettoyer les données temporaires
+                }
+
+                // Créer l'utilisateur dans Firestore
+                await setDoc(doc(db, 'users', user.uid), {
+                    email: user.email,
+                    firstName: userData?.firstName || user.displayName?.split(' ')[1] || '',
+                    lastName: userData?.lastName || user.displayName?.split(' ')[0] || '',
+                    role: 'reader',
+                    createdAt: new Date()
+                });
             }
 
             window.location.href = redirectUrl;
