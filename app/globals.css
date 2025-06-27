@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @font-face {
   font-family: 'Fractul';
   src: url('/fonts/Fractul-Regular.woff2') format('woff2');
@@ -22,7 +24,6 @@
   font-display: swap;
 }
 
-
 :root {
   --background: #FEF5F5;
   --foreground: #1B0505;
@@ -35,6 +36,13 @@
   --color-accent: #DE595C;
   --font-fractul: 'Fractul', sans-serif;
   --font-neulisalt: 'NeulisAlt', sans-serif;
+}
+
+@layer theme {
+  .dark {
+    --color-background: #1B0505;
+    --color-foreground: #FEF5F5;
+  }
 }
 
 /* Classes de background pour les tags */
@@ -59,13 +67,6 @@
 .bg-tag-all { background-color: #3F2525; }
 
 .bg-gray { background-color: #F3DEDE; }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1B0505;
-    --foreground: #FEF5F5;
-  }
-}
 
 body {
   background: var(--background);

@@ -25,7 +25,7 @@ export default function SpotlightSection() {
             const articlesRef = collection(db, 'articles');
             const q = query(articlesRef, where('hasPaywall', '==', false));
             const querySnapshot = await getDocs(q);
-            
+
             if (!querySnapshot.empty) {
                 // Prendre l'article sans paywall
                 const noPaywallDoc = querySnapshot.docs.find(doc => !doc.data().hasPaywall);
@@ -53,6 +53,7 @@ export default function SpotlightSection() {
     return (
         <section className="pt-24 mt-16">
             <div className="container mt-12">
+                <h2 className="font-bold font-neulisalt text-[2rem] mb-4 dark:text-white">À la une</h2>
                 <ArticleSpotlight
                     id={article.id}
                     colorCircle={`bg-tag-${article.category.toLowerCase()}`}
