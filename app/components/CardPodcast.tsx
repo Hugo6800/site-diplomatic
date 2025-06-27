@@ -1,16 +1,15 @@
 import Image from "next/image";
-import { LastPodcastProps } from '@/app/types/LastPodcast';
+import { CardPodcastProps } from '@/app/types/cardPodcast';
 
-export default function LastPodcast({ coverUrl, duration, date, title, description, spotifyId }: LastPodcastProps) {
+export default function CardPodcast({ coverUrl, duration, date, title, spotifyId }: CardPodcastProps) {
     const formattedDate = new Date(parseInt(date) * 1000).toLocaleDateString('fr-FR', {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric'
     });
-
     return (
         <article 
-            className="flex flex-col gap-4 lg:flex-row mt-4 cursor-pointer" 
+            className="flex flex-col gap-4 mt-4 cursor-pointer" 
             onClick={() => window.open(`https://open.spotify.com/episode/${spotifyId}`, '_blank')}
         >
             <Image
@@ -26,12 +25,11 @@ export default function LastPodcast({ coverUrl, duration, date, title, descripti
                     alt="Podcast"
                     width={100}
                     height={32}
-                    className="object-cover rounded-full"
+                    className="object-cover rounded-full w-[100px] h-[32px]"
                 />
                 <p className="font-bold font-neulisalt">{duration} - {formattedDate}</p>
                 <h2 className="font-bold font-fractul text-3xl line-clamp-3 tracking-[0.03em] leading-[110%] mb-2">{title}</h2>
-                <p className="font-neulisalt">{description}</p>
             </div>
         </article>
-    );
+    )
 }

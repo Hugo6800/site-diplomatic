@@ -4,21 +4,10 @@ import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { useEffect, useState } from "react";
 import LastPodcast from '../LastPodcast';
-
-interface LastPodcastProps {
-    id: string;
-    title: string;
-    description: string;
-    coverUrl: string;
-    duration: string;
-    createdAt: {
-        seconds: number;
-        nanoseconds: number;
-    };
-}
+import { LastPodcastSectionProps } from '@/app/types/LastPodcast';
 
 export default function LastPodcastSection() {
-    const [podcast, setPodcast] = useState<LastPodcastProps | null>(null);
+    const [podcast, setPodcast] = useState<LastPodcastSectionProps | null>(null);
 
     useEffect(() => {
         async function fetchSpotlightArticle() {
@@ -34,6 +23,7 @@ export default function LastPodcastSection() {
                     title: data.title,
                     description: data.description,
                     coverUrl: data.coverUrl,
+                    spotifyId: data.spotifyId,
                     duration: data.duration,
                     createdAt: data.createdAt,
                 });
@@ -52,6 +42,7 @@ export default function LastPodcastSection() {
                 date={podcast?.createdAt.seconds.toString() || ''}
                 title={podcast?.title || ''}
                 description={podcast?.description || ''}
+                spotifyId={podcast?.spotifyId || ''}
             />
         </section>
     );
