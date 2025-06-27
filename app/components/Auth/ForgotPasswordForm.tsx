@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { auth } from '@/app/lib/firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
+import { validateEmail, isValidEmail } from '@/app/hooks/authValidation';
 
 interface ForgotPasswordFormProps {
     onSwitchToLogin: () => void;
@@ -12,9 +13,19 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [validationError, setValidationError] = useState({
+        email: ''
+    });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const errors = validateEmail(email);
+        setValidationError(errors);
+        
+        if (!isValidEmail(errors)) {
+            return;
+        }
         try {
             await sendPasswordResetEmail(auth, email);
             setSuccess(true);
@@ -38,7 +49,7 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
                     </button>
                 </div>
             ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                     <div className="flex flex-col">
                         <label htmlFor="email" className="block font-neulisalt mb-2">Adresse mail</label>
                         <input
@@ -47,9 +58,9 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className=" p-2 border rounded-md bg-white/5 focus:outline-none focus:border-primary"
-                            required
                         />
                     </div>
+                    {validationError.email && <p className="text-red-500 text-sm font-neulisalt">{validationError.email}</p>}
                     {error && <p className="text-red-500 text-sm font-neulisalt">{error}</p>}
                     <div className="flex flex-col gap-4">
                         <button

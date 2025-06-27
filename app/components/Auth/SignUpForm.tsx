@@ -4,25 +4,34 @@ import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/app/lib/firebase';
+import { validateAuthFields, isValidAuth } from '@/app/hooks/authValidation';
 
 interface SignUpFormProps {
     onSwitchToLogin: () => void;
-    redirectUrl?: string;
 }
 
-export default function SignUpForm({ onSwitchToLogin, redirectUrl = '/' }: SignUpFormProps) {
+export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [validationErrors, setValidationErrors] = useState({
+        email: '',
+        password: ''
+    });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const errors = validateAuthFields(email, password);
+        setValidationErrors(errors);
+        
+        if (!isValidAuth(errors)) {
+            return;
+        }
         try {
           const { user } = await createUserWithEmailAndPassword(auth, email, password);
-      
-          window.location.href = redirectUrl;
       
           await updateProfile(user, {
             displayName: `${firstName} ${lastName}`
@@ -39,7 +48,6 @@ export default function SignUpForm({ onSwitchToLogin, redirectUrl = '/' }: SignU
           });
       
           setError('Un email de vérification vous a été envoyé. Veuillez vérifier votre boîte de réception.');
-          // Pas de redirection immédiate tant que l'email n'est pas validé
       
         } catch (err) {
           console.error(err);
@@ -51,7 +59,7 @@ export default function SignUpForm({ onSwitchToLogin, redirectUrl = '/' }: SignU
     return (
         <div className="w-full max-w-md mx-auto p-6">
             <h1 className="text-3xl font-bold font-fractul mb-6">Créer un compte</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="lastName" className="block font-neulisalt mb-2">Nom</label>
@@ -84,21 +92,33 @@ export default function SignUpForm({ onSwitchToLogin, redirectUrl = '/' }: SignU
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full p-2 border rounded-md bg-white/5"
-                        required
                     />
+                    {validationErrors.email && (
+                        <div className="text-red-500 text-sm mt-1 font-neulisalt">
+                            {validationErrors.email}
+                        </div>
+                    )}
                 </div>
                 <div>
-                    <label htmlFor="password" className="block font-neulisalt mb-2">Mot de passe</label>
+                    <label htmlFor="password" className="block font-neulisalt mb-2">Mot de passe (min. 6 caractères)</label>
                     <input
                         type="password"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="w-full p-2 border rounded-md bg-white/5"
-                        required
                     />
+                    {validationErrors.password && (
+                        <div className="text-red-500 text-sm mt-1 font-neulisalt">
+                            {validationErrors.password}
+                        </div>
+                    )}
                 </div>
-                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {error && (
+                    <div className="text-red-500 text-sm font-neulisalt text-center">
+                        {error}
+                    </div>
+                )}
                 <button
                     type="submit"
                     className="w-full bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
