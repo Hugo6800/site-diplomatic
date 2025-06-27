@@ -8,9 +8,11 @@ import { LastPodcastSectionProps } from '@/app/types/LastPodcast';
 
 export default function LastPodcastSection() {
     const [podcast, setPodcast] = useState<LastPodcastSectionProps | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function fetchSpotlightArticle() {
+            setIsLoading(true);
             const articlesRef = collection(db, 'podcasts');
             const q = query(articlesRef);
             const querySnapshot = await getDocs(q);
@@ -28,10 +30,29 @@ export default function LastPodcastSection() {
                     createdAt: data.createdAt,
                 });
             }
+            setIsLoading(false);
         }
 
         fetchSpotlightArticle();
     }, []);
+
+    if (isLoading) {
+        return (
+            <section className="pt-24 my-16">
+                <h2 className="font-bold font-neulisalt text-[2rem]">Dernier podcast</h2>
+                <div className="animate-pulse mt-4">
+                    <div className="flex flex-col lg:flex-row gap-4">
+                        <div className="w-full lg:w-[200px] h-[200px] bg-gray-200 rounded-lg"></div>
+                        <div className="flex flex-col gap-4 flex-1">
+                            <div className="h-8 w-32 bg-gray-200 rounded"></div>
+                            <div className="h-8 w-48 bg-gray-200 rounded"></div>
+                            <div className="h-24 w-full bg-gray-200 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="pt-24 my-16">
