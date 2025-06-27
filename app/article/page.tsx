@@ -76,7 +76,7 @@ export default function ArticlePage() {
 
     return (
         <main className="min-h-screen py-24 relative">
-            <section className={`${showAuth ? 'mt-11 max-h-[100vh] overflow-hidden relative' : ''}`}>
+            <section className={`${showAuth ? 'mt-11 max-h-[100vh] overflow-hidden relative' : 'pt-16 mt-12'}`}>
                 <ArticleFull
                     id={article.id}
                     category={article.category}

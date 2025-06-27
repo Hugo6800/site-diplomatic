@@ -38,10 +38,11 @@ export default function TagNavigationArticles({
                     inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
                     ${variantStyles.container}
                     ${variantStyles.text}
-                    transition-transform hover:border active:border-[3px]
+                    transition-transform
+                    ${variant === 'menu' ? 'hover:border active:border-[3px]' : ''}
                 `}>
                 <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
-                <p className="font-bold group-hover:font-normal group-active:font-black transition-all">{name}</p>
+                <p className={`font-bold ${variant === 'menu' ? 'group-hover:font-normal group-active:font-black transition-all' : ''}`}>{name}</p>
             </Link>
         </li>
     )
