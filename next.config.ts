@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
         hostname: 'i.guim.co.uk',
       }
     ],
+    domains: ['i.scdn.co'],
   },
 };
 
