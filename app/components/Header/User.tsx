@@ -9,6 +9,7 @@ import { useAuth } from '@/app/hooks/useAuth';
 export function User() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { user } = useAuth();
+    console.log("🚀 ~ User ~ user:", user)
 
     return (
         <>
@@ -24,7 +25,7 @@ export function User() {
                 />
                 {user && (
                     <span className="text-sm text-gray-700">
-                        {user.email}
+                        {user.displayName}
                     </span>
                 )}
             </div>

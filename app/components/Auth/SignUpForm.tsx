@@ -32,6 +32,8 @@ export default function SignUpForm({ onSwitchToLogin, redirectUrl = '/' }: SignU
       
           await setDoc(doc(db, 'users', user.uid), {
             email,
+            firstName,
+            lastName,
             role: "reader",
             createdAt: new Date()
           });

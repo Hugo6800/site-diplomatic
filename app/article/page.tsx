@@ -123,7 +123,6 @@ export default function ArticlePage() {
                         ) : authMode === 'signup' ? (
                             <SignUpForm
                                 onSwitchToLogin={() => setAuthMode('login')}
-                                redirectUrl={`/article?id=${id}`}
                             />
                         ) : (
                             <ForgotPasswordForm
