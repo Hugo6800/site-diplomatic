@@ -40,6 +40,7 @@ export default function NavBar() {
           alt={isMenuOpen ? 'Fermer' : 'Menu'}
           width={30}
           height={30}
+          className="dark:invert"
         />
       </button>
 
