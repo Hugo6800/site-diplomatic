@@ -79,7 +79,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                             id="lastName"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            className="w-full p-2 border rounded-md bg-white/5"
+                            className="w-full py-2 px-4 border rounded-full bg-white/5"
                             required
                         />
                     </div>
@@ -90,7 +90,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                             id="firstName"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            className="w-full p-2 border rounded-md bg-white/5"
+                            className="w-full py-2 px-4 border rounded-full bg-white/5"
                             required
                         />
                     </div>
@@ -102,7 +102,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-2 border rounded-md bg-white/5"
+                        className="w-full py-2 px-4 border rounded-full bg-white/5"
                     />
                     {validationErrors.email && (
                         <div className="text-red-500 text-sm mt-1 font-neulisalt">
@@ -117,7 +117,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full p-2 border rounded-md bg-white/5"
+                        className="w-full py-2 px-4 border rounded-full bg-white/5"
                     />
                     {validationErrors.password && (
                         <div className="text-red-500 text-sm mt-1 font-neulisalt">
@@ -132,7 +132,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                 )}
                 <button
                     type="submit"
-                    className="w-full bg-[#DE595C] font-bold tracking-wider cursor-pointer font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/80 transition-colors"
+                    className="w-full bg-[#DE595C] font-bold tracking-wider cursor-pointer font-neulisalt py-3 rounded-full hover:bg-[#DE595C]/80 transition-colors"
                 >
                     {"S'inscrire"}
                 </button>

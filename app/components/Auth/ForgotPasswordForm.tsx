@@ -43,7 +43,7 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
                     <p className="mb-4 font-neulisalt">Un email de réinitialisation a été envoyé à {email}.</p>
                     <button
                         onClick={onSwitchToLogin}
-                        className="text-primary hover:text-primary/80 font-semibold"
+                        className="text-[#DE595C] hover:font-bold cursor-pointer"
                     >
                         Retour à la connexion
                     </button>
@@ -57,7 +57,7 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className=" p-2 border rounded-md bg-white/5 focus:outline-none focus:border-primary"
+                            className=" py-2 px-4 border rounded-full bg-white/5 focus:outline-none focus:border-primary"
                         />
                     </div>
                     {validationError.email && <p className="text-red-500 text-sm font-neulisalt">{validationError.email}</p>}
@@ -65,14 +65,14 @@ export default function ForgotPasswordForm({ onSwitchToLogin }: ForgotPasswordFo
                     <div className="flex flex-col gap-4">
                         <button
                             type="submit"
-                            className=" bg-[#DE595C] text-white font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/90 transition-colors"
+                            className=" bg-[#DE595C] font-bold tracking-wider font-neulisalt py-3 rounded-full cursor-pointer hover:bg-[#DE595C]/90 transition-colors"
                         >
                             Envoyer le lien de réinitialisation
                         </button>
                         <button
                             type="button"
                             onClick={onSwitchToLogin}
-                            className="text-[#DE595C] hover:underline"
+                            className="text-[#DE595C] hover:font-bold cursor-pointer"
                         >
                             Retour à la connexion
                         </button>

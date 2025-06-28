@@ -80,7 +80,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-2 border rounded-md bg-white/5"
+                        className="w-full py-2 px-4 border rounded-full bg-white/5"
                     />
                     {validationErrors.email && (
                         <div className="text-red-500 text-sm mt-1 font-neulisalt">
@@ -95,7 +95,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full p-2 border rounded-md bg-white/5"
+                        className="w-full py-2 px-4 border rounded-full bg-white/5"
                     />
                     {validationErrors.password && (
                         <div className="text-red-500 text-sm mt-1 font-neulisalt">
@@ -110,7 +110,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                 )}
                 <button
                     type="submit"
-                    className="w-full bg-[#DE595C] font-bold tracking-wider cursor-pointer font-neulisalt py-2 px-4 rounded-md hover:bg-[#DE595C]/80 transition-colors"
+                    className="w-full bg-[#DE595C] font-bold tracking-wider cursor-pointer font-neulisalt py-3 rounded-full hover:bg-[#DE595C]/80 transition-colors"
                 >
                     Se connecter
                 </button>
@@ -118,13 +118,13 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                     <button
                         type="button"
                         onClick={() => onSwitchToSignUp()}
-                        className="text-[#DE595C] hover:font-bold cursor-pointer"
+                        className="text-[#DE595C] hover:font-bold cursor-pointer rounded-full"
                     >
                         Créer un compte
                     </button>
                     <button
                         type="button"
-                        className="text-[#DE595C] hover:font-bold text-sm cursor-pointer"
+                        className="text-[#DE595C] hover:font-bold text-sm cursor-pointer rounded-full"
                         onClick={onForgotPassword}
                     >
                         Mot de passe oublié ?
