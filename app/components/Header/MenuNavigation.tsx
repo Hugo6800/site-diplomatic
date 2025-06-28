@@ -21,7 +21,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
   };
 
   return (
-    <nav className="flex flex-col xl:flex-row items-center px-6 md:px-24 xl:px-36 gap-4 bg-background p-4">
+    <nav className="flex flex-col xl:flex-row items-center px-6 md:px-24 xl:px-36 gap-4 bg-header p-4">
       <div className="flex justify-center xl:hidden items-center gap-4 w-full">
         <DarkTheme />
         <User />
@@ -32,8 +32,9 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/"
             onClick={handleClick}
             className={`
-              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
-              ${pathname === "/" ? "bg-gray" : "hover:bg-gray"}
+              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full w-full
+              ${pathname === "/" ? "[background-color:var(--color-gray)]" : ""}
+              hover:[background-color:var(--color-gray)]
             `}
           >
             Accueil
@@ -44,8 +45,9 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/podcasts"
             onClick={handleClick}
             className={`
-              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
-              ${pathname === "/podcasts" ? "bg-gray" : "hover:bg-gray"}
+              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full w-full
+              ${pathname === "/podcasts" ? "[background-color:var(--color-gray)]" : ""}
+              hover:[background-color:var(--color-gray)]
             `}
           >
             Podcasts
