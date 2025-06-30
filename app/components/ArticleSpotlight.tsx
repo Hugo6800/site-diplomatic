@@ -14,7 +14,7 @@ export default function Article({ id, colorCircle, name, className, author, titl
 
     return (
         <>
-            <article className="flex flex-col md:flex-row gap-4 cursor-pointer" onClick={handleArticleClick}>
+            <article className="flex flex-col md:flex-row gap-4 cursor-pointer group" onClick={handleArticleClick}>
                 <div className="flex flex-col md:w-1/2">
                     <TagNavigationArticles
                         colorCircle={colorCircle}
@@ -23,14 +23,14 @@ export default function Article({ id, colorCircle, name, className, author, titl
                         variant="article"
                     />
                     <p className="mt-2 font-semibold text-[1rem] font-neulisalt dark:text-gray-300">{author} - {date}</p>
-                    <h3 className="font-bold font-fractul text-5xl line-clamp-3 tracking-[0.03em] leading-[110%] hover:text-primary transition-colors dark:text-white dark:hover:text-primary">{title}</h3>
+                    <h3 className="font-bold font-fractul text-5xl hover:font-black line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-white">{title}</h3>
                 </div>
                 <div className="relative w-full md:w-1/2 aspect-[16/9]">
                     <Image
                         src={imageUrl}
                         alt={title}
                         fill
-                        className="object-cover rounded-lg"
+                        className="object-cover rounded-[20px] group-hover:rounded-4xl transition-all"
                     />
                 </div>
             </article>

@@ -2,16 +2,7 @@
 
 import Image from 'next/image';
 import TagNavigationArticles from './TagNavigationArticles';
-
-interface ArticleFullProps {
-    id: string;
-    category: string;
-    title: string;
-    authorName: string;
-    date: string;
-    imageUrl: string;
-    content: string;
-}
+import { ArticleFullProps } from '../types/articleFullProps';
 
 export default function ArticleFull({ category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
     return (
