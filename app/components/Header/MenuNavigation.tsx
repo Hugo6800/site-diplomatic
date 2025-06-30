@@ -32,9 +32,10 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/"
             onClick={handleClick}
             className={`
-              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full w-full
-              ${pathname === "/" ? "[background-color:var(--color-gray)]" : ""}
-              hover:[background-color:var(--color-gray)]
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
+              ${pathname === "/" ? "[background-color:var(--color-gray)] dark:bg-white dark:text-black" : ""}
+              hover:[background-color:var(--color-gray)] 
+              dark:hover:[background-color:var(--color-gray)] dark:hover:text-white
             `}
           >
             Accueil
@@ -45,9 +46,10 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/podcasts"
             onClick={handleClick}
             className={`
-              inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full w-full
-              ${pathname === "/podcasts" ? "[background-color:var(--color-gray)]" : ""}
-              hover:[background-color:var(--color-gray)]
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
+              ${pathname === "/podcasts" ? "[background-color:var(--color-gray)] dark:bg-white dark:text-black" : ""}
+              hover:[background-color:var(--color-gray)] 
+              dark:hover:[background-color:var(--color-gray)] dark:hover:text-white
             `}
           >
             Podcasts
