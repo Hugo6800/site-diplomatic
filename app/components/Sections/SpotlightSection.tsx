@@ -4,18 +4,7 @@ import { useEffect, useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import ArticleSpotlight from '../ArticleSpotlight';
-
-interface SpotlightArticle {
-    id: string;
-    title: string;
-    authorName: string;
-    category: string;
-    imageUrl: string;
-    createdAt: {
-        seconds: number;
-        nanoseconds: number;
-    };
-}
+import { SpotlightArticle } from '../../types/spotlightArticle';
 
 export default function SpotlightSection() {
     const [article, setArticle] = useState<SpotlightArticle | null>(null);

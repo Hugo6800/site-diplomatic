@@ -3,17 +3,7 @@
 import Image from "next/image";
 import TagNavigationArticles from "./TagNavigationArticles";
 import { useAuth } from '../hooks/useAuth';
-
-export interface ArticleProps {
-    id: string;
-    colorCircle: string;
-    name: string;
-    className: string;
-    author: string;
-    title: string;
-    date: string;
-    imageUrl: string;
-}
+import { ArticleProps } from '../types/articleProps';
 
 export default function Article({ id, colorCircle, name, className, author, title, date, imageUrl }: ArticleProps) {
     const { user } = useAuth();
@@ -44,8 +34,6 @@ export default function Article({ id, colorCircle, name, className, author, titl
                     />
                 </div>
             </article>
-
-
         </>
     )
 }

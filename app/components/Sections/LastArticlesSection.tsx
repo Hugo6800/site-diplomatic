@@ -1,29 +1,58 @@
+'use client'
+
 import ArticleOthers from "../ArticleOthers";
-import { articles } from "@/app/utils/articles";
+import { useState, useEffect } from 'react';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+import { SpotlightArticle } from '../../types/spotlightArticle';
 
 export default function LastArticlesSection() {
-    const sortedArticles = articles
-        .filter(article => article.spotlight === false)
-        .sort((a, b) => {
-            const dateA = new Date(a.date.split('.').reverse().join('-'));
-            const dateB = new Date(b.date.split('.').reverse().join('-'));
-            return dateB.getTime() - dateA.getTime();
-        });
+    const [articles, setArticles] = useState<SpotlightArticle[]>([]);
+
+    useEffect(() => {
+        async function fetchSpotlightArticles() {
+            const articlesRef = collection(db, 'articles');
+            const q = query(articlesRef, where('noPaywall', '==', true));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const noPaywallArticles = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        title: data.title,
+                        authorName: data.authorName,
+                        category: data.category,
+                        imageUrl: data.imageUrl,
+                        createdAt: data.createdAt
+                    };
+                });
+                setArticles(noPaywallArticles);
+            }
+        }
+
+        fetchSpotlightArticles();
+    }, []);
+
+    if (articles.length === 0) {
+        return null;
+    }
 
     return (
         <section className="flex flex-col gap-4 mt-28 mb-20">
             <h2 className="font-bold font-neulisalt text-[2rem]">Derniers articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {sortedArticles.map(article => (
+                {articles.map(article => (
                     <ArticleOthers
                         key={article.id}
+                        id={article.id}
                         colorCircle={`bg-tag-${article.category.toLowerCase()}`}
                         name={article.category}
                         className={`text-tag-${article.category.toLowerCase()} border-2 border-tag-${article.category.toLowerCase()} transition-colors`}
-                        author={article.author}
+                        author={article.authorName}
                         title={article.title}
-                        date={article.date}
-                        coverImage={article.coverImage}
+                        date={new Date(article.createdAt.seconds * 1000).toLocaleDateString('fr-FR')}
+                        imageUrl={article.imageUrl}
                     />
                 ))}
             </div>

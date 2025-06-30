@@ -1,12 +1,5 @@
 import Link from 'next/link';
-
-interface CollectionCardProps {
-    colorCircle: string;
-    name: string;
-    description: string;
-    backgroundColor: string;
-    titleColor: string;
-}
+import { CollectionCardProps } from '../types/collectioncardProps';
 
 export default function CollectionCard({ colorCircle, name, description, backgroundColor, titleColor }: CollectionCardProps) {
     return (
