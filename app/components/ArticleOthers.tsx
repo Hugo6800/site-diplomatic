@@ -21,7 +21,7 @@ export default function Article({ id, name, className, author, title, date, imag
                     width={800}
                     height={400}
                     quality={100}
-                    className="w-full h-auto mb-4 object-cover cursor-pointer rounded-[20px] group-hover:rounded-4xl transition-all"
+                    className="w-full h-[200px] mb-4 object-cover cursor-pointer rounded-[20px] group-hover:rounded-4xl transition-all"
                 />
                 <TagArticle
                     name={name}
