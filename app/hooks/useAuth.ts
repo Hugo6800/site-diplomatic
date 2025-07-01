@@ -14,22 +14,20 @@ export function useAuth() {
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
                 try {
-                    // Fetch user data from Firestore
                     const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
                     if (userDoc.exists()) {
                         const userData = userDoc.data() as UserData;
-                        // Combine Firebase user with Firestore data
-                        setUser({ 
-                            ...firebaseUser, 
+                        setUser({
+                            ...firebaseUser,
                             role: userData.role,
                             createdAt: userData.createdAt instanceof Date ? userData.createdAt : userData.createdAt?.toDate()
                         });
                     } else {
-                        setUser({ ...firebaseUser, role: 'reader', createdAt: new Date() }); // Default role
+                        setUser({ ...firebaseUser, role: 'reader', createdAt: new Date() });
                     }
                 } catch (error) {
                     console.error('Error fetching user data:', error);
-                    setUser({ ...firebaseUser, role: 'reader', createdAt: new Date() }); // Default role on error
+                    setUser({ ...firebaseUser, role: 'reader', createdAt: new Date() });
                 }
             } else {
                 setUser(null);
