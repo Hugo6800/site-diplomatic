@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image';
-import TagNavigationArticles from './TagNavigationArticles';
+import TagArticle from './TagArticle';
 import { ArticleFullProps } from '../types/articleFullProps';
 
 export default function ArticleFull({ category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
@@ -19,11 +19,9 @@ export default function ArticleFull({ category, title, authorName, date, imageUr
                 </div>
             </header>
             <div className="flex items-center gap-4">
-                <TagNavigationArticles
+                <TagArticle
                     name={category}
-                    colorCircle={`bg-tag-${category.toLowerCase()}`}
                     className={`text-tag-${category.toLowerCase()} border-2 border-tag-${category.toLowerCase()} transition-colors`}
-                    variant="article"
                 />
                 <div className="flex items-center gap-4 text-black font-semibold">
                     <span>{authorName}</span>

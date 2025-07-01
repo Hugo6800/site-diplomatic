@@ -2,10 +2,10 @@
 
 import { useAuth } from '../hooks/useAuth';
 import Image from 'next/image';
-import TagNavigationArticles from './TagNavigationArticles';
+import TagArticle from './TagArticle';
 import { ArticleProps } from '../types/articleProps';
 
-export default function Article({ id, colorCircle, name, className, author, title, date, imageUrl }: ArticleProps) {
+export default function Article({ id, name, className, author, title, date, imageUrl }: ArticleProps) {
     const { user } = useAuth();
 
     const handleArticleClick = () => {
@@ -23,11 +23,9 @@ export default function Article({ id, colorCircle, name, className, author, titl
                     quality={100}
                     className="w-full h-auto mb-4 object-cover cursor-pointer rounded-[20px] group-hover:rounded-4xl transition-all"
                 />
-                <TagNavigationArticles
-                    colorCircle={colorCircle}
+                <TagArticle
                     name={name}
                     className={className}
-                    variant="article"
                 />
                 <p className="mt-2 font-semibold text-[1rem] font-neulisalt">{author} - {date}</p>
                 <h3 className="font-bold font-fractul text-2xl line-clamp-3 tracking-[0.03em] leading-[110%] cursor-pointer group-hover:font-black">{title}</h3>

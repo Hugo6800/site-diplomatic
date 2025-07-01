@@ -1,11 +1,11 @@
 'use client'
 
 import Image from "next/image";
-import TagNavigationArticles from "./TagNavigationArticles";
+import TagArticle from "./TagArticle";
 import { useAuth } from '../hooks/useAuth';
 import { ArticleProps } from '../types/articleProps';
 
-export default function Article({ id, colorCircle, name, className, author, title, date, imageUrl }: ArticleProps) {
+export default function Article({ id, name, className, author, title, date, imageUrl }: ArticleProps) {
     const { user } = useAuth();
 
     const handleArticleClick = () => {
@@ -16,11 +16,9 @@ export default function Article({ id, colorCircle, name, className, author, titl
         <>
             <article className="flex flex-col md:flex-row gap-4 cursor-pointer group" onClick={handleArticleClick}>
                 <div className="flex flex-col md:w-1/2">
-                    <TagNavigationArticles
-                        colorCircle={colorCircle}
+                    <TagArticle
                         name={name}
                         className={className}
-                        variant="article"
                     />
                     <p className="mt-2 font-semibold text-[1rem] font-neulisalt dark:text-gray-300">{author} - {date}</p>
                     <h3 className="font-bold font-fractul text-5xl hover:font-black line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-white">{title}</h3>
