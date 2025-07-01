@@ -2,16 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { getTagStyles } from '../utils/tag-styles';
 
 interface TagNavigationProps {
-    colorCircle: string;
     name: string;
     className: string;
     onClick?: () => void;
 }
 
 export default function TagNavigationArticles({
-    colorCircle,
     name,
     className,
     onClick
@@ -20,7 +19,7 @@ export default function TagNavigationArticles({
     const searchParams = useSearchParams();
     const urlTag = searchParams.get('tag');
     const category = className.match(/tag-([^\s]+)/)?.[1] || '';
-    const baseColor = `tag-${category}`;
+    const tagStyles = getTagStyles(category);
     const isSelected = pathname.startsWith('/collections') && urlTag === name.toLowerCase();
 
     return (
@@ -31,13 +30,14 @@ export default function TagNavigationArticles({
                 className={`
                     group
                     inline-flex items-center gap-2 pl-2 pr-4 py-1 rounded-full
-                    text-${baseColor} ${!isSelected ? `border-2 border-${baseColor}` : ''}
+                    ${tagStyles.text}
+                    ${!isSelected ? `border-[3px] border-current` : ''}
                     text-sm
-                    transition-transform
-                    ${!isSelected ? 'hover:border' : ''}
-                    ${isSelected ? `bg-background-tag-${category}` : ''}
+                    transition-all duration-200
+                    ${!isSelected ? 'hover:border-[1px]' : ''}
+                    ${isSelected ? tagStyles.bg : ''}
                 `}>
-                <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
+                <div className={`w-4 h-4 rounded-full ${tagStyles.circle} transition-colors duration-200`}></div>
                 <p className="font-bold group-hover:font-normal group-active:font-black transition-all">{name.charAt(0).toUpperCase() + name.slice(1)}</p>
             </Link>
         </li>

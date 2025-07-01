@@ -61,14 +61,14 @@
 .bg-background-tag-all { background-color: #F3DEDE; }
 
 /* Classes de texte pour les tags */
-.text-tag-international { color: #FC2908; }
+.text-tag-international { color: #7C2908; }
 .text-tag-societe { color: #5E4007; }
 .text-tag-culture { color: #153A03; }
 .text-tag-politic { color: #071652; }
 .text-tag-all { color: #3F2525; }
 
 /* Classes de background pour les cercles */
-.bg-tag-international { background-color: #FC2908; }
+.bg-tag-international { background-color: #7C2908; }
 .bg-tag-societe { background-color: #5E4007; }
 .bg-tag-culture { background-color: #153A03; }
 .bg-tag-politic { background-color: #071652; }

@@ -1,9 +1,9 @@
 export const getTagStyles = (category: string) => {
     const styles = {
         international: {
-            bg: 'bg-[#FFDFD2] dark:bg-[#FC2908]',
-            text: 'text-[#FC2908] dark:text-[#FFDFD2]',
-            circle: 'bg-[#FC2908] dark:bg-[#FFDFD2]'
+            bg: 'bg-[#FFDFD2] dark:bg-[#7C2908]',
+            text: 'text-[#7C2908] dark:text-[#FFDFD2]',
+            circle: 'bg-[#7C2908] dark:bg-[#FFDFD2]'
         },
         societe: {
             bg: 'bg-[#FFE1AA] dark:bg-[#5E4007]',

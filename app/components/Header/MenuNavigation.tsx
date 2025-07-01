@@ -33,9 +33,9 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             onClick={handleClick}
             className={`
               inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
-              ${pathname === "/" ? "[background-color:var(--color-gray)] dark:bg-white dark:text-black" : ""}
+              ${pathname === "/" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
-              dark:hover:[background-color:var(--color-gray)] dark:hover:text-white
+              dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
             `}
           >
             Accueil
@@ -47,12 +47,26 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             onClick={handleClick}
             className={`
               inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
-              ${pathname === "/podcasts" ? "[background-color:var(--color-gray)] dark:bg-white dark:text-black" : ""}
+              ${pathname === "/podcasts" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
-              dark:hover:[background-color:var(--color-gray)] dark:hover:text-white
+              dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
             `}
           >
             Podcasts
+          </Link>
+        </li>
+        <li className="flex">
+          <Link
+            href="/ateliers"
+            onClick={handleClick}
+            className={`
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
+              ${pathname === "/ateliers" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
+              hover:[background-color:var(--color-gray)] 
+              dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
+            `}
+          >
+            Ateliers
           </Link>
         </li>
         {tagsNavigation.map((tag: TagNavigation) => (
@@ -61,7 +75,6 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             colorCircle={tag.colorCircle}
             name={tag.name}
             className={tag.className}
-            variant="menu"
             onClick={handleClick}
           />
         ))}
