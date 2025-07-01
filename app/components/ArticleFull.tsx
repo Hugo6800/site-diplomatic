@@ -3,8 +3,13 @@
 import Image from 'next/image';
 import TagArticle from './TagArticle';
 import { ArticleFullProps } from '../types/articleFullProps';
+import TagAddFavoriteArticle from './TagAddFavoriteArticle';
+import TagShareArticle from './TagShareArticle';
+import TagEditorArticle from './TagEditorArticle';
+import { useAuth } from '../hooks/useAuth';
 
 export default function ArticleFull({ category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
+    const { user } = useAuth();
     return (
         <article className="max-w-5xl mx-auto px-4">
             <header className="mb-8">
@@ -18,6 +23,11 @@ export default function ArticleFull({ category, title, authorName, date, imageUr
                     />
                 </div>
             </header>
+            <div className="flex gap-2 mb-4">
+                <TagAddFavoriteArticle />
+                <TagShareArticle />
+                {user?.role === 'journalist' && <TagEditorArticle />}
+            </div>
             <div className="flex items-center gap-4">
                 <TagArticle
                     name={category}
