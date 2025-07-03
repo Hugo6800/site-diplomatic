@@ -44,8 +44,41 @@ service cloud.firestore {
     }
 
     // Règles pour la collection userReadings
-    match /userReadings/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    match /userReadings/{docId} {
+      allow read: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
+      
+      allow create: if request.auth != null && 
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.keys().hasAll([
+          'userId', 
+          'articleId', 
+          'readAt',
+          'actualReadTime',
+          'completionPercentage',
+          'lastPosition'
+        ]) &&
+        request.resource.data.userId is string &&
+        request.resource.data.articleId is string &&
+        request.resource.data.readAt is timestamp &&
+        request.resource.data.actualReadTime is number &&
+        request.resource.data.actualReadTime >= 0 &&
+        request.resource.data.completionPercentage is number &&
+        request.resource.data.completionPercentage >= 0 &&
+        request.resource.data.completionPercentage <= 100 &&
+        request.resource.data.lastPosition is number &&
+        request.resource.data.lastPosition >= 0 &&
+        request.resource.data.lastPosition <= 100;
+
+      allow update: if request.auth != null &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.articleId == resource.data.articleId &&
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['actualReadTime', 'completionPercentage', 'lastPosition', 'readAt']);
+
+      allow delete: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
     }
 
     // Règles pour la collection favorites

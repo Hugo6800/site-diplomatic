@@ -7,9 +7,12 @@ import TagAddFavoriteArticle from './TagAddFavoriteArticle';
 import TagShareArticle from './TagShareArticle';
 import TagEditorArticle from './TagEditorArticle';
 import { useAuth } from '../hooks/useAuth';
+import { useReadingTracker } from '../hooks/useReadingTracker';
 
 export default function ArticleFull({ id, category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
     const { user } = useAuth();
+
+    useReadingTracker(id, user?.uid);
     return (
         <article className="max-w-5xl mx-auto px-4">
             <header className="mb-8">
