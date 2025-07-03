@@ -8,7 +8,7 @@ import TagShareArticle from './TagShareArticle';
 import TagEditorArticle from './TagEditorArticle';
 import { useAuth } from '../hooks/useAuth';
 
-export default function ArticleFull({ category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
+export default function ArticleFull({ id, category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
     const { user } = useAuth();
     return (
         <article className="max-w-5xl mx-auto px-4">
@@ -24,7 +24,7 @@ export default function ArticleFull({ category, title, authorName, date, imageUr
                 </div>
             </header>
             <div className="flex gap-2 mb-4">
-                <TagAddFavoriteArticle />
+                <TagAddFavoriteArticle articleId={id} />
                 <TagShareArticle />
                 {user?.role === 'journalist' && <TagEditorArticle />}
             </div>
