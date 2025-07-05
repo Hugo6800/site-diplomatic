@@ -13,7 +13,7 @@ export default function HeaderUserAccount() {
     return (
         <section className="flex flex-col gap-4 lg:flex-row lg:items-center">
             <div
-                className="flex items-center gap-4 p-4 w-3/4 bg-[#F3DEDE] rounded-tr-[50px] rounded-br-[50px] rounded-l-[100px]"
+                className="flex flex-col lg:flex-row lg:items-center gap-4 p-4 lg:w-3/4 bg-[#F3DEDE] rounded-t-[80px] rounded-b-[20px] lg:rounded-tr-[50px] lg:rounded-br-[50px] lg:rounded-l-[100px]"
             >
                 <Image
                     src="icons/account_circle.svg"
@@ -23,10 +23,10 @@ export default function HeaderUserAccount() {
                 />
                 {user && (
                     <div className="flex flex-col gap-2">
-                        <span className="font-bold font-fractul text-5xl">
+                        <span className="font-bold font-fractul text-4xl lg:text-5xl">
                             {user.displayName}
                         </span>
-                        <span className="font-bold font-fractul text-2xl">
+                        <span className="font-bold font-fractul text-xl lg:text-2xl">
                             {user.email}
                         </span>
                         <div className="flex items-center gap-2">
@@ -37,15 +37,17 @@ export default function HeaderUserAccount() {
                 )}
                 <LogoutButton />
             </div>
-            <div className="flex items-stretch h-40 gap-2">
+            <div className="flex items-stretch h-20 lg:h-40 gap-2">
                 <EditButton
                     icon="person_edit"
                     alt="Edit Profile"
+                    className="rounded-t-[20px] rounded-br-[20px] rounded-bl-[50px] w-1/2 lg:rounded-full"
                     onClick={() => console.log('Edit profile clicked')}
                 />
                 <EditButton
                     icon="manage_accounts"
                     alt="Account Settings"
+                    className="rounded-t-[20px] rounded-br-[50px] rounded-bl-[20px] w-1/2 lg:rounded-full"
                     onClick={() => router.push('/profil?settings=true')}
                 />
             </div>
