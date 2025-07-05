@@ -3,10 +3,48 @@
 import Image from 'next/image';
 import { useUserPreferences } from '../context/UserPreferencesContext';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '../hooks/useAuth';
+// import { storage } from '../lib/firebase';
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// import { doc, updateDoc } from 'firebase/firestore';
+// import { db } from '../lib/firebase';
+import { useState, useRef } from 'react';
 
 export default function EditProfil() {
     const router = useRouter();
+    const { user } = useAuth();
+    const [uploading, setUploading] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const { showEmail, showStatus, showAccountAge, toggleEmail, toggleStatus, toggleAccountAge } = useUserPreferences();
+
+    const handleProfilePictureUpload = async (file: File) => {
+        if (!file || !user) return;
+
+        try {
+            // setUploading(true);
+
+            // // Créer une référence dans Storage
+            // const storageRef = ref(storage, `profile_pictures/${user.uid}/${file.name}`);
+
+            // // Upload le fichier
+            // await uploadBytes(storageRef, file);
+
+            // // Obtenir l'URL de téléchargement
+            // const downloadURL = await getDownloadURL(storageRef);
+
+            // // Mettre à jour le photoURL dans Firestore
+            // await updateDoc(doc(db, 'users', user.uid), {
+            //     photoURL: downloadURL
+            // });
+
+            // // Recharger la page pour voir les changements
+            // window.location.reload();
+        } catch (error) {
+            console.error('Erreur lors de l\'upload:', error);
+        } finally {
+            setUploading(false);
+        }
+    };
 
     return (
         <section className="flex flex-col gap-8 p-8 max-w-4xl mx-auto font-neulisalt">
@@ -26,12 +64,37 @@ export default function EditProfil() {
             <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between py-2">
                     <p>Photo de profil</p>
-                    <Image
-                        src="/icons/account_circle.svg"
-                        alt="User"
-                        width={60}
-                        height={60}
-                    />
+                    <div className="relative w-16 h-16">
+                        <Image
+                            src={user?.photoURL || '/icons/account_circle.svg'}
+                            alt="User"
+                            width={60}
+                            height={60}
+                            className="rounded-full object-cover"
+                        />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            ref={fileInputRef}
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleProfilePictureUpload(file);
+                            }}
+                        />
+                        <button
+                            className={`absolute bottom-0 -right-2 bg-white rounded-full p-1 shadow ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            onClick={() => fileInputRef.current?.click()}
+                            disabled={uploading}
+                        >
+                            <Image
+                                src="/icons/pencil.svg"
+                                alt="Modifier la photo"
+                                width={24}
+                                height={24}
+                            />
+                        </button>
+                    </div>
                 </div>
                 <div className="flex items-center justify-between py-2">
                     <span className="text-gray-700">Afficher l&apos;adresse email</span>

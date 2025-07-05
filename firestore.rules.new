@@ -6,6 +6,21 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.email_verified == true;
     }
 
+    // Dossier pour les photos de profil
+    match /profile_pictures/{userId}/{fileName} {
+      // Lecture : tout le monde peut voir les photos de profil
+      allow read: if true;
+      
+      // Écriture : uniquement le propriétaire avec email vérifié
+      allow write: if request.auth != null 
+        && request.auth.uid == userId
+        && isEmailVerified()
+        // Vérifier que c'est bien une image
+        && request.resource.contentType.matches('image/.*')
+        // Limite de taille à 5MB
+        && request.resource.size < 5 * 1024 * 1024;
+    }
+
     // Fonction helper pour vérifier si l'utilisateur est admin/journalist
     function isAdminOrJournalist() {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
