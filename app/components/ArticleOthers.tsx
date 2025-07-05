@@ -15,14 +15,16 @@ export default function Article({ id, name, className, author, title, date, imag
     return (
         <>
             <article className="flex flex-col group" onClick={handleArticleClick}>
-                <Image
-                    src={imageUrl}
-                    alt="Image"
-                    width={800}
-                    height={400}
-                    quality={100}
-                    className="w-full h-[200px] mb-4 object-cover cursor-pointer rounded-[20px] group-hover:rounded-4xl transition-all"
-                />
+                <div className="relative w-full h-[200px] mb-4">
+                    <Image
+                        src={imageUrl}
+                        alt="Image"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        quality={100}
+                        className="object-cover cursor-pointer rounded-[20px] group-hover:rounded-4xl transition-all"
+                    />
+                </div>
                 <TagArticle
                     name={name}
                     className={className}

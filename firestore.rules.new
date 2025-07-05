@@ -91,6 +91,15 @@ service cloud.firestore {
         request.auth.uid == resource.data.userId;
     }
 
+    // Règles pour la collection articles
+    match /articles/{articleId} {
+      allow read: if true; // Permet la lecture publique des articles
+      // Permettre l'écriture uniquement aux administrateurs et journalistes
+      allow write: if request.auth != null &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
+    }
+
     // NOUVELLE RÈGLE POUR LA COLLECTION PODCASTS
     match /podcasts/{podcastId} {
       allow read: if true; // Permet la lecture publique
@@ -100,7 +109,28 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
     }
 
-    // Nouvelles règles pour la collection contactSubmissions
+    // Règles pour l'historique de lecture des utilisateurs
+    match /userReadings/{docId} {
+      // Lecture : uniquement l'utilisateur propriétaire
+      allow read: if request.auth != null && 
+                 resource.data.userId == request.auth.uid;
+
+      // Création : vérifier que l'utilisateur crée son propre historique
+      allow create: if request.auth != null && 
+                    request.resource.data.userId == request.auth.uid &&
+                    request.resource.data.keys().hasAll(['userId', 'articleId', 'actualReadTime', 'completionPercentage', 'lastPosition', 'readAt']);
+
+      // Mise à jour : uniquement par l'utilisateur propriétaire
+      allow update: if request.auth != null && 
+                    resource.data.userId == request.auth.uid &&
+                    request.resource.data.userId == request.auth.uid;
+
+      // Suppression : uniquement par l'utilisateur propriétaire
+      allow delete: if request.auth != null && 
+                    resource.data.userId == request.auth.uid;
+    }
+
+
     match /contactSubmissions/{submissionId} {
       // Permettre la création de documents par des utilisateurs non authentifiés
       allow create: if
