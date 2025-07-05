@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/app/lib/firebase';
 import { validateAuthFields, isValidAuth } from '@/app/hooks/authValidation';
@@ -35,7 +35,11 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
             const { user } = await signInWithEmailAndPassword(auth, email, password);
             
             if (!user.emailVerified) {
-                setError('Veuillez vérifier votre email avant de vous connecter.');
+                // Déconnexion de l'utilisateur car email non vérifié
+                await auth.signOut();
+                setError('Veuillez vérifier votre email avant de vous connecter. Un nouveau lien de vérification vous a été envoyé.');
+                // Renvoyer un email de vérification
+                await sendEmailVerification(user);
                 return;
             }
 

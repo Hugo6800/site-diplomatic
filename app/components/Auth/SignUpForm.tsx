@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification, AuthError } from 'firebase/auth';
-import { auth } from '@/app/lib/firebase';
+import { auth, db } from '@/app/lib/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 import { validateAuthFields, isValidAuth } from '@/app/hooks/authValidation';
 
 interface SignUpFormProps {
@@ -41,6 +42,16 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
             // Stocker le nom/prénom dans le profil Firebase Auth
             await updateProfile(user, {
                 displayName: `${firstName} ${lastName}`
+            });
+
+            // Créer le document utilisateur dans Firestore
+            await setDoc(doc(db, 'users', user.uid), {
+                firstName,
+                lastName,
+                email,
+                role: 'reader',
+                createdAt: new Date(),
+                emailVerified: false
             });
 
             // Stocker les données temporairement dans localStorage

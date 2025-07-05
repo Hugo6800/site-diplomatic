@@ -7,6 +7,7 @@ export interface UserData {
     lastName: string;
     role: string;
     createdAt: Timestamp;
+    emailVerified: boolean;
 }
 
 export interface User extends FirebaseUser {

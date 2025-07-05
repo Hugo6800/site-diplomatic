@@ -6,22 +6,26 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.email_verified == true;
     }
 
+    // Fonction helper pour vérifier si l'utilisateur est admin/journalist
+    function isAdminOrJournalist() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist';
+    }
+
     // Permettre la lecture/écriture pour les utilisateurs authentifiés
     match /users/{userId} {
-      // Lecture : uniquement si l'email est vérifié ou admin/journalist
-      allow read: if request.auth != null && 
-        (isEmailVerified() || 
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
+      // Lecture : autoriser la lecture de son propre document même si email non vérifié
+      allow read: if request.auth != null && request.auth.uid == userId;
 
       // Création : autorisée lors de l'inscription (sans vérification d'email)
       allow create: if request.auth != null && request.auth.uid == userId;
 
       // Mise à jour : uniquement si l'email est vérifié (sauf admin/journalist)
+      // Exception pour la mise à jour du champ emailVerified
       allow update: if request.auth != null && request.auth.uid == userId && 
-        (isEmailVerified() || 
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
+        (isEmailVerified() || isAdminOrJournalist() ||
+         (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emailVerified']) &&
+          request.resource.data.emailVerified == request.auth.token.email_verified));
 
       // Suppression : uniquement si l'email est vérifié (sauf admin/journalist)
       allow delete: if request.auth != null && request.auth.uid == userId && 
