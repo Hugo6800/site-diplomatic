@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { initializeReadingSession, updateReadingProgress } from '../utils/readings';
+import { initializeReadingSession, updateReadingProgress } from './readings';
 
 interface TrackingSession {
     startTime: number;

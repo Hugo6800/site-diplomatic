@@ -1,5 +1,5 @@
 import { collections } from "@/app/utils/collections";
-import CollectionCard from "../CollectionCard";
+import CollectionCard from "../Cards/CollectionCard";
 
 export default function CollectionsSection() {
     return (

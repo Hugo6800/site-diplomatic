@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { deleteAccount } from '@/app/utils/account';
+import { deleteAccount } from '@/app/hooks/account';
 
 export default function DeleteAccountForm() {
     const router = useRouter();

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useAuth } from '../hooks/useAuth';
-import { addToFavorites, removeFromFavorites, isArticleFavorited } from '../utils/favorites';
+import { addToFavorites, removeFromFavorites, isArticleFavorited } from '../hooks/favorites';
 
 interface TagAddFavoriteArticleProps {
     articleId: string;

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import CardPodcast from '../CardPodcast';
+import CardPodcast from '../Cards/CardPodcast';
 import { AllPodcastProps } from '@/app/types/allPodcast';
 
 export default function AllPodcastsSection() {

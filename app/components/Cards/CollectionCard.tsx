@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CollectionCardProps } from '../types/collectioncardProps';
+import { CollectionCardProps } from '../../types/collectioncardProps';
 
 export default function CollectionCard({ colorCircle, name, description, backgroundColor, titleColor }: CollectionCardProps) {
     return (

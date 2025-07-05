@@ -5,7 +5,7 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase';
 import { useAuth } from '@/app/hooks/useAuth';
 import StatisticsCard from '../Cards/StatisticsCard';
-import { formatReadingTime } from '@/app/utils/readingTime';
+import { formatReadingTime } from '@/app/hooks/readingTime';
 
 export default function StatisticsSection() {
     const { user } = useAuth();
