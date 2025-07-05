@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Image from 'next/image';
 import ChangePasswordForm from './Forms/ChangePasswordForm';
 import DeleteAccountForm from './Forms/DeleteAccountForm';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function AccountSettings() {
+    const router = useRouter();
     const [emailNotifications, setEmailNotifications] = useState(false);
 
     return (

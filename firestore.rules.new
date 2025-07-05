@@ -21,11 +21,13 @@ service cloud.firestore {
       allow create: if request.auth != null && request.auth.uid == userId;
 
       // Mise à jour : uniquement si l'email est vérifié (sauf admin/journalist)
-      // Exception pour la mise à jour du champ emailVerified
+      // Exceptions : emailVerified et preferences
       allow update: if request.auth != null && request.auth.uid == userId && 
         (isEmailVerified() || isAdminOrJournalist() ||
          (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emailVerified']) &&
-          request.resource.data.emailVerified == request.auth.token.email_verified));
+          request.resource.data.emailVerified == request.auth.token.email_verified) ||
+         (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['preferences']) &&
+          request.resource.data.preferences is map));
 
       // Suppression : uniquement si l'email est vérifié (sauf admin/journalist)
       allow delete: if request.auth != null && request.auth.uid == userId && 

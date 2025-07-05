@@ -1,15 +1,19 @@
 'use client'
 
+import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { LogoutButton } from "./Auth/LogoutButton";
 import { useAuth } from "@/app/hooks/useAuth";
-import TagRole from "./TagRole";
+
 import EditButton from "./EditButton";
-import { useRouter } from 'next/navigation';
+import { useUserPreferences } from "../context/UserPreferencesContext";
+import TagRole from "./TagRole";
 
 export default function HeaderUserAccount() {
-    const { user } = useAuth();
     const router = useRouter();
+    const { user } = useAuth();
+    const { showEmail, showStatus, showAccountAge } = useUserPreferences();
+
     return (
         <section className="flex flex-col gap-4 lg:flex-row lg:items-center">
             <div
@@ -23,15 +27,15 @@ export default function HeaderUserAccount() {
                 />
                 {user && (
                     <div className="flex flex-col gap-2">
-                        <span className="font-bold font-fractul text-4xl lg:text-5xl">
-                            {user.displayName}
-                        </span>
-                        <span className="font-bold font-fractul text-xl lg:text-2xl">
-                            {user.email}
-                        </span>
+                        <p className="font-bold font-fractul text-4xl lg:text-5xl">{user?.displayName}</p>
+                        {showEmail && <p className="font-bold font-fractul text-xl lg:text-2xl">{user?.email}</p>}
                         <div className="flex items-center gap-2">
-                            <TagRole role={user?.role || 'reader'} />
-                            <p className="font-semibold font-neulisalt">Depuis {user?.createdAt?.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')}</p>
+                            {showStatus && <TagRole role={user?.role || 'reader'} />}
+                            {showAccountAge && (
+                                <p className="font-semibold font-neulisalt">
+                                    Depuis {new Date(user?.metadata?.creationTime || '').toLocaleDateString('fr-FR')}
+                                </p>
+                            )}
                         </div>
                     </div>
                 )}
@@ -42,7 +46,7 @@ export default function HeaderUserAccount() {
                     icon="person_edit"
                     alt="Edit Profile"
                     className="rounded-t-[20px] rounded-br-[20px] rounded-bl-[50px] w-1/2 lg:rounded-full"
-                    onClick={() => console.log('Edit profile clicked')}
+                    onClick={() => router.push('/profil?editprofil=true')}
                 />
                 <EditButton
                     icon="manage_accounts"

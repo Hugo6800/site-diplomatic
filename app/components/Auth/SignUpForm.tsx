@@ -49,6 +49,11 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                 firstName,
                 lastName,
                 email,
+                preferences: {
+                    showEmail: false,
+                    showStatus: false,
+                    showAccountAge: false
+                },
                 role: 'reader',
                 createdAt: new Date(),
                 emailVerified: false
