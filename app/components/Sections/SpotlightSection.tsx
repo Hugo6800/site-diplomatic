@@ -8,9 +8,11 @@ import { SpotlightArticle } from '../../types/spotlightArticle';
 
 export default function SpotlightSection() {
     const [article, setArticle] = useState<SpotlightArticle | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function fetchSpotlightArticle() {
+            setIsLoading(true);
             const articlesRef = collection(db, 'articles');
             const q = query(articlesRef, where('hasPaywall', '==', false));
             const querySnapshot = await getDocs(q);
@@ -30,10 +32,25 @@ export default function SpotlightSection() {
                     });
                 }
             }
+            setIsLoading(false);
         }
 
         fetchSpotlightArticle();
     }, []);
+
+    if (isLoading) {
+        return (
+            <main className="min-h-screen py-24">
+                <div className="container mx-auto px-4">
+                    <div className="animate-pulse">
+                        <div className="h-8 w-32 bg-gray-200 mb-4 rounded"></div>
+                        <div className="h-12 w-3/4 bg-gray-200 mb-8 rounded"></div>
+                        <div className="h-96 w-full bg-gray-200 rounded"></div>
+                    </div>
+                </div>
+            </main>
+        );
+    }
 
     if (!article) {
         return null;
