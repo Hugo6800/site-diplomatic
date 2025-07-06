@@ -7,13 +7,13 @@ export default function Links() {
                 <Link href="/about">À propos</Link>
             </li>
             <li className="text-[#DE595C] hover:font-bold transition-colors">
-                <Link href="/articles">Articles</Link>
+                <Link href="/article">Articles</Link>
             </li>
             <li className="text-[#DE595C] hover:font-bold transition-colors">
                 <Link href="/contact">Contact</Link>
             </li>
             <li className="text-[#DE595C] hover:font-bold transition-colors">
-                <Link href="/mentions-legales">Mentions légales</Link>
+                <Link href="/mentions">Mentions légales</Link>
             </li>
         </ul>
     )

@@ -6,6 +6,9 @@
 @font-face {
   font-family: 'Fractul';
   src: url('/fonts/Fractul-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -16,12 +19,14 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'NeulisAltBlack';
-  src: url('/fonts/NeulisAlt-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
+
+@layer utilities {
+  .font-fractul {
+    font-family: 'Fractul', sans-serif;
+  }
+  .font-neulisalt {
+    font-family: 'NeulisAlt', sans-serif;
+  }
 }
 
 @layer base {
@@ -31,8 +36,6 @@
     --color-gray: #F3DEDE;
     --color-accent: #DE595C;
     --color-header: #FEF5F5;
-    --font-fractul: 'Fractul', sans-serif;
-    --font-neulisalt: 'NeulisAlt', sans-serif;
     --button-color: #F58688;
   }
 
