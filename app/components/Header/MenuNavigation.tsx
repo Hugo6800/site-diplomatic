@@ -21,8 +21,8 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
   };
 
   return (
-    <nav className="flex flex-col xl:flex-row items-center px-6 md:px-24 xl:px-36 gap-4 bg-header p-4">
-      <div className="flex justify-center xl:hidden items-center gap-4 w-full">
+    <nav className="flex flex-col lg:flex-row items-center px-6 md:px-24 xl:px-36 gap-4 bg-header p-4">
+      <div className="flex lg:hidden items-center gap-4 w-full">
         <DarkTheme />
         <User />
       </div>
@@ -32,7 +32,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/"
             onClick={handleClick}
             className={`
-              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full
               ${pathname === "/" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
               dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
@@ -46,7 +46,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/podcasts"
             onClick={handleClick}
             className={`
-              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full
               ${pathname === "/podcasts" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
               dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
@@ -60,7 +60,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/ateliers"
             onClick={handleClick}
             className={`
-              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full w-full
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full
               ${pathname === "/ateliers" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
               dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]

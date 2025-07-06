@@ -21,7 +21,7 @@ export default function Header() {
                     height={100}
                 />
             </Link>
-            <div className="hidden xl:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-4">
                 <DarkTheme />
                 <User />
             </div>
