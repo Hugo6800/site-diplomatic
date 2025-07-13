@@ -14,7 +14,7 @@ export default function Profil() {
 
 
     return (
-        <main className="px-6 md:px-24 xl:px-36 mt-28 lg:mt-48 mb-20">
+        <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
             {showSettings ? <AccountSettings /> : showEditProfil ? <EditProfil /> : <HeaderUserAccount />}
             {!showSettings && !showEditProfil && (
                 <>

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Mentions() {
     return (
-        <main className="flex flex-col gap-4 px-6 md:px-24 xl:px-36 mt-28 lg:mt-48 mb-20">
+        <main className="flex flex-col gap-4 px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
             <h2 className="font-bold font-fractul text-5xl">Mentions légales</h2>
             <p className="font-neulisalt">
                 {`Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance
