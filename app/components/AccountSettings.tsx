@@ -28,7 +28,7 @@ export default function AccountSettings() {
             <div className="flex flex-col gap-4">
                 <h2 className="font-bold font-neulisalt text-[2rem]">Notifications par email</h2>
                 <div className="flex items-center justify-between py-2">
-                    <span className="text-gray-700">Recevoir les notifications par email</span>
+                    <span className="text-gray-700">Recevoir la newsletter par email</span>
                     <button
                         onClick={() => setEmailNotifications(!emailNotifications)}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${emailNotifications ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}

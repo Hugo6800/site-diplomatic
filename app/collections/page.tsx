@@ -56,7 +56,7 @@ export default function CollectionsPage() {
 
     if (loading) {
         return (
-            <main className="px-6 md:px-24 xl:px-36 mt-28 lg:mt-48 mb-20">
+            <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
                 <div className="text-center py-12">
                     <p className="text-xl font-neulisalt text-gray-600">Chargement des articles...</p>
                 </div>
@@ -65,7 +65,7 @@ export default function CollectionsPage() {
     }
 
     return (
-        <main className="px-6 md:px-24 xl:px-36 mt-28 lg:mt-48 mb-20">
+        <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
             <div className="flex items-center gap-2 mb-8">
                 <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
                 <h2 className={`font-bold font-fractul text-[2rem] ${titleColor}`}>{formattedTag}</h2>
