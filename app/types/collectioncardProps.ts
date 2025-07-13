@@ -1,7 +1,6 @@
 export interface CollectionCardProps {
-    colorCircle: string;
     name: string;
-    description: string;
+    icon: string;
     backgroundColor: string;
     titleColor: string;
 }

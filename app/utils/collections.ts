@@ -1,42 +1,37 @@
 export interface Collection {
     id: number;
     name: string;
-    description: string;
-    colorCircle: string;
+    icon: string;
     backgroundColor: string;
     titleColor: string;
 }
 
 export const collections: Collection[] = [
     {
-        id: 4,
+        id: 1,
         name: "Culture",
-        description: "Description 4",
-        colorCircle: "bg-tag-culture",
+        icon: "/icons/theater_comedy.svg",
         backgroundColor: "bg-background-tag-culture",
         titleColor: "text-tag-culture"
     },
     {
         id: 2,
         name: "Societe",
-        description: "Description 2",
-        colorCircle: "bg-tag-societe",
+        icon: "/icons/family_restroom.svg",
         backgroundColor: "bg-background-tag-societe",
         titleColor: "text-tag-societe"
     },
     {
-        id: 1,
+        id: 3,
         name: "International",
-        description: "Description 1",
-        colorCircle: "bg-tag-international",
+        icon: "/icons/language.svg",
         backgroundColor: "bg-background-tag-international",
         titleColor: "text-tag-international"
     },
     {
-        id: 3,
+        id: 4,
         name: "Politique",
-        description: "Description 3",
-        colorCircle: "bg-tag-politic",
+        icon: "/icons/balance.svg",
         backgroundColor: "bg-background-tag-politic",
         titleColor: "text-tag-politic"
     },

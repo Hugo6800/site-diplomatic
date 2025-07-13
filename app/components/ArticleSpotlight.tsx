@@ -21,14 +21,14 @@ export default function Article({ id, name, className, author, title, date, imag
                         className={className}
                     />
                     <p className="mt-2 font-semibold text-[1rem] font-neulisalt dark:text-gray-300">{author} - {date}</p>
-                    <h3 className="font-bold font-fractul text-5xl hover:font-black line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-white">{title}</h3>
+                    <h3 className="font-bold font-fractul hover:font-black text-5xl line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-white">{title}</h3>
                 </div>
                 <div className="relative w-full md:w-1/2 aspect-[16/9]">
                     <Image
                         src={imageUrl}
                         alt={title}
                         fill
-                        className="object-cover rounded-[20px] group-hover:rounded-4xl transition-all"
+                        className="object-cover rounded-full group-hover:rounded-4xl transition-all"
                     />
                 </div>
             </article>

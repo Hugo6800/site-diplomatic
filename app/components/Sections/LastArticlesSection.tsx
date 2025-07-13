@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { SpotlightArticle } from '../../types/spotlightArticle';
+import Advertising from '../Advertising';
 
 export default function LastArticlesSection() {
     const [articles, setArticles] = useState<SpotlightArticle[]>([]);
@@ -40,7 +41,7 @@ export default function LastArticlesSection() {
     if (isLoading) {
         return (
             <main className="min-h-screen py-24">
-                <div className="container mx-auto px-4">
+                <div className="mx-auto px-4">
                     <div className="animate-pulse">
                         <div className="h-8 w-32 bg-gray-200 mb-4 rounded"></div>
                         <div className="h-12 w-3/4 bg-gray-200 mb-8 rounded"></div>
@@ -57,7 +58,7 @@ export default function LastArticlesSection() {
 
     return (
         <section className="flex flex-col gap-4 mt-28 mb-20">
-            <h2 className="font-bold font-neulisalt italic text-[2rem]">Derniers articles</h2>
+            <h2 className="font-bold font-neulisalt italic text-[2rem]  bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl p-4 mb-4 dark:text-white w-fit">Derniers articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {articles.map(article => (
                     <ArticleOthers
@@ -73,6 +74,7 @@ export default function LastArticlesSection() {
                     />
                 ))}
             </div>
+            <Advertising className="lg:hidden"/>
         </section >
     )
 }
