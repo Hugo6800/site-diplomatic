@@ -14,7 +14,7 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
 
     useReadingTracker(id, user?.uid);
     return (
-        <article className="max-w-5xl mx-auto px-4">
+        <article className="">
             <header className="mb-8">
                 <div className="relative w-full aspect-[16/9] mb-8">
                     <Image
@@ -29,7 +29,7 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
             <div className="flex gap-2 mb-4">
                 <TagAddFavoriteArticle articleId={id} />
                 <TagShareArticle />
-                {user?.role === 'journalist' && <TagEditorArticle />}
+                {user?.role === 'journalist' && user?.displayName === authorName && <TagEditorArticle />}
             </div>
             <div className="flex items-center gap-4">
                 <TagArticle

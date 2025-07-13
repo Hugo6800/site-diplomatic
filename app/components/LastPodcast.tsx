@@ -9,8 +9,8 @@ export default function LastPodcast({ coverUrl, duration, date, title, descripti
     });
 
     return (
-        <article 
-            className="flex flex-col gap-4 lg:flex-row mt-4 cursor-pointer" 
+        <article
+            className="flex flex-col gap-4 lg:flex-row mt-4 cursor-pointer"
             onClick={() => window.open(`https://open.spotify.com/episode/${spotifyId}`, '_blank')}
         >
             <Image

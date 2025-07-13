@@ -51,7 +51,7 @@ export default function ArticlePage() {
 
     if (isLoading) {
         return (
-            <main className="min-h-screen py-24">
+            <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
                 <div className="container mx-auto px-4">
                     <div className="animate-pulse">
                         <div className="h-8 w-32 bg-gray-200 mb-4 rounded"></div>
@@ -65,7 +65,7 @@ export default function ArticlePage() {
 
     if (!article) {
         return (
-            <main className="min-h-screen py-24">
+            <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
                 <div className="container mx-auto px-4">
                     <h1 className="text-2xl font-bold mb-4">Article non trouvé</h1>
                     <p>{`L'article que vous recherchez n'existe pas ou a été supprimé.`}</p>
@@ -75,8 +75,8 @@ export default function ArticlePage() {
     }
 
     return (
-        <main className="min-h-screen py-24 relative">
-            <section className={`${showAuth ? 'mt-11 max-h-[100vh] overflow-hidden relative' : 'pt-16 mt-12'}`}>
+        <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20 relative">
+            <section className={`${showAuth ? 'mt-11 max-h-[100vh] overflow-hidden relative' : ''}`}>
                 <ArticleFull
                     id={article.id}
                     category={article.category}
