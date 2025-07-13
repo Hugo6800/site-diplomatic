@@ -74,7 +74,7 @@ export default function LastArticlesSection() {
                     />
                 ))}
             </div>
-            <Advertising className="lg:hidden"/>
+            <Advertising className="mt-6"/>
         </section >
     )
 }

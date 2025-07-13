@@ -5,6 +5,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import ArticleSpotlight from '../ArticleSpotlight';
 import { SpotlightArticle } from '../../types/spotlightArticle';
+import Advertising from '../Advertising';
 
 export default function SpotlightSection() {
     const [article, setArticle] = useState<SpotlightArticle | null>(null);
@@ -57,7 +58,10 @@ export default function SpotlightSection() {
     }
 
     return (
-        <section className="pt-24 mt-16">
+        <section className="relative pt-24 mt-16 w-full 2xl:flex">
+            <div className="hidden 2xl:flex absolute left-0 -translate-x-full 2xl:pr-6 inset-y-0 pt-24">
+                <Advertising className="" />
+            </div>
             <div className="mt-12">
                 <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl p-4 italic text-[2rem] mb-4 dark:text-white w-fit">À la une</h2>
                 <ArticleSpotlight

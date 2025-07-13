@@ -14,7 +14,7 @@ export default function Article({ id, name, className, author, title, date, imag
 
     return (
         <>
-            <article className="flex flex-col md:flex-row gap-4 cursor-pointer group" onClick={handleArticleClick}>
+            <article className="flex flex-col md:flex-row gap-6 cursor-pointer group" onClick={handleArticleClick}>
                 <div className="flex flex-col md:w-1/2">
                     <TagArticle
                         name={name}
@@ -28,7 +28,7 @@ export default function Article({ id, name, className, author, title, date, imag
                         src={imageUrl}
                         alt={title}
                         fill
-                        className="object-cover rounded-full group-hover:rounded-4xl transition-all"
+                        className="object-cover rounded-full transition-all"
                     />
                 </div>
             </article>

@@ -1,5 +1,6 @@
 import { collections } from "@/app/utils/collections";
 import CollectionCard from "../Cards/CollectionCard";
+import Advertising from "../Advertising";
 
 export default function CollectionsSection() {
     return (
@@ -16,6 +17,7 @@ export default function CollectionsSection() {
                     />
                 ))}
             </div>
+            <Advertising className="2xl:hidden mt-6" />
         </section>
     )
 }
