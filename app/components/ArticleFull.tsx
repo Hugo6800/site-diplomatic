@@ -6,8 +6,43 @@ import { ArticleFullProps } from '../types/articleFullProps';
 import TagAddFavoriteArticle from './TagAddFavoriteArticle';
 import TagShareArticle from './TagShareArticle';
 import TagEditorArticle from './TagEditorArticle';
+import Advertising from "./Advertising";
 import { useAuth } from '../hooks/useAuth';
 import { useReadingTracker } from '../hooks/useReadingTracker';
+import { Fragment } from 'react';
+
+function splitContentIntoSections(content: string): string[] {
+    // Créer un élément div temporaire pour parser le HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+
+    const sections: string[] = [];
+    let currentSection = '';
+
+    // Parcourir tous les éléments de premier niveau
+    tempDiv.childNodes.forEach((node) => {
+        if (node.nodeName === 'H2') {
+            // Si on trouve un H2 et qu'on a déjà du contenu, on sauvegarde la section actuelle
+            if (currentSection) {
+                sections.push(currentSection);
+                currentSection = '';
+            }
+        }
+        // Ajouter le nœud à la section courante
+        if (node instanceof Element) {
+            currentSection += node.outerHTML;
+        } else if (node instanceof Text) {
+            currentSection += node.textContent;
+        }
+    });
+
+    // Ajouter la dernière section
+    if (currentSection) {
+        sections.push(currentSection);
+    }
+
+    return sections;
+}
 
 export default function ArticleFull({ id, category, title, authorName, date, imageUrl, content }: ArticleFullProps) {
     const { user } = useAuth();
@@ -46,10 +81,20 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
                 {title}
             </h1>
 
-            <div
-                className="prose prose-lg max-w-none prose-headings:font-fractul prose-headings:font-bold prose-p:font-neulisalt prose-h2:text-lg lg:prose-h2:text-2xl xl:prose-h2:text-3xl prose-p:text-lg prose-p:leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: content }}
-            />
+            <div className="flex flex-col gap-8">
+                {splitContentIntoSections(content).map((section, index) => (
+                    <Fragment key={index}>
+                        <div
+                            className="prose prose-lg max-w-none prose-headings:font-fractul prose-headings:font-bold prose-p:font-neulisalt prose-h2:text-lg lg:prose-h2:text-2xl xl:prose-h2:text-3xl prose-p:text-lg prose-p:leading-relaxed"
+                            dangerouslySetInnerHTML={{ __html: section }}
+                        />
+                        {(index === Math.floor(splitContentIntoSections(content).length * 0.25) || 
+                          index === Math.floor(splitContentIntoSections(content).length * 0.6)) && (
+                            <Advertising />
+                        )}
+                    </Fragment>
+                ))}
+            </div>
         </article>
     );
 }
