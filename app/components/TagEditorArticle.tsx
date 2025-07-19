@@ -3,10 +3,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function TagEditorArticle() {
+interface TagEditorArticleProps {
+    articleId: string;
+}
+
+export default function TagEditorArticle({ articleId }: TagEditorArticleProps) {
     return (
         <Link 
-            href="/editor"
+            href={`/edit-article/${articleId}`}
             className="inline-flex justify-center items-center gap-2 px-3 py-2 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer hover:bg-[#e5c8c8] transition-colors duration-200"
         >
             <Image
