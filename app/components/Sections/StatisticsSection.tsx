@@ -29,7 +29,7 @@ export default function StatisticsSection() {
     return (
         <section className="mt-16 mb-20">
             <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[2rem] mb-4 dark:text-white w-fit">Statistiques</h2>
-            <div className="flex flex-wrap gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {statistics.map((stat, index) => (
                     <StatisticsCard
                         key={index}

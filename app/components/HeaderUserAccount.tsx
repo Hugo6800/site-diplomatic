@@ -17,7 +17,7 @@ export default function HeaderUserAccount() {
     return (
         <section className="flex flex-col gap-4 lg:flex-row lg:items-center">
             <div
-                className="flex flex-col lg:flex-row lg:items-center gap-4 p-4 lg:w-3/4 bg-[#F3DEDE] rounded-t-[80px] rounded-b-[20px] lg:rounded-tr-[50px] lg:rounded-br-[50px] lg:rounded-l-[100px]"
+                className="flex flex-col lg:flex-row lg:items-center gap-4 p-4 flex-1 bg-[#F3DEDE] rounded-t-[80px] rounded-b-[20px] lg:rounded-tr-[50px] lg:rounded-br-[50px] lg:rounded-l-[100px]"
             >
                 <Image
                     src={user?.photoURL || '/icons/account_circle.svg'}

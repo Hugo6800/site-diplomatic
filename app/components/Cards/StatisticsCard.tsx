@@ -10,7 +10,7 @@ interface StatisticsCardProps {
 
 export default function StatisticsCard({ icon, value, label }: StatisticsCardProps) {
     return (
-        <article className="flex flex-col items-start p-4 bg-[#F3DEDE] dark:bg-[#2C2C2C] rounded-2xl min-w-[200px] w-[300px]">
+        <article className="flex flex-col items-start p-4 bg-[#F3DEDE] dark:bg-[#2C2C2C] rounded-2xl w-full h-full">
             <div className="w-8 h-8 mb-3 relative">
                 <Image
                     src={icon}

@@ -12,7 +12,7 @@ interface LeftCardsEditorPanelProps {
 export default function LeftCardsEditorPanel({ className, title, image, category }: LeftCardsEditorPanelProps) {
     return (
         <article className="flex flex-col gap-2.5">
-            <div className={`rounded-full ${className} font-bold font-neulisalt text-[14px]`}>
+            <div className={`rounded-full ${className} font-bold font-neulisalt`}>
                 {category}
             </div>
             <Image

@@ -12,7 +12,7 @@ export default function CardsDownEditPanel({ icon, label, onClick }: CardsDownEd
     return (
         <article 
             onClick={onClick}
-            className="flex flex-col items-start p-4 bg-[#F3DEDE] dark:bg-[#2C2C2C] rounded-2xl min-w-[200px] w-[300px] cursor-pointer hover:bg-opacity-90 transition-colors"
+            className="flex flex-col items-start p-4 bg-[#F3DEDE] dark:bg-[#2C2C2C] rounded-2xl w-1/2 cursor-pointer hover:bg-opacity-90 transition-colors"
         >
             <div className="w-8 h-8 mb-3 relative">
                 <Image
