@@ -2,35 +2,25 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { initializeReadingSession, updateReadingProgress } from './readings';
+import { Timestamp } from 'firebase/firestore';
 
 interface TrackingSession {
-    startTime: number;
-    lastUpdate: number;
+    startTime: Date;
+    lastUpdate: Date;
 }
 
-const calculateProgress = (startTime: number, scrollPosition: number) => {
-    const now = Date.now();
-    const timeSpentMs = now - startTime;
+const calculateProgress = (startTime: Date, scrollPosition: number) => {
+    const now = new Date();
     
-    // Si moins de 30 secondes se sont écoulées, on compte 1 minute
-    // Si plus de 30 secondes mais moins de 5 minutes, on compte 5 minutes
-    // Sinon on compte le temps réel arrondi à la minute supérieure
-    let actualReadTime: number;
-    if (timeSpentMs < 30000) { // moins de 30 secondes
-        actualReadTime = 1;
-    } else if (timeSpentMs < 300000) { // moins de 5 minutes
-        actualReadTime = 5;
-    } else {
-        actualReadTime = Math.ceil(timeSpentMs / 1000 / 60);
-    }
-
     const completionPercentage = Math.min(100, Math.round(scrollPosition * 100));
 
     return {
-        actualReadTime,
+        startTimestamp: Timestamp.fromDate(startTime),
+        lastUpdateTimestamp: Timestamp.fromDate(now),
+        totalReadTime: 0, // Sera calculé dans updateReadingProgress
         completionPercentage,
         lastPosition: scrollPosition,
-        readAt: new Date()
+        readAt: Timestamp.fromDate(now)
     };
 };
 
@@ -48,8 +38,8 @@ export const useReadingTracker = (articleId: string, userId: string | undefined)
                 if (docId) {
                     setReadingDocId(docId);
                     sessionRef.current = {
-                        startTime: Date.now(),
-                        lastUpdate: Date.now()
+                        startTime: new Date(),
+                        lastUpdate: new Date()
                     };
                     setIsTracking(true);
                 }
@@ -67,8 +57,8 @@ export const useReadingTracker = (articleId: string, userId: string | undefined)
         const startTime = sessionRef.current.startTime;
 
         const handleScroll = () => {
-            const now = Date.now();
-            if (!sessionRef.current || (now - sessionRef.current.lastUpdate < 5000)) return;
+            const now = new Date();
+            if (!sessionRef.current || (now.getTime() - sessionRef.current.lastUpdate.getTime() < 5000)) return;
 
             const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
             const progress = calculateProgress(startTime, scrollProgress);
@@ -83,6 +73,15 @@ export const useReadingTracker = (articleId: string, userId: string | undefined)
         const initialProgress = calculateProgress(startTime, 0);
         updateReadingProgress(readingDocId, initialProgress);
 
+        // Timer pour mettre à jour toutes les 30 secondes
+        const updateTimer = setInterval(() => {
+            if (!sessionRef.current) return;
+
+            const scrollProgress = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            const progress = calculateProgress(startTime, scrollProgress);
+            updateReadingProgress(readingDocId, progress);
+        }, 30000); // 30 secondes
+
         window.addEventListener('scroll', handleScroll);
         
         return () => {
@@ -90,6 +89,7 @@ export const useReadingTracker = (articleId: string, userId: string | undefined)
             const finalProgress = calculateProgress(startTime, finalScroll);
             updateReadingProgress(readingDocId, finalProgress);
             window.removeEventListener('scroll', handleScroll);
+            clearInterval(updateTimer);
         };
     }, [isTracking, readingDocId]);
 

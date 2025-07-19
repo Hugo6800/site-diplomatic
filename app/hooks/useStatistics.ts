@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, onSnapshot, QuerySnapshot, DocumentData } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase';
 import { formatReadingTime } from './readingTime';
 import { User } from '@/app/types/user';
@@ -13,6 +13,7 @@ interface Statistics {
     articlesWrittenCount: string;
     likesReceivedCount: string;
     totalWordsCount: string;
+    totalViewsCount: string;
 }
 
 export const useStatistics = (user: User | null): Statistics => {
@@ -22,37 +23,56 @@ export const useStatistics = (user: User | null): Statistics => {
         totalReadingTime: '00:00',
         articlesWrittenCount: '0',
         likesReceivedCount: '0',
-        totalWordsCount: '0'
+        totalWordsCount: '0',
+        totalViewsCount: '0'
     });
 
     useEffect(() => {
-        if (!user) return;
+        if (!user) {
+            setStats({
+                favoriteCount: '0',
+                readCount: '0',
+                totalReadingTime: '00:00',
+                articlesWrittenCount: '0',
+                likesReceivedCount: '0',
+                totalWordsCount: '0',
+                totalViewsCount: '0'
+            });
+            return;
+        }
 
-        const fetchCounts = async () => {
-            try {
-                // Récupérer le nombre d'articles favoris
-                const favoritesQuery = query(
-                    collection(db, 'favorites'),
-                    where('userId', '==', user.uid)
-                );
-                const favoritesSnapshot = await getDocs(favoritesQuery);
+        // Créer les queries
+        const favoritesQuery = query(
+            collection(db, 'favorites'),
+            where('userId', '==', user.uid)
+        );
+
+        const readingsQuery = query(
+            collection(db, 'userReadings'),
+            where('userId', '==', user.uid)
+        );
+
+        const articlesQuery = user.role === 'journalist' ? query(
+            collection(db, 'articles'),
+            where('authorName', '==', user.displayName)
+        ) : null;
+        let authorArticleIds: string[] = [];
+
+        // Écouter les changements
+        const unsubscribeAll = () => {
+            const unsubscribeFavorites = onSnapshot(favoritesQuery, async (favoritesSnapshot: QuerySnapshot<DocumentData>) => {
                 const favoriteCount = favoritesSnapshot.size.toString();
 
-                // Récupérer le nombre d'articles lus
-                const readingsQuery = query(
-                    collection(db, 'userReadings'),
-                    where('userId', '==', user.uid)
-                );
                 const readingsSnapshot = await getDocs(readingsQuery);
                 const readCount = readingsSnapshot.size.toString();
 
                 // Calculer le temps total de lecture
-                const totalMinutes = readingsSnapshot.docs.reduce((total, doc) => {
+                const totalSeconds = readingsSnapshot.docs.reduce((total, doc) => {
                     const data = doc.data();
-                    const readingTime = data.actualReadTime || 0;
-                    return total + (readingTime === 1 ? 5 : readingTime);
+                    return total + (data.totalReadTime || 0);
                 }, 0);
                 
+                const totalMinutes = Math.round(totalSeconds / 60);
                 const totalReadingTime = formatReadingTime(totalMinutes);
 
                 // Statistiques de base
@@ -62,34 +82,43 @@ export const useStatistics = (user: User | null): Statistics => {
                     totalReadingTime,
                     articlesWrittenCount: '0',
                     likesReceivedCount: '0',
-                    totalWordsCount: '0'
+                    totalWordsCount: '0',
+                    totalViewsCount: '0'
                 };
 
-                // Si l'utilisateur est journaliste, récupérer les statistiques supplémentaires
-                if (user.role === 'journalist') {
-                    const articlesQuery = query(
-                        collection(db, 'articles'),
-                        where('authorName', '==', user.displayName)
-                    );
+                if (user.role === 'journalist' && articlesQuery) {
                     const articlesSnapshot = await getDocs(articlesQuery);
                     const articlesWrittenCount = articlesSnapshot.size.toString();
 
-                    const authorArticleIds = articlesSnapshot.docs.map(doc => doc.id);
+                    authorArticleIds = articlesSnapshot.docs.map(doc => doc.id);
 
                     let likesReceivedCount = '0';
+                    let totalViews = 0;
+
                     if (authorArticleIds.length > 0) {
-                        const favoritesQuery = query(
+                        // Compter les likes
+                        const journalistFavoritesQuery = query(
                             collection(db, 'favorites'),
                             where('articleId', 'in', authorArticleIds)
                         );
-                        const favoritesSnapshot = await getDocs(favoritesQuery);
-                        likesReceivedCount = favoritesSnapshot.size.toString();
+                        const journalistFavoritesSnapshot = await getDocs(journalistFavoritesQuery);
+                        likesReceivedCount = journalistFavoritesSnapshot.size.toString();
+
+                        // Compter les vues
+                        const articleReadingsQuery = query(
+                            collection(db, 'userReadings'),
+                            where('articleId', 'in', authorArticleIds)
+                        );
+                        const articleReadingsSnapshot = await getDocs(articleReadingsQuery);
+                        totalViews = articleReadingsSnapshot.size;
                     }
 
+                    // Calculer le nombre total de mots
                     const totalWords = articlesSnapshot.docs.reduce((total, doc) => {
-                        const data = doc.data();
+                        const data = doc.data() as { content?: string };
                         if (data.content) {
-                            return total + data.content.split(/\\s+/).length;
+                            const words = data.content.trim().split(/\s+/);
+                            return total + words.length;
                         }
                         return total;
                     }, 0);
@@ -98,25 +127,28 @@ export const useStatistics = (user: User | null): Statistics => {
                         ...baseStats,
                         articlesWrittenCount,
                         likesReceivedCount,
-                        totalWordsCount: totalWords.toLocaleString()
+                        totalWordsCount: totalWords.toString(),
+                        totalViewsCount: totalViews.toLocaleString()
                     });
                 } else {
-                    setStats(baseStats);
+                    setStats({
+                        ...baseStats,
+                        totalViewsCount: '0'
+                    });
                 }
-            } catch (error) {
-                console.error('Erreur lors de la récupération des statistiques:', error);
-                setStats({
-                    favoriteCount: '000',
-                    readCount: '000',
-                    totalReadingTime: '00:00',
-                    articlesWrittenCount: '0',
-                    likesReceivedCount: '0',
-                    totalWordsCount: '0'
-                });
-            }
+            });
+
+            return () => {
+                unsubscribeFavorites();
+            };
         };
 
-        fetchCounts();
+        const unsubscribe = unsubscribeAll();
+
+        // Cleanup
+        return () => {
+            unsubscribe();
+        };
     }, [user]);
 
     return stats;

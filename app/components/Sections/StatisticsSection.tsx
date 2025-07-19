@@ -18,6 +18,7 @@ export default function StatisticsSection() {
         { icon: '/icons/article_person.svg', value: stats.articlesWrittenCount, label: 'Articles écrits' },
         { icon: '/icons/favorite.svg', value: stats.likesReceivedCount, label: 'Likes reçus' },
         { icon: '/icons/match_word.svg', value: stats.totalWordsCount, label: 'Mots écrits' },
+        { icon: '/icons/visibility.svg', value: stats.totalViewsCount, label: 'Vues sur articles' },
     ];
 
     const statistics = [

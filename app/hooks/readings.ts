@@ -1,11 +1,13 @@
 import { db } from '@/app/lib/firebase';
-import { collection, addDoc, query, where, getDocs, updateDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, updateDoc, doc, getDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 
 export interface ReadingProgress {
-    actualReadTime: number;
-    completionPercentage: number;
-    lastPosition: number;
-    readAt: Date;
+    startTimestamp: Timestamp;        // Timestamp de début de lecture
+    lastUpdateTimestamp: Timestamp;   // Dernier timestamp de mise à jour
+    totalReadTime: number;        // Temps total de lecture accumulé en secondes
+    completionPercentage?: number;
+    lastPosition?: number;
+    readAt: Timestamp;
 }
 
 export interface ArticleData {
@@ -20,6 +22,7 @@ export interface ArticleData {
 }
 
 export interface ReadingSession {
+    readingId: string;      // ID du document userReadings
     startTime: number;
     lastUpdate: number;
     initialScroll: number;
@@ -27,27 +30,62 @@ export interface ReadingSession {
     userId: string;
 }
 
+// Fonction de migration pour convertir actualReadTime en totalReadTime
+export const migrateReadingData = async (docId: string) => {
+    const docRef = doc(db, 'userReadings', docId);
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) return;
+    
+    const data = docSnap.data();
+    if (!data.actualReadTime || data.totalReadTime) return;
+
+    const actualReadTime = data.actualReadTime || 0;
+    const totalReadTime = actualReadTime * 60;
+    
+    await updateDoc(doc(db, 'userReadings', docId), {
+        startTimestamp: serverTimestamp(),
+        lastUpdateTimestamp: serverTimestamp(),
+        totalReadTime: totalReadTime,
+    });
+};
+
 export const initializeReadingSession = async (userId: string, articleId: string): Promise<string | null> => {
     try {
-        const readingsRef = collection(db, 'userReadings');
-        const q = query(readingsRef, 
+        // Vérifier si une session de lecture existe déjà
+        const readingsQuery = query(
+            collection(db, 'userReadings'),
             where('userId', '==', userId),
             where('articleId', '==', articleId)
         );
+
+        const querySnapshot = await getDocs(readingsQuery);
         
-        const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) {
-            const docRef = await addDoc(readingsRef, {
-                userId,
-                articleId,
-                readAt: new Date(),
-                actualReadTime: 0,
-                completionPercentage: 0,
-                lastPosition: 0
-            });
-            return docRef.id;
+        if (!querySnapshot.empty) {
+            const doc = querySnapshot.docs[0];
+            const data = doc.data();
+            // Mettre à jour les timestamps si c'est une ancienne session
+            if (!data.startTimestamp || !data.lastUpdateTimestamp) {
+                await updateDoc(doc.ref, {
+                    startTimestamp: serverTimestamp(),
+                    lastUpdateTimestamp: serverTimestamp(),
+                    totalReadTime: data.totalReadTime || 0
+                });
+            }
+            return doc.id;
         }
-        return querySnapshot.docs[0].id;
+
+        // Créer une nouvelle session de lecture
+        const docRef = await addDoc(collection(db, 'userReadings'), {
+            userId,
+            articleId,
+            readAt: serverTimestamp(),
+            startTimestamp: serverTimestamp(),
+            lastUpdateTimestamp: serverTimestamp(),
+            totalReadTime: 0
+        });
+
+        return docRef.id;
     } catch (error) {
         console.error('Error initializing reading session:', error);
         return null;
@@ -111,32 +149,52 @@ export const getUserReadHistory = async (userId: string): Promise<ArticleData[]>
     }
 };
 
-export const updateReadingProgress = async (
-    docId: string,
-    progress: Partial<ReadingProgress>
-): Promise<void> => {
+export const updateReadingProgress = async (docId: string, progress: ReadingProgress) => {
     try {
-        const readingRef = doc(db, 'userReadings', docId);
-        await updateDoc(readingRef, {
+        const docRef = doc(db, 'userReadings', docId);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return;
+
+        const data = docSnap.data();
+        // Convert lastUpdateTimestamp to milliseconds, handling both Date and Timestamp cases
+        const lastUpdateMs = data.lastUpdateTimestamp instanceof Date
+            ? data.lastUpdateTimestamp.getTime()
+            : (data.lastUpdateTimestamp?.toMillis?.() ?? Date.now());
+        const now = Date.now();
+        const timeDiffSeconds = Math.floor((now - lastUpdateMs) / 1000);
+
+        await updateDoc(docRef, {
             ...progress,
-            readAt: new Date()
+            readAt: serverTimestamp(),
+            lastUpdateTimestamp: serverTimestamp(),
+            totalReadTime: (data.totalReadTime || 0) + timeDiffSeconds
         });
     } catch (error) {
-        console.error('Erreur lors de la mise à jour de la progression:', error);
-        throw error;
+        console.error('Error updating reading progress:', error);
     }
 };
 
-export const calculateProgress = (
+export const calculateProgress = async (
     session: ReadingSession,
     currentScroll: number
-): Partial<ReadingProgress> => {
+): Promise<Partial<ReadingProgress>> => {
     const now = Date.now();
-    const actualReadTime = Math.round((now - session.startTime) / 1000 / 60); // en minutes
+    
+    // Récupérer l'état actuel de la lecture
+    const readingDoc = await getDoc(doc(db, 'userReadings', session.readingId));
+    const currentData = readingDoc.data() as ReadingProgress;
+    
+    // Calculer le temps écoulé depuis la dernière mise à jour en secondes
+    const elapsedTime = Math.round((now - currentData.lastUpdateTimestamp.toMillis()) / 1000);
+    
+    // Mettre à jour le temps total de lecture
+    const totalReadTime = currentData.totalReadTime + elapsedTime;
+    
     const completionPercentage = Math.min(100, Math.round(currentScroll * 100));
 
     return {
-        actualReadTime,
+        lastUpdateTimestamp: Timestamp.fromMillis(now),
+        totalReadTime,
         completionPercentage,
         lastPosition: currentScroll
     };

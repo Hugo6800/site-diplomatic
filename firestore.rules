@@ -79,37 +79,32 @@ service cloud.firestore {
 
     // Règles pour la collection userReadings
     match /userReadings/{docId} {
-      allow read, list: if request.auth != null && 
-        resource.data.userId == request.auth.uid;
+      allow read, list: if request.auth != null && (
+        // L'utilisateur peut lire ses propres lectures
+        resource.data.userId == request.auth.uid ||
+        // Les journalistes peuvent lire les lectures de leurs articles
+        (isJournalist() && exists(/databases/$(database)/documents/articles/$(resource.data.articleId)) &&
+         get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.authorName == request.auth.token.name)
+      );
       
       allow create: if request.auth != null && 
         request.resource.data.userId == request.auth.uid &&
         request.resource.data.keys().hasAll([
           'userId', 
           'articleId', 
-          'readAt',
-          'actualReadTime',
-          'completionPercentage',
-          'lastPosition'
+          'readAt'
         ]) &&
         request.resource.data.userId is string &&
         request.resource.data.articleId is string &&
-        request.resource.data.readAt is timestamp &&
-        request.resource.data.actualReadTime is number &&
-        request.resource.data.actualReadTime >= 0 &&
-        request.resource.data.completionPercentage is number &&
-        request.resource.data.completionPercentage >= 0 &&
-        request.resource.data.completionPercentage <= 100 &&
-        request.resource.data.lastPosition is number &&
-        request.resource.data.lastPosition >= 0 &&
-        request.resource.data.lastPosition <= 100;
+        request.resource.data.readAt is timestamp;
 
-      allow update: if request.auth != null &&
-        resource.data.userId == request.auth.uid &&
-        request.resource.data.userId == request.auth.uid &&
-        request.resource.data.articleId == resource.data.articleId &&
-        request.resource.data.diff(resource.data).affectedKeys()
-          .hasOnly(['actualReadTime', 'completionPercentage', 'lastPosition', 'readAt']);
+      allow update: if request.auth != null && (
+        // L'utilisateur peut mettre à jour ses propres lectures
+        resource.data.userId == request.auth.uid ||
+        // Les journalistes peuvent mettre à jour les lectures de leurs articles
+        (isJournalist() && exists(/databases/$(database)/documents/articles/$(resource.data.articleId)) &&
+         get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.authorName == request.auth.token.name)
+      );
 
       allow delete: if request.auth != null && 
         resource.data.userId == request.auth.uid;
