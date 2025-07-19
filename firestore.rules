@@ -117,8 +117,12 @@ service cloud.firestore {
 
 		// Règles pour la collection favorites
     match /favorites/{favoriteId} {
-      allow read, list: if request.auth != null && 
-        request.auth.uid == resource.data.userId;
+      allow read: if request.auth != null && 
+        (request.auth.uid == resource.data.userId ||
+         // Permettre aux journalistes de compter les likes sur leurs articles
+         (request.auth.token.email_verified && 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist'));
+      allow list: if request.auth != null;
       allow create: if request.auth != null && 
         request.auth.uid == request.resource.data.userId;
       allow delete: if request.auth != null && 

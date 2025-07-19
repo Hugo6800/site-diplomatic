@@ -26,9 +26,7 @@ export default function StatisticsSection() {
                     collection(db, 'favorites'),
                     where('userId', '==', user.uid)
                 );
-                console.log('Requête favorites pour userId:', user.uid);
                 const favoritesSnapshot = await getDocs(favoritesQuery);
-                console.log('Nombre de favoris trouvés:', favoritesSnapshot.size);
                 setFavoriteCount(favoritesSnapshot.size.toString());
 
                 // Récupérer le nombre d'articles lus
@@ -36,9 +34,7 @@ export default function StatisticsSection() {
                     collection(db, 'userReadings'),
                     where('userId', '==', user.uid)
                 );
-                console.log('Requête lectures pour userId:', user.uid);
                 const readingsSnapshot = await getDocs(readingsQuery);
-                console.log('Nombre de lectures trouvées:', readingsSnapshot.size);
                 setReadCount(readingsSnapshot.size.toString());
 
                 // Calculer le temps total de lecture
@@ -54,29 +50,38 @@ export default function StatisticsSection() {
                 // Si l'utilisateur est journaliste, récupérer les statistiques supplémentaires
                 if (user.role === 'journalist') {
                     // Récupérer les articles écrits par le journaliste
-                    const articlesSnapshot = await getDocs(query(
+                    const articlesQuery = query(
                         collection(db, 'articles'),
                         where('authorName', '==', user.displayName)
-                    ));
+                    );
+                    const articlesSnapshot = await getDocs(articlesQuery);
 
                     // Nombre d'articles écrits
                     setArticlesWrittenCount(articlesSnapshot.size.toString());
 
-                    // Calculer le nombre total de likes et de mots
-                    let totalLikes = 0;
-                    let totalWords = 0;
+                    // Récupérer les IDs des articles de l'auteur
+                    const authorArticleIds = articlesSnapshot.docs.map(doc => doc.id);
 
-                    articlesSnapshot.docs.forEach(doc => {
+                    if (authorArticleIds.length > 0) {
+                        // Compter les favoris pour ces articles
+                        const favoritesQuery = query(
+                            collection(db, 'favorites'),
+                            where('articleId', 'in', authorArticleIds)
+                        );
+                        const favoritesSnapshot = await getDocs(favoritesQuery);
+                        setLikesReceivedCount(favoritesSnapshot.size.toString());
+                    } else {
+                        setLikesReceivedCount('0');
+                    }
+
+                    // Calculer le nombre total de mots
+                    const totalWords = articlesSnapshot.docs.reduce((total, doc) => {
                         const data = doc.data();
-                        // Ajouter les likes de l'article
-                        totalLikes += data.likes || 0;
-                        // Compter les mots du contenu
                         if (data.content) {
-                            totalWords += data.content.split(/\s+/).length;
+                            return total + data.content.split(/\s+/).length;
                         }
-                    });
-
-                    setLikesReceivedCount(totalLikes.toString());
+                        return total;
+                    }, 0);
                     setTotalWordsCount(totalWords.toLocaleString());
                 }
             } catch (error) {
