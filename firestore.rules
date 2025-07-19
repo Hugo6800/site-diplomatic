@@ -5,7 +5,7 @@ service cloud.firestore {
     function isEmailVerified() {
       return request.auth != null && request.auth.token.email_verified == true;
     }
-
+    
     // Dossier pour les photos de profil
     match /profile_pictures/{userId}/{fileName} {
       // Lecture : tout le monde peut voir les photos de profil
@@ -27,6 +27,24 @@ service cloud.firestore {
              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist';
     }
 
+		function isJournalist() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist';
+    }
+
+    function isArticleAuthor(authorName) {
+      return isJournalist() && request.auth.token.name == authorName;
+    }
+
+    // Articles et leurs statistiques
+    match /articles/{articleId} {
+      // Tout le monde peut lire les articles
+      allow read: if true;
+      // Seuls les journalistes peuvent créer/modifier leurs articles
+      allow create: if isJournalist() && request.resource.data.authorName == request.auth.token.name;
+      allow update: if isArticleAuthor(resource.data.authorName);
+      allow delete: if isArticleAuthor(resource.data.authorName);
+    }
+    
     // Permettre la lecture/écriture pour les utilisateurs authentifiés
     match /users/{userId} {
       // Lecture : autoriser la lecture de son propre document même si email non vérifié
@@ -51,11 +69,6 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
     }
 
-    // Allow authenticated users to manage their own liked articles
-    match /users/{userId}/likedArticles/{articleId} {
-      allow read, create, delete: if request.auth != null && request.auth.uid == userId;
-    }
-
     // Règles pour la collection articles
     match /articles/{articleId} {
       allow read: if true;  // Tout le monde peut lire les articles
@@ -66,7 +79,7 @@ service cloud.firestore {
 
     // Règles pour la collection userReadings
     match /userReadings/{docId} {
-      allow read: if request.auth != null && 
+      allow read, list: if request.auth != null && 
         resource.data.userId == request.auth.uid;
       
       allow create: if request.auth != null && 
@@ -102,16 +115,16 @@ service cloud.firestore {
         resource.data.userId == request.auth.uid;
     }
 
-    // Règles pour la collection favorites
+		// Règles pour la collection favorites
     match /favorites/{favoriteId} {
-      allow read: if request.auth != null && 
+      allow read, list: if request.auth != null && 
         request.auth.uid == resource.data.userId;
       allow create: if request.auth != null && 
         request.auth.uid == request.resource.data.userId;
       allow delete: if request.auth != null && 
         request.auth.uid == resource.data.userId;
     }
-
+    
     // Règles pour la collection articles
     match /articles/{articleId} {
       allow read: if true; // Permet la lecture publique des articles
@@ -121,6 +134,7 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
     }
 
+    
     // NOUVELLE RÈGLE POUR LA COLLECTION PODCASTS
     match /podcasts/{podcastId} {
       allow read: if true; // Permet la lecture publique
@@ -130,28 +144,7 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
     }
 
-    // Règles pour l'historique de lecture des utilisateurs
-    match /userReadings/{docId} {
-      // Lecture : uniquement l'utilisateur propriétaire
-      allow read: if request.auth != null && 
-                 resource.data.userId == request.auth.uid;
-
-      // Création : vérifier que l'utilisateur crée son propre historique
-      allow create: if request.auth != null && 
-                    request.resource.data.userId == request.auth.uid &&
-                    request.resource.data.keys().hasAll(['userId', 'articleId', 'actualReadTime', 'completionPercentage', 'lastPosition', 'readAt']);
-
-      // Mise à jour : uniquement par l'utilisateur propriétaire
-      allow update: if request.auth != null && 
-                    resource.data.userId == request.auth.uid &&
-                    request.resource.data.userId == request.auth.uid;
-
-      // Suppression : uniquement par l'utilisateur propriétaire
-      allow delete: if request.auth != null && 
-                    resource.data.userId == request.auth.uid;
-    }
-
-
+    // Nouvelles règles pour la collection contactSubmissions
     match /contactSubmissions/{submissionId} {
       // Permettre la création de documents par des utilisateurs non authentifiés
       allow create: if
@@ -172,6 +165,11 @@ service cloud.firestore {
 
       // Empêcher la suppression des soumissions
       allow delete: if false;
+    }
+    
+    // Règles par défaut : tout bloquer
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

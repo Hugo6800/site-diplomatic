@@ -12,7 +12,6 @@ import TagRole from "./TagRole";
 export default function HeaderUserAccount() {
     const router = useRouter();
     const { user } = useAuth();
-    console.log("🚀 ~ HeaderUserAccount ~ user:", user)
     const { showEmail, showStatus, showAccountAge } = useUserPreferences();
 
     return (

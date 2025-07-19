@@ -62,7 +62,6 @@ export const getUserReadHistory = async (userId: string): Promise<ArticleData[]>
         const readingsSnapshot = await getDocs(readingsQuery);
 
         if (readingsSnapshot.empty) {
-            console.log('No readings found for user:', userId);
             return [];
         }
 
@@ -76,11 +75,9 @@ export const getUserReadHistory = async (userId: string): Promise<ArticleData[]>
             if (!articleDoc.exists()) return null;
 
             const data = articleDoc.data();
-            console.log('Article raw data:', { id: articleDoc.id, ...data });
 
             // Récupérer l'URL de l'image
             const imageUrl = data.imageUrl;
-            console.log('Image URL from Firestore:', imageUrl);
 
             // Formater la date
             let formattedDate = '';
@@ -102,13 +99,11 @@ export const getUserReadHistory = async (userId: string): Promise<ArticleData[]>
                 coverImage: imageUrl || '/article_sommet.png'
             };
 
-            console.log('Processed article with image:', article);
             return article;
         });
 
         const articles = await Promise.all(articlePromises);
         const validArticles = articles.filter((article): article is ArticleData => article !== null);
-        console.log('Found valid articles:', validArticles);
         return validArticles;
     } catch (error) {
         console.error('Erreur lors de la récupération de l\'historique de lecture:', error);

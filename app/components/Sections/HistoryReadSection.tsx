@@ -16,9 +16,7 @@ export default function HistoryReadSection() {
             if (!user) return;
 
             try {
-                console.log('Fetching read history for user:', user.uid);
                 const articles = await getUserReadHistory(user.uid);
-                console.log('Fetched articles:', articles);
                 
                 setReadArticles(articles);
 
@@ -30,10 +28,7 @@ export default function HistoryReadSection() {
         fetchReadArticles();
     }, [user]);
 
-    console.log('Current state - User:', user?.uid, 'Articles:', readArticles);
-
     if (!user) {
-        console.log('No user logged in');
         return null;
     }
 
