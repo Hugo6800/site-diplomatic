@@ -14,14 +14,16 @@ export default function Profil() {
 
 
     return (
-        <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
-            {showSettings ? <AccountSettings /> : showEditProfil ? <EditProfil /> : <HeaderUserAccount />}
-            {!showSettings && !showEditProfil && (
-                <>
-                    <StatisticsSection />
-                    <HistoryReadSection />
-                </>
-            )}
+        <main className={`px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 ${showEditProfil ? 'h-[calc(100vh-178px-7rem)] flex flex-col' : 'mb-20'}`}>
+            <div className="flex-grow">
+                {showSettings ? <AccountSettings /> : showEditProfil ? <EditProfil /> : <HeaderUserAccount />}
+                {!showSettings && !showEditProfil && (
+                    <>
+                        <StatisticsSection />
+                        <HistoryReadSection />
+                    </>
+                )}
+            </div>
         </main>
     )
 }
