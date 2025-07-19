@@ -19,6 +19,7 @@ export interface ArticleData {
     coverImage: string;
     authorName?: string;
     createdAt?: string;
+    slug?: string;
 }
 
 export interface ReadingSession {

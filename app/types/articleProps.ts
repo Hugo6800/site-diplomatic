@@ -7,4 +7,5 @@ export interface ArticleProps {
     title: string;
     date: string;
     imageUrl: string;
+    slug?: string;
 }
