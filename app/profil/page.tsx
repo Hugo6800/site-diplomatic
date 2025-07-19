@@ -6,11 +6,14 @@ import { useSearchParams } from 'next/navigation';
 import StatisticsSection from '@/app/components/Sections/StatisticsSection';
 import HistoryReadSection from '@/app/components/Sections/HistoryReadSection';
 import EditProfil from '@/app/components/EditProfil';
+import ArticlesWriting from '@/app/components/Sections/ArticlesWriting';
+import { useAuth } from '@/app/hooks/useAuth';
 
 export default function Profil() {
     const searchParams = useSearchParams();
     const showSettings = searchParams.get('settings') === 'true';
     const showEditProfil = searchParams.get('editprofil') === 'true';
+    const { user } = useAuth();
 
 
     return (
@@ -20,6 +23,7 @@ export default function Profil() {
                 {!showSettings && !showEditProfil && (
                     <>
                         <StatisticsSection />
+                        {user?.role === 'journalist' && <ArticlesWriting />}
                         <HistoryReadSection />
                     </>
                 )}

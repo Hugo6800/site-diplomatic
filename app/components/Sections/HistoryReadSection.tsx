@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { getUserReadHistory } from '../../hooks/readings';
+import { getUserReadHistory } from '@/app/hooks/readings';
+import { getColorCircle } from '@/app/utils/category-styles';
 import Article from '../ArticleOthers';
 
 import { ArticleData } from '../../hooks/readings';
@@ -32,24 +33,11 @@ export default function HistoryReadSection() {
         return null;
     }
 
-    const getColorCircle = (category: string): string => {
-        switch (category.toLowerCase()) {
-            case 'politique':
-                return 'bg-tag-politic';
-            case 'international':
-                return 'bg-tag-international';
-            case 'societe':
-                return 'bg-tag-societe';
-            case 'culture':
-                return 'bg-tag-culture';
-            default:
-                return 'bg-tag-all';
-        }
-    };
+
 
     return (
         <section className="mt-12">
-            <h2 className="font-bold italic font-neulisalt text-[2rem] mb-4">Histoire de lecture</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[2rem] mb-4 dark:text-white w-fit">Histoire de lecture</h2>
             {readArticles.length === 0 ? (
                 <div className="py-8 text-gray-500 font-neulisalt text-lg">
                     Pas d&apos;articles lus
