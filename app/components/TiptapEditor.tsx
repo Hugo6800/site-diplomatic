@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import EditorMenuBar from './EditorMenuBar'
 
 type Props = {
   content: string
@@ -17,6 +18,7 @@ export default function TiptapEditor({ content, onContentChange }: Props) {
   }, [])
 
   const editor = useEditor({
+    autofocus: true,
     extensions: [StarterKit],
     content,
     editorProps: {
@@ -30,10 +32,17 @@ export default function TiptapEditor({ content, onContentChange }: Props) {
     immediatelyRender: false
   })
 
+  useEffect(() => {
+    if (editor && content) {
+      editor.commands.setContent(content)
+    }
+  }, [content, editor])
+
   if (!mounted || !editor) return null
 
   return (
     <div className="border rounded p-3 bg-white">
+      <EditorMenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
   )

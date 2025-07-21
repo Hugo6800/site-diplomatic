@@ -1,6 +1,6 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/app/lib/firebase'
@@ -10,8 +10,8 @@ import TiptapEditor from '@/app/components/TiptapEditor'
 import EditorActions from '@/app/components/EditorActions'
 
 export default function EditArticlePage() {
-  const searchParams = useSearchParams()
-  const articleId = searchParams.get('id')
+  const params = useParams()
+  const articleId = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : null
 
   const [imageUrl, setImageUrl] = useState('/placeholder_view.webp')
   const [title, setTitle] = useState('')
