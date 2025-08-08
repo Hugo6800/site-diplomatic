@@ -19,10 +19,10 @@ export function User() {
                 onClick={() => user ? router.push('/profil') : setIsModalOpen(true)}
             >
                 <Image
-                    src={user?.photoURL || '/icons/account_circle.svg'}
+                    src={user?.photoURL || '/icons/Profile_pic.svg'}
                     alt="User"
-                    width={48}
-                    height={48}
+                    width={32}
+                    height={32}
                     className="rounded-full object-contain"
                 />
                 {user && (

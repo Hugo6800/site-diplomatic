@@ -20,7 +20,7 @@ export default function HeaderUserAccount() {
                 className="flex flex-col lg:flex-row lg:items-center gap-4 p-4 flex-1 bg-[#F3DEDE] rounded-t-[80px] rounded-b-[20px] lg:rounded-tr-[50px] lg:rounded-br-[50px] lg:rounded-l-[100px]"
             >
                 <Image
-                    src={user?.photoURL || '/icons/account_circle.svg'}
+                    src={user?.photoURL || '/icons/Profile_pic.svg'}
                     alt="User"
                     width={120}
                     height={120}
