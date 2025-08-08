@@ -5,7 +5,7 @@ import Advertising from "../Advertising";
 export default function CollectionsSection() {
     return (
         <section className="mt-28 mb-20">
-            <h2 className="font-bold font-neulisalt text-[2rem] mb-4">Collections</h2>
+            <h2 className="font-bold font-neulisalt italic text-[1rem]  bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 mb-4 dark:text-white w-fit">Collections</h2>
             <div className="grid grid-cols-2 lg:flex lg:justify-between gap-4 w-full">
                 {collections.map((collection) => (
                     <CollectionCard

@@ -15,15 +15,15 @@ export function User() {
     return (
         <>
             <div 
-                className="flex items-center gap-4 bg-gray rounded-3xl p-2 cursor-pointer hover:bg-gray/80 transition-colors"
+                className="flex items-center gap-4 bg-gray rounded-full p-2 cursor-pointer w-[48px] h-[48px] hover:bg-gray/80 transition-colors"
                 onClick={() => user ? router.push('/profil') : setIsModalOpen(true)}
             >
                 <Image
                     src={user?.photoURL || '/icons/account_circle.svg'}
                     alt="User"
-                    width={40}
-                    height={40}
-                    className="rounded-full object-contain w-10 h-10"
+                    width={48}
+                    height={48}
+                    className="rounded-full object-contain"
                 />
                 {user && (
                     <span className="text-sm text-gray-700">
