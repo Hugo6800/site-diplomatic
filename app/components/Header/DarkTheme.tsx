@@ -9,14 +9,14 @@ export default function DarkTheme() {
   return (
     <div
       onClick={toggleTheme}
-      className="flex justify-center items-center gap-4 bg-gray dark:bg-gray-700 rounded-3xl p-2 w-10 h-10 cursor-pointer"
+      className="flex justify-center items-center gap-4 bg-gray dark:bg-gray-700 rounded-full p-2 w-[56px] h-[56px] cursor-pointer hover:bg-gray/80 transition-colors"
     >
       <Image
         src={isDark ? '/icons/sun.svg' : '/icons/moon.svg'}
         alt={isDark ? 'dark' : 'light'}
-        width={20}
-        height={20}
-        className="rounded-full"
+        width={40}
+        height={40}
+        className="rounded-full object-contain w-10 h-10"
       />
     </div>
   )
