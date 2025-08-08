@@ -58,7 +58,7 @@ export default function MyArticlesPanel() {
 
     return (
         <section className="mt-8">
-            <h2 className="font-bold font-neulisalt text-2xl mb-6">Mes Articles</h2>
+            <h2 className="font-bold font-neulisalt text-[1rem] mb-6">Mes Articles</h2>
             {articles.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {articles.map(article => (

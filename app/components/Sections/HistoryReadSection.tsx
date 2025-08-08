@@ -37,7 +37,7 @@ export default function HistoryReadSection() {
 
     return (
         <section className="mt-12">
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[2rem] mb-4 dark:text-white w-fit">Histoire de lecture</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Histoire de lecture</h2>
             {readArticles.length === 0 ? (
                 <div className="py-8 text-gray-500 font-neulisalt text-lg">
                     Pas d&apos;articles lus
