@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { createUserWithEmailAndPassword, updateProfile, sendEmailVerification, AuthError } from 'firebase/auth';
 import { auth, db } from '@/app/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -15,6 +16,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [validationErrors, setValidationErrors] = useState({
         email: '',
@@ -128,18 +130,43 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                 </div>
                 <div>
                     <label htmlFor="password" className="block font-neulisalt mb-2">Mot de passe (min. 6 caractères)</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full py-2 px-4 border rounded-full bg-white/5"
-                    />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full py-2 px-4 border rounded-full bg-white/5 pr-12"
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                        >
+                            <Image 
+                                src={showPassword ? "/icons/visibility.svg" : "/icons/visibility_off.svg"}
+                                alt={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                                width={24}
+                                height={24}
+                            />
+                        </button>
+                    </div>
                     {validationErrors.password && (
                         <div className="text-red-500 text-sm mt-1 font-neulisalt">
                             {validationErrors.password}
                         </div>
                     )}
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                    <input
+                        type="checkbox"
+                        id="newsletter"
+                        className="w-4 h-4 accent-[#DE595C] cursor-pointer"
+                    />
+                    <label htmlFor="newsletter" className="font-neulisalt text-sm cursor-pointer">
+                        Je souhaite recevoir la newsletter Diplomatic
+                    </label>
                 </div>
                 {error && (
                     <div className="text-red-500 text-sm font-neulisalt text-center">

@@ -81,7 +81,7 @@ export default function ContactForm() {
                         id="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5"
+                        className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt"
                         placeholder="Dubois"
                         required
                     />
@@ -93,7 +93,7 @@ export default function ContactForm() {
                         id="firstname"
                         value={formData.firstname}
                         onChange={handleChange}
-                        className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5"
+                        className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt"
                         placeholder="Jean Eudes"
                         required
                     />
@@ -105,7 +105,7 @@ export default function ContactForm() {
                 id="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5"
+                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt"
                 placeholder="jean.eudes@gmail.com"
                 required
             />
@@ -114,7 +114,7 @@ export default function ContactForm() {
                 id="theme"
                 value={formData.theme}
                 onChange={handleChange}
-                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5"
+                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt"
                 required
             >
                 <option value="">Sélectionnez, la liste est longue !</option>
@@ -135,7 +135,7 @@ export default function ContactForm() {
                 id="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5"
+                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt"
                 placeholder="Que nous vaut votre visite ?"
                 required
             />
@@ -145,7 +145,7 @@ export default function ContactForm() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={8}
-                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-4xl bg-white/5"
+                className="w-full py-2 px-4 border border-[#F3DEDE] rounded-4xl bg-white/5 font-neulisalt"
                 placeholder="Élaborez, on a tout le temps !"
                 required
             ></textarea>

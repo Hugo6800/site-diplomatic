@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '@/app/lib/firebase';
@@ -16,6 +17,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [validationErrors, setValidationErrors] = useState({
         email: '',
         password: ''
@@ -94,13 +96,28 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                 </div>
                 <div>
                     <label htmlFor="password" className="block font-neulisalt mb-2">Mot de passe</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full py-2 px-4 border rounded-full bg-white/5"
-                    />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full py-2 px-4 border rounded-full bg-white/5 pr-12"
+                        />
+                        <button
+                            type="button"
+                            className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                        >
+                            <Image 
+                                src={showPassword ? "/icons/visibility.svg" : "/icons/visibility_off.svg"}
+                                alt={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                                width={24}
+                                height={24}
+                            />
+                        </button>
+                    </div>
                     {validationErrors.password && (
                         <div className="text-red-500 text-sm mt-1 font-neulisalt">
                             {validationErrors.password}
