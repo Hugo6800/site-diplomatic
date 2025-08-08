@@ -27,6 +27,29 @@ export function useProfilePicture(user: User | null): UseProfilePictureReturn {
 
             const timestamp = Math.round(new Date().getTime() / 1000);
             const folder = 'profile_pictures';
+            
+            // Récupérer l'URL actuelle de la photo de profil
+            const currentPhotoURL = user.photoURL;
+            let publicId = null;
+            
+            // Vérifier si l'utilisateur a déjà une photo de profil sur Cloudinary
+            if (currentPhotoURL && currentPhotoURL.includes('cloudinary.com')) {
+                try {
+                    // Extraire le public_id de l'URL Cloudinary
+                    const urlParts = currentPhotoURL.split('/');
+                    const fileNameWithExtension = urlParts[urlParts.length - 1];
+                    const fileName = fileNameWithExtension.split('.')[0];
+                    
+                    // Le public_id inclut le dossier
+                    publicId = `${folder}/${fileName}`;
+                    
+                    // Supprimer l'ancienne image
+                    await deleteCloudinaryImage(publicId, timestamp);
+                } catch (deleteError) {
+                    console.error('Erreur lors de la suppression de l\'ancienne image:', deleteError);
+                    // Continuer malgré l'erreur de suppression
+                }
+            }
 
             const signatureResponse = await fetch('/api/cloudinary/sign', {
                 method: 'POST',
@@ -88,6 +111,60 @@ export function useProfilePicture(user: User | null): UseProfilePictureReturn {
             alert('Une erreur est survenue lors du téléchargement de l\'image');
         } finally {
             setUploading(false);
+        }
+    };
+
+    // Fonction pour supprimer une image sur Cloudinary
+    const deleteCloudinaryImage = async (publicId: string, timestamp: number) => {
+        try {
+            // Obtenir une signature pour la suppression
+            const signatureResponse = await fetch('/api/cloudinary/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    public_id: publicId,
+                    timestamp
+                })
+            });
+
+            if (!signatureResponse.ok) {
+                throw new Error('Erreur lors de la génération de la signature de suppression');
+            }
+
+            const { signature } = await signatureResponse.json();
+
+            // Appeler l'API Cloudinary pour supprimer l'image
+            const formData = new FormData();
+            formData.append('public_id', publicId);
+            formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || '');
+            formData.append('timestamp', String(timestamp));
+            formData.append('signature', signature);
+
+            const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/destroy`;
+
+            const response = await fetch(cloudinaryUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorData = await response.text();
+                console.error('Réponse Cloudinary (suppression):', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    error: errorData
+                });
+                throw new Error(`Erreur lors de la suppression de l'image: ${response.status} ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            console.log('Image supprimée avec succès:', result);
+            return result;
+        } catch (error) {
+            console.error('Erreur lors de la suppression de l\'image sur Cloudinary:', error);
+            throw error;
         }
     };
 

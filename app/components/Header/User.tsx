@@ -15,7 +15,7 @@ export function User() {
     return (
         <>
             <div 
-                className="flex items-center gap-4 bg-gray rounded-full p-2 cursor-pointer w-[48px] h-[48px] hover:bg-gray/80 transition-colors"
+                className="flex items-center gap-4 bg-gray rounded-full p-2 cursor-pointer h-[48px] hover:bg-gray/80 transition-colors"
                 onClick={() => user ? router.push('/profil') : setIsModalOpen(true)}
             >
                 <Image
