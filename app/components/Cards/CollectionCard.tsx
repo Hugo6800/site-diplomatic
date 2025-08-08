@@ -4,11 +4,11 @@ import Image from 'next/image';
 
 export default function CollectionCard({ name, icon, backgroundColor, titleColor }: CollectionCardProps) {
     return (
-        <Link href={`/collections?tag=${name.toLowerCase()}`} className="block h-[312px] transition-all duration-300 ease-in-out group">
+        <Link href={`/collections?tag=${name.toLowerCase()}`} className="block h-[312px] transition-all duration-300 ease-in-out group lg:flex-1">
             <article 
                 className={`flex justify-center items-center rounded-full ${backgroundColor} 
                 cursor-pointer h-full transition-all duration-300 ease-in-out 
-                lg:w-[200px] lg:hover:w-[400px] group`}
+                lg:w-[200px] lg:hover:w-[400px] lg:hover:flex-[2] group`}
             >
                 {/* Icône (affichée par défaut) */}
                 <div className="group-hover:hidden transition duration-300">
