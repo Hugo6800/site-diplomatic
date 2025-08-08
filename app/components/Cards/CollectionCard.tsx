@@ -7,7 +7,7 @@ export default function CollectionCard({ name, icon, backgroundColor, titleColor
         <Link href={`/collections?tag=${name.toLowerCase()}`} className="block h-[312px] transition-all duration-300 ease-in-out group lg:flex-1">
             <article 
                 className={`flex justify-center items-center rounded-full ${backgroundColor} 
-                cursor-pointer h-full transition-all duration-300 ease-in-out 
+                cursor-pointer h-full w-[200px] transition-all duration-300 ease-in-out 
                 lg:w-[200px] lg:hover:w-[400px] lg:hover:flex-[2] group`}
             >
                 {/* Icône (affichée par défaut) */}
