@@ -8,15 +8,16 @@ import EditorHeader from '@/app/components/EditorHeader'
 import EditorMeta from '@/app/components/EditorMeta'
 import TiptapEditor from '@/app/components/TiptapEditor'
 import EditorActions from '@/app/components/EditorActions'
+import RoleProtection from '@/app/components/RoleProtection'
 
 export default function EditArticlePage() {
   const params = useParams()
   const articleId = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : null
-
   const [imageUrl, setImageUrl] = useState('/placeholder_view.webp')
   const [title, setTitle] = useState('')
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
+  const [isDraft, setIsDraft] = useState(true)
 
   useEffect(() => {
     async function fetchArticle() {
@@ -29,29 +30,51 @@ export default function EditArticlePage() {
           setTitle(data.title || '')
           setKeywords((data.keywords || []).join(', '))
           setContent(data.content || '')
+          setIsDraft(data.isDraft ?? true)
         }
       }
     }
     fetchArticle()
   }, [articleId])
 
-  const handleSave = async () => {
-    if (!articleId) return
-    const ref = doc(db, 'articles', articleId)
-    await updateDoc(ref, {
-      title,
-      keywords: keywords.split(',').map(k => k.trim()),
-      content
-    })
-    alert('Article mis à jour')
+  const handleSave = async (asDraft = isDraft) => {
+    if (articleId) {
+      const ref = doc(db, 'articles', articleId)
+      await updateDoc(ref, {
+        imageUrl,
+        title,
+        keywords: keywords.split(',').map(k => k.trim()),
+        content,
+        updatedAt: new Date().toISOString(),
+        isDraft: asDraft
+      })
+      setIsDraft(asDraft)
+    }
   }
 
   return (
-    <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20 space-y-6">
-      <EditorHeader imageUrl={imageUrl} title={title} onTitleChange={setTitle} />
-      <EditorMeta keywords={keywords} onChange={setKeywords} />
-      <TiptapEditor content={content} onContentChange={setContent} />
-      <EditorActions onSave={handleSave} />
-    </main>
+    <RoleProtection allowedRoles={['journalist', 'admin']}>
+      <main className="min-h-screen bg-white">
+        <div className="max-w-5xl mx-auto px-4 py-8">
+          <EditorHeader 
+            imageUrl={imageUrl} 
+            title={title}
+            onTitleChange={setTitle}
+          />
+          <EditorMeta 
+            title={title}
+            keywords={keywords}
+            onTitleChange={setTitle}
+            onKeywordsChange={setKeywords}
+          />
+          <TiptapEditor content={content} onUpdate={setContent} />
+          <EditorActions 
+            onSave={() => handleSave(true)} 
+            onPublish={() => handleSave(false)} 
+            isDraft={isDraft} 
+          />
+        </div>
+      </main>
+    </RoleProtection>
   )
 }

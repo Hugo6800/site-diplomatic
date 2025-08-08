@@ -10,25 +10,18 @@ import './TiptapEditor.css'
 
 type Props = {
   content: string
-  onContentChange: (v: string) => void
+  onUpdate: (v: string) => void
 }
 
-export default function TiptapEditor({ content, onContentChange }: Props) {
+export default function TiptapEditor({ content, onUpdate }: Props) {
   const [mounted, setMounted] = useState(false)
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   const editor = useEditor({
-    autofocus: false,
-    enableInputRules: false,
     extensions: [
       StarterKit.configure({
         heading: {
           levels: [2],
         },
-
       }),
       Typography,
       Placeholder.configure({
@@ -43,10 +36,14 @@ export default function TiptapEditor({ content, onContentChange }: Props) {
       },
     },
     onUpdate: ({ editor }) => {
-      onContentChange(editor.getHTML())
+      onUpdate(editor.getHTML())
     },
     immediatelyRender: false
   })
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (editor && content) {
@@ -63,4 +60,3 @@ export default function TiptapEditor({ content, onContentChange }: Props) {
     </div>
   )
 }
-
