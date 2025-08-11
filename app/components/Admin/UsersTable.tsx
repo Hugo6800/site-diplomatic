@@ -1,9 +1,11 @@
 'use client'
 
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { UserWithId } from '@/app/hooks/useUserManagement'
 import { Timestamp } from 'firebase/firestore'
-import TagRole from '@/app/components/TagRole';
+import TagRole from '@/app/components/TagRole'
+import { useAuth } from '@/app/hooks/useAuth'
 
 interface UsersTableProps {
     users: UserWithId[]
@@ -11,7 +13,7 @@ interface UsersTableProps {
     openRoleMenu: string | null
     confirmDelete: string | null
     formatDate: (timestamp: Timestamp) => string
-    changeUserRole: (userId: string, newRole: string) => Promise<void>
+    changeUserRole: (userId: string, newRole: string, currentUserId?: string) => Promise<{ success: boolean, isCurrentUser: boolean | undefined }>
     deleteUser: (userId: string) => Promise<void>
     setOpenRoleMenu: (userId: string | null) => void
     setConfirmDelete: (userId: string | null) => void
@@ -28,6 +30,25 @@ export default function UsersTable({
     setOpenRoleMenu,
     setConfirmDelete
 }: UsersTableProps) {
+    const router = useRouter();
+    const { user: currentUser } = useAuth();
+    
+    // Fonction pour gérer le changement de rôle avec redirection si nécessaire
+    const handleRoleChange = async (userId: string, newRole: string) => {
+        // Vérifier si l'utilisateur est connecté
+        if (!currentUser) return;
+        
+        // Appeler la fonction de changement de rôle avec l'ID de l'utilisateur actuel
+        const result = await changeUserRole(userId, newRole, currentUser.uid);
+        
+        // Si l'utilisateur a changé son propre rôle et n'est plus admin, rediriger vers la page profil
+        if (result.success && result.isCurrentUser && newRole !== 'admin') {
+            // Attendre un peu pour que la modification soit prise en compte
+            setTimeout(() => {
+                router.push('/profil');
+            }, 500);
+        }
+    };
     return (
         <div className="overflow-x-auto rounded-lg shadow">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -91,7 +112,7 @@ export default function UsersTable({
                                                 {roles.filter(roleOption => roleOption !== user.role).map(roleOption => (
                                                     <button
                                                         key={roleOption}
-                                                        onClick={() => changeUserRole(user.id, roleOption)}
+                                                        onClick={() => handleRoleChange(user.id, roleOption)}
                                                         className="w-full cursor-pointer"
                                                         role="menuitem"
                                                     >

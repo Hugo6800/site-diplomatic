@@ -45,24 +45,38 @@ export const deleteAccount = async (password: string): Promise<DeleteAccountResu
 // Fonction pour supprimer un compte utilisateur depuis la page admin
 export const deleteUserAccount = async (userId: string): Promise<DeleteAccountResult> => {
     try {
-        // 1. Supprimer l'utilisateur de Firestore
-        await deleteDoc(doc(db, 'users', userId));
-        
-        // 2. Supprimer l'utilisateur de Firebase Authentication
-        // Cette opération nécessite des droits d'administrateur Firebase
-        // Dans un environnement réel, cette partie devrait être gérée par une Cloud Function
-        // car les clients ne peuvent pas supprimer d'autres utilisateurs directement
-        // Ici, nous simulons cette fonctionnalité pour le développement
-        
-        // Note: Cette partie ne fonctionnera pas côté client sans configuration spéciale
-        // Il faudrait implémenter une Cloud Function ou un endpoint API sécurisé
-        
-        return { success: true };
+      // 1. Supprimer l'utilisateur de Firestore
+      await deleteDoc(doc(db, 'users', userId));
+      
+      // 2. Obtenir le token d'authentification de l'utilisateur actuel
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        throw new Error('Utilisateur non connecté');
+      }
+      
+      const token = await currentUser.getIdToken();
+      
+      // 3. Appeler l'API pour supprimer l'utilisateur de Firebase Authentication
+      const response = await fetch('/api/admin/delete-user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ userId })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erreur lors de la suppression de l\'utilisateur');
+      }
+      
+      return { success: true };
     } catch (error) {
-        console.error('Erreur lors de la suppression du compte utilisateur:', error);
-        return {
-            success: false,
-            error: 'Une erreur est survenue lors de la suppression du compte utilisateur'
-        };
+      console.error('Erreur lors de la suppression du compte utilisateur:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Une erreur est survenue lors de la suppression du compte utilisateur'
+      };
     }
-};
+  };

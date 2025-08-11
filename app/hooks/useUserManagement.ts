@@ -22,11 +22,11 @@ export const useUserManagement = () => {
     const formatDate = (timestamp: Timestamp) => {
         if (!timestamp) return ''
         const date = timestamp.toDate()
-        return new Intl.DateTimeFormat('fr-FR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: '2-digit'
-        }).format(date)
+        // Format manuel avec des points au lieu des slashs
+        const day = date.getDate().toString().padStart(2, '0')
+        const month = (date.getMonth() + 1).toString().padStart(2, '0')
+        const year = date.getFullYear().toString().slice(-2)
+        return `${day}.${month}.${year}`
     }
 
     // Récupérer tous les utilisateurs
@@ -39,7 +39,34 @@ export const useUserManagement = () => {
                     id: doc.id,
                     ...doc.data() as UserData
                 }))
-                setUsers(usersList)
+                
+                // Trier les utilisateurs par date de création (du plus récent au plus ancien)
+                const sortedUsers = usersList.sort((a, b) => {
+                    // Vérifier si createdAt existe
+                    if (!a.createdAt && !b.createdAt) return 0;
+                    if (!a.createdAt) return 1; // b est plus récent
+                    if (!b.createdAt) return -1; // a est plus récent
+                    
+                    // Convertir en Date si nécessaire
+                    let dateA: Date;
+                    let dateB: Date;
+                    
+                    try {
+                        dateA = a.createdAt instanceof Timestamp ? a.createdAt.toDate() : new Date(a.createdAt);
+                        dateB = b.createdAt instanceof Timestamp ? b.createdAt.toDate() : new Date(b.createdAt);
+                        
+                        // Vérifier si les dates sont valides
+                        if (isNaN(dateA.getTime())) return 1; // b est plus récent
+                        if (isNaN(dateB.getTime())) return -1; // a est plus récent
+                        
+                        return dateB.getTime() - dateA.getTime();
+                    } catch (error) {
+                        console.log('Erreur lors du tri des dates:', error);
+                        return 0; // Garder l'ordre original en cas d'erreur
+                    }
+                })
+                
+                setUsers(sortedUsers)
                 setLoading(false)
             } catch (error) {
                 console.error('Erreur lors de la récupération des utilisateurs:', error)
@@ -51,7 +78,7 @@ export const useUserManagement = () => {
     }, [])
 
     // Changer le rôle d'un utilisateur
-    const changeUserRole = async (userId: string, newRole: string) => {
+    const changeUserRole = async (userId: string, newRole: string, currentUserId?: string) => {
         try {
             const userRef = doc(db, 'users', userId)
             await updateDoc(userRef, { role: newRole })
@@ -62,8 +89,15 @@ export const useUserManagement = () => {
             ))
             
             setOpenRoleMenu(null)
+            
+            // Vérifier si l'utilisateur modifie son propre rôle
+            const isCurrentUser = currentUserId && userId === currentUserId ? true : false
+            
+            // Renvoyer si c'est l'utilisateur actuel qui a changé son rôle
+            return { success: true, isCurrentUser }
         } catch (error) {
             console.error('Erreur lors de la modification du rôle:', error)
+            return { success: false, isCurrentUser: false }
         }
     }
 
