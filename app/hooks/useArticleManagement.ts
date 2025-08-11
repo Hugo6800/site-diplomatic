@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { collection, getDocs, deleteDoc, doc, Timestamp, orderBy, query } from 'firebase/firestore'
+import { collection, getDocs, deleteDoc, doc, Timestamp, orderBy, query, updateDoc } from 'firebase/firestore'
 import { db } from '@/app/lib/firebase'
 
 export interface Article {
@@ -17,6 +17,7 @@ export function useArticleManagement() {
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
     const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
+    const [openStatusMenu, setOpenStatusMenu] = useState<string | null>(null)
 
     // Récupérer tous les articles
     useEffect(() => {
@@ -70,12 +71,40 @@ export function useArticleManagement() {
         }
     }
 
+    // Changer le statut d'un article
+    const changeArticleStatus = async (articleId: string, newStatus: 'published' | 'waiting') => {
+        try {
+            // Récupérer d'abord l'article pour vérifier sa structure
+            const articleRef = doc(db, 'articles', articleId);
+            
+            // Créer un objet de mise à jour avec le nouveau statut
+            const updateData = { status: newStatus };
+            
+            // Mettre à jour dans Firestore avec merge: true pour éviter les problèmes de structure
+            await updateDoc(articleRef, updateData);
+            
+            // Mettre à jour l'état local
+            setArticles(articles.map(article => 
+                article.id === articleId 
+                    ? { ...article, status: newStatus } 
+                    : article
+            ));
+        } catch (error) {
+            console.error('Erreur lors du changement de statut de l\'article:', error);
+            // Afficher plus de détails sur l'erreur pour le débogage
+            console.error('Détails de l\'erreur:', JSON.stringify(error));
+        }
+    }
+
     return {
         articles,
         loading,
         confirmDelete,
+        openStatusMenu,
         formatDate,
         deleteArticle,
-        setConfirmDelete
+        changeArticleStatus,
+        setConfirmDelete,
+        setOpenStatusMenu
     }
 }

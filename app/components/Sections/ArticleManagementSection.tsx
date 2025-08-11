@@ -9,7 +9,10 @@ export default function ArticleManagement() {
     const {
         articles,
         loading,
-        formatDate
+        formatDate,
+        openStatusMenu,
+        setOpenStatusMenu,
+        changeArticleStatus
     } = useArticleManagement()
     
     // Utiliser le hook de pagination avec 10 éléments par page
@@ -42,6 +45,9 @@ export default function ArticleManagement() {
                     <ArticlesTable 
                         articles={paginatedArticles}
                         formatDate={formatDate}
+                        openStatusMenu={openStatusMenu}
+                        setOpenStatusMenu={setOpenStatusMenu}
+                        changeArticleStatus={changeArticleStatus}
                     />
                     
                     <Pagination

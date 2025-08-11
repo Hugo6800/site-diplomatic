@@ -16,11 +16,17 @@ interface Article {
 interface ArticlesTableProps {
     articles: Article[]
     formatDate: (timestamp: Timestamp) => string
+    openStatusMenu: string | null
+    setOpenStatusMenu: (articleId: string | null) => void
+    changeArticleStatus?: (articleId: string, newStatus: 'published' | 'waiting') => Promise<void>
 }
 
 export default function ArticlesTable({
     articles,
     formatDate,
+    openStatusMenu,
+    setOpenStatusMenu,
+    changeArticleStatus
 }: ArticlesTableProps) {
     
     // Fonction pour obtenir le texte du statut
@@ -105,15 +111,68 @@ export default function ArticlesTable({
                                 {article.authorEmail}
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-sm font-semibold">
-                                <div className={`flex items-center justify-center gap-2 px-5 py-1 rounded-full ${getStatusClass(article.status)}`}>
-                                    <Image 
-                                        src={article.status === 'published' ? '/icons/check_circle.svg' : '/icons/arrow_upload_progress.svg'} 
-                                        alt={article.status === 'published' ? 'Publié' : 'En attente'} 
-                                        width={16} 
-                                        height={16} 
-                                        className="dark:invert" 
-                                    />
-                                    <span className="min-w-[60px] text-center">{getStatusText(article.status)}</span>
+                                <div className="relative">
+                                    <button 
+                                        onClick={() => setOpenStatusMenu(openStatusMenu === article.id ? null : article.id)}
+                                        className="cursor-pointer w-full"
+                                    >
+                                        <div className={`flex items-center justify-center gap-2 px-5 py-1 rounded-full ${getStatusClass(article.status)}`}>
+                                            <Image 
+                                                src={article.status === 'published' ? '/icons/check_circle.svg' : '/icons/arrow_upload_progress.svg'} 
+                                                alt={article.status === 'published' ? 'Publié' : 'En attente'} 
+                                                width={16} 
+                                                height={16} 
+                                                className="dark:invert" 
+                                            />
+                                            <span className="min-w-[60px] text-center">{getStatusText(article.status)}</span>
+                                            <div className="ml-1">
+                                                <svg className="w-4 h-4" fill="#1B0505" stroke="#1B0505" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={openStatusMenu === article.id ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </button>
+                                    
+                                    {openStatusMenu === article.id && (
+                                        <div className="absolute z-10 mt-1 w-full bg-white dark:bg-[#1E1E1E] rounded-lg py-2 px-1 shadow-lg">
+                                            <div className="flex flex-col gap-2" role="menu" aria-orientation="vertical">
+                                                {article.status !== 'published' && (
+                                                    <button
+                                                        onClick={() => {
+                                                            if (changeArticleStatus) {
+                                                                changeArticleStatus(article.id, 'published');
+                                                                setOpenStatusMenu(null);
+                                                            }
+                                                        }}
+                                                        className="w-full cursor-pointer"
+                                                        role="menuitem"
+                                                    >
+                                                        <div className="flex items-center justify-center gap-2 px-5 py-1 rounded-full bg-[#9AF2A3] text-[#1B0505]">
+                                                            <Image src="/icons/check_circle.svg" alt="Publié" width={16} height={16} />
+                                                            <span className="min-w-[60px] text-center">Publié</span>
+                                                        </div>
+                                                    </button>
+                                                )}
+                                                {article.status !== 'waiting' && (
+                                                    <button
+                                                        onClick={() => {
+                                                            if (changeArticleStatus) {
+                                                                changeArticleStatus(article.id, 'waiting');
+                                                                setOpenStatusMenu(null);
+                                                            }
+                                                        }}
+                                                        className="w-full cursor-pointer"
+                                                        role="menuitem"
+                                                    >
+                                                        <div className="flex items-center justify-center gap-2 px-5 py-1 rounded-full bg-[#F2CF9A] text-[#1B0505]">
+                                                            <Image src="/icons/arrow_upload_progress.svg" alt="A valider" width={16} height={16} />
+                                                            <span className="min-w-[60px] text-center">A valider</span>
+                                                        </div>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
