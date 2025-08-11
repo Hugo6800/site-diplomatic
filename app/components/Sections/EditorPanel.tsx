@@ -94,14 +94,19 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
                     <div>
                         {draft ? (
                             <LeftCardsEditorPanel
-                                className="bg-[#F3DEDE] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm"
+                                className="bg-[#A7A7A7] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm"
                                 title={draft.title}
                                 image={draft.imageUrl}
                                 category="Dernier brouillon"
                             />
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full bg-gray-100 dark:bg-gray-800 rounded-lg p-8">
-                                <p className="text-gray-500 dark:text-gray-400">Pas de brouillon</p>
+                            <div className="flex flex-col gap-2.5">
+                                <div className="bg-[#A7A7A7] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt">
+                                    Dernier brouillon
+                                </div>
+                                <div className="flex flex-col items-center justify-center h-full bg-gray-100 dark:bg-gray-800 rounded-lg p-8">
+                                    <p className="text-gray-500 dark:text-gray-400">Pas de brouillon</p>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -115,8 +120,13 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
                                 category="Vos lecteurs aiment"
                             />
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-full bg-gray-100 dark:bg-gray-800 rounded-lg p-8">
-                                <p className="text-gray-500 dark:text-gray-400">Aucun article trouvé</p>
+                            <div className="flex flex-col gap-2.5">
+                                <div className="bg-[#9AF2A3] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt">
+                                    Vos lecteurs aiment
+                                </div>
+                                <div className="flex flex-col items-center justify-center h-full bg-gray-100 dark:bg-gray-800 rounded-lg p-8">
+                                    <p className="text-gray-500 dark:text-gray-400">Aucun article trouvé</p>
+                                </div>
                             </div>
                         )}
                     </div>

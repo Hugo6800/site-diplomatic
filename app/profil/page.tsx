@@ -44,11 +44,11 @@ export default function Profil() {
                             </>
                         ) : (
                             <>
-                                {user?.role === 'journalist' && (
+                                {(user?.role === 'journalist' || user?.role === 'admin') && (
                                     <EditorPanel onShowMyArticles={() => setShowMyArticles(true)} />
                                 )}
                                 <StatisticsSection />
-                                {user?.role === 'journalist' && <ArticlesWriting />}
+                                {(user?.role === 'journalist' || user?.role === 'admin') && <ArticlesWriting />}
                                 <HistoryReadSection />
                             </>
                         )}

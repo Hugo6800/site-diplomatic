@@ -26,7 +26,7 @@ export default function TagRole({ role }: { role: string }) {
     return (
         <div className={`flex items-center gap-2 rounded-full px-2 py-1 ${getRoleStyle(role)}`}>
             <div className={`w-4 h-4 rounded-full bg-black`}></div>
-            <span className={`text-sm font-medium`}>
+            <span className={`text-sm font-bold`}>
                 {getRoleDisplay(role)}
             </span>
         </div>

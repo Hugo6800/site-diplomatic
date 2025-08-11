@@ -23,7 +23,7 @@ export default function StatisticsSection() {
 
     const statistics = [
         ...baseStatistics,
-        ...(user?.role === 'journalist' ? journalistStatistics : [])
+        ...(user?.role === 'journalist' || user?.role === 'admin' ? journalistStatistics : [])
     ];
 
     return (

@@ -55,6 +55,14 @@ export default function HeaderUserAccount() {
                     className="rounded-t-[20px] rounded-br-[50px] rounded-bl-[20px] w-1/2 lg:rounded-full"
                     onClick={() => router.push('/profil?settings=true')}
                 />
+                {user?.role === 'admin' && (
+                    <EditButton
+                        icon="admin_panel_settings"
+                        alt="Admin Settings"
+                        className="rounded-t-[20px] rounded-br-[50px] rounded-bl-[20px] w-1/2 lg:rounded-full"
+                        onClick={() => router.push('/admin')}
+                    />
+                )}
             </div>
         </section>
     )
