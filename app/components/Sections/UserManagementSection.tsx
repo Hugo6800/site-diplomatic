@@ -2,6 +2,8 @@
 
 import { useUserManagement } from '@/app/hooks/useUserManagement'
 import UsersTable from '@/app/components/Admin/UsersTable'
+import { usePagination } from '@/app/hooks/usePagination'
+import Pagination from '@/app/components/Pagination'
 
 export default function UserManagement() {
     const {
@@ -17,6 +19,23 @@ export default function UserManagement() {
         setConfirmDelete
     } = useUserManagement()
 
+    // Utiliser le hook de pagination avec 10 éléments par page
+    const {
+        paginatedItems: paginatedUsers,
+        currentPage,
+        totalPages,
+        pageNumbers,
+        goToPage,
+        nextPage,
+        prevPage,
+        firstPage,
+        lastPage
+    } = usePagination(users, {
+        totalItems: users.length,
+        itemsPerPage: 10,
+        initialPage: 1
+    })
+    
     return (
         <section className="mb-10">
             <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Utilisateurs</h2>
@@ -26,17 +45,30 @@ export default function UserManagement() {
                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
                 </div>
             ) : (
-                <UsersTable 
-                    users={users}
-                    roles={roles}
-                    openRoleMenu={openRoleMenu}
-                    confirmDelete={confirmDelete}
-                    formatDate={formatDate}
-                    changeUserRole={changeUserRole}
-                    deleteUser={deleteUser}
-                    setOpenRoleMenu={setOpenRoleMenu}
-                    setConfirmDelete={setConfirmDelete}
-                />
+                <>
+                    <UsersTable 
+                        users={paginatedUsers}
+                        roles={roles}
+                        openRoleMenu={openRoleMenu}
+                        confirmDelete={confirmDelete}
+                        formatDate={formatDate}
+                        changeUserRole={changeUserRole}
+                        deleteUser={deleteUser}
+                        setOpenRoleMenu={setOpenRoleMenu}
+                        setConfirmDelete={setConfirmDelete}
+                    />
+                    
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        pageNumbers={pageNumbers}
+                        goToPage={goToPage}
+                        nextPage={nextPage}
+                        prevPage={prevPage}
+                        firstPage={firstPage}
+                        lastPage={lastPage}
+                    />
+                </>
             )}
         </section>
     )
