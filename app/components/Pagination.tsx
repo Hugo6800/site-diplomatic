@@ -33,7 +33,7 @@ export default function Pagination({
         <button
           onClick={firstPage}
           disabled={currentPage === 1}
-          className={`px-3 py-1 rounded-md ${
+          className={`p-3 rounded-full ${
             currentPage === 1
               ? 'text-gray-400 cursor-not-allowed'
               : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
@@ -50,7 +50,7 @@ export default function Pagination({
         <button
           onClick={prevPage}
           disabled={currentPage === 1}
-          className={`px-3 py-1 rounded-md ${
+          className={`p-3 rounded-full ${
             currentPage === 1
               ? 'text-gray-400 cursor-not-allowed'
               : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
@@ -67,9 +67,9 @@ export default function Pagination({
           <button
             key={number}
             onClick={() => goToPage(number)}
-            className={`px-3 py-1 rounded-md font-neulisalt ${
+            className={`px-3 py-1 rounded-full font-neulisalt ${
               currentPage === number
-                ? 'bg-[#D35087] text-white font-bold'
+                ? 'bg-[#DE595C] text-white font-bold'
                 : 'text-[#1B0505] hover:bg-[#F3DEDE]'
             }`}
           >
@@ -81,7 +81,7 @@ export default function Pagination({
         <button
           onClick={nextPage}
           disabled={currentPage === totalPages}
-          className={`px-3 py-1 rounded-md ${
+          className={`p-3 rounded-full ${
             currentPage === totalPages
               ? 'text-gray-400 cursor-not-allowed'
               : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
@@ -97,7 +97,7 @@ export default function Pagination({
         <button
           onClick={lastPage}
           disabled={currentPage === totalPages}
-          className={`px-3 py-1 rounded-md ${
+          className={`p-3 rounded-full ${
             currentPage === totalPages
               ? 'text-gray-400 cursor-not-allowed'
               : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
