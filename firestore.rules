@@ -26,6 +26,10 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist';
     }
+    
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
 
 		function isJournalist() {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist';
@@ -48,25 +52,38 @@ service cloud.firestore {
     // Permettre la lecture/écriture pour les utilisateurs authentifiés
     match /users/{userId} {
       // Lecture : autoriser la lecture de son propre document même si email non vérifié
-      allow read: if request.auth != null && request.auth.uid == userId;
+      // Ou permettre aux administrateurs de lire tous les utilisateurs
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      
+      // Permettre aux administrateurs de lister tous les utilisateurs
+      allow list: if request.auth != null && isAdmin();
 
       // Création : autorisée lors de l'inscription (sans vérification d'email)
       allow create: if request.auth != null && request.auth.uid == userId;
 
       // Mise à jour : uniquement si l'email est vérifié (sauf admin/journalist)
       // Exceptions : emailVerified et preferences
-      allow update: if request.auth != null && request.auth.uid == userId && 
-        (isEmailVerified() || isAdminOrJournalist() ||
-         (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emailVerified']) &&
-          request.resource.data.emailVerified == request.auth.token.email_verified) ||
-         (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['preferences']) &&
-          request.resource.data.preferences is map));
+      // Ou permettre aux administrateurs de modifier tous les utilisateurs
+      allow update: if request.auth != null && (
+        (request.auth.uid == userId && 
+          (isEmailVerified() || isAdminOrJournalist() ||
+           (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['emailVerified']) &&
+            request.resource.data.emailVerified == request.auth.token.email_verified) ||
+           (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['preferences']) &&
+            request.resource.data.preferences is map))) ||
+        isAdmin()
+      );
 
       // Suppression : uniquement si l'email est vérifié (sauf admin/journalist)
-      allow delete: if request.auth != null && request.auth.uid == userId && 
-        (isEmailVerified() || 
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
+      // Ou permettre aux administrateurs de supprimer n'importe quel utilisateur
+      allow delete: if request.auth != null && (
+        (request.auth.uid == userId && 
+          (isEmailVerified() || 
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist')
+        ) ||
+        isAdmin()
+      );
     }
 
     // Règles pour la collection articles
