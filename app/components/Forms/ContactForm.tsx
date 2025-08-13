@@ -134,14 +134,14 @@ export default function ContactForm() {
             >
                 <option value="">Sélectionnez, la liste est longue !</option>
                 <option value="Proposition article">{`Proposition d'article`}</option>
-                <option value="Correction article">Correction ou suggestion sur un article publié</option>
+                <option value="Correction ou suggestion sur un article publié">Correction ou suggestion sur un article publié</option>
                 <option value="Demande collaboration">Demande de collaboration</option>
-                <option value="Question">Question générale</option>
-                <option value="Demande abonnement">{`Demande d'abonnement ou de suivi`}</option>
-                <option value="Recommandation lecture">Recommandation de lecture ou de source</option>
-                <option value="Invitation event interview">Invitation à un événement ou interview</option>
-                <option value="Partenariat">Partenariat ou communication</option>
-                <option value="Problème technique">Problème technique sur le site</option>
+                <option value="Question générale">Question générale</option>
+                <option value="Demande abonnement ou de suivi">{`Demande d'abonnement ou de suivi`}</option>
+                <option value="Recommandation lecture ou source">Recommandation de lecture ou de source</option>
+                <option value="Invitation à un événement ou interview">Invitation à un événement ou interview</option>
+                <option value="Partenariat ou communication">Partenariat ou communication</option>
+                <option value="Problème technique sur le site">Problème technique sur le site</option>
                 <option value="Autre">Autre (à préciser dans le message)</option>
             </select>
             <label htmlFor="subject" className="text-3xl font-bold">Sujet</label>

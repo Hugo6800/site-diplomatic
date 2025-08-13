@@ -91,14 +91,14 @@ export default function ContactsTable({
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
-                                <Image src="/icons/app_badging.svg" alt="Statut" width={20} height={20} className="dark:invert" />
-                                <span>Statut</span>
+                                <Image src="/icons/subject.svg" alt="Contenu" width={20} height={20} className="dark:invert" />
+                                <span>Contenu</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
-                                <Image src="/icons/subject.svg" alt="Contenu" width={20} height={20} className="dark:invert" />
-                                <span>Contenu</span>
+                                <Image src="/icons/app_badging.svg" alt="Statut" width={20} height={20} className="dark:invert" />
+                                <span>Statut</span>
                             </div>
                         </th>
                     </tr>
@@ -112,14 +112,27 @@ export default function ContactsTable({
                             <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
                                 {formatDate(submission.timestamp)}
                             </td>
-                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
-                                {submission.theme}
+                            <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <div className="line-clamp-2">
+                                    {submission.theme.length > 20 ? `${submission.theme.substring(0, 20)}...` : submission.theme}
+                                </div>
                             </td>
-                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
-                                {submission.email}
+                            <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <div className="flex flex-col">
+                                    <span className="truncate">{submission.email.substring(0, 14)}</span>
+                                    {submission.email.length > 14 && (
+                                        <span className="truncate">{submission.email.substring(14)}</span>
+                                    )}
+                                </div>
                             </td>
                             <td className="px-4 py-2 text-[1rem] font-semibold">
                                 <div className="line-clamp-2">{submission.subject}</div>
+                            </td>
+                            <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <div className="line-clamp-2">
+                                    {submission.message.split(' ').slice(0, 6).join(' ')}
+                                    {submission.message.split(' ').length > 6 ? '...' : ''}
+                                </div>
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-sm font-semibold">
                                 <div className="relative">
@@ -184,12 +197,6 @@ export default function ContactsTable({
                                             </div>
                                         </div>
                                     )}
-                                </div>
-                            </td>
-                            <td className="px-4 py-2 text-[1rem] font-semibold">
-                                <div className="line-clamp-2">
-                                    {submission.message.split(' ').slice(0, 6).join(' ')}
-                                    {submission.message.split(' ').length > 6 ? '...' : ''}
                                 </div>
                             </td>
                         </tr>
