@@ -2,7 +2,7 @@
 
 import ArticleOthers from "../ArticleOthers";
 import { useState, useEffect } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { SpotlightArticle } from '../../types/spotlightArticle';
 import Advertising from '../Advertising';
@@ -12,14 +12,16 @@ export default function LastArticlesSection() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchSpotlightArticles() {
+        async function fetchRecentArticles() {
             setIsLoading(true);
             const articlesRef = collection(db, 'articles');
-            const q = query(articlesRef, where('noPaywall', '==', true));
+            // Récupérer tous les articles
+            const q = query(articlesRef);
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                const noPaywallArticles = querySnapshot.docs.map(doc => {
+                // Convertir les données Firestore en objets articles
+                const allArticles = querySnapshot.docs.map(doc => {
                     const data = doc.data();
                     return {
                         id: doc.id,
@@ -27,15 +29,26 @@ export default function LastArticlesSection() {
                         authorName: data.authorName,
                         category: data.category,
                         imageUrl: data.imageUrl,
-                        createdAt: data.createdAt
+                        createdAt: data.createdAt,
+                        status: data.status // Ajouter le statut
                     };
                 });
-                setArticles(noPaywallArticles);
+                
+                // Filtrer pour n'afficher que les articles publiés
+                const publishedArticles = allArticles.filter(article => article.status === 'published');
+                
+                // Trier les articles par date (du plus récent au plus ancien)
+                const sortedArticles = publishedArticles.sort((a, b) => {
+                    return b.createdAt.seconds - a.createdAt.seconds;
+                });
+                
+                // Limiter à 6 articles maximum
+                setArticles(sortedArticles.slice(0, 6));
             }
             setIsLoading(false);
         }
 
-        fetchSpotlightArticles();
+        fetchRecentArticles();
     }, []);
 
     if (isLoading) {
