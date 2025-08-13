@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from 'react';
 import emailjs from '@emailjs/browser';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { db } from '@/app/lib/firebase';
 
 export default function ContactForm() {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +31,7 @@ export default function ContactForm() {
         }
 
         try {
-
+            // 1. Envoyer l'email via EmailJS
             await emailjs.send(
                 serviceId,
                 templateId,
@@ -43,7 +45,20 @@ export default function ContactForm() {
                 },
                 publicKey
             );
-            setIsLoading(false);
+            
+            // 2. Enregistrer la soumission dans Firestore
+            const contactSubmissionsRef = collection(db, 'contactSubmissions');
+            await addDoc(contactSubmissionsRef, {
+                // Combiner nom et prénom dans le champ name pour Firestore
+                name: `${formData.name} ${formData.firstname}`,
+                email: formData.email,
+                theme: formData.theme,
+                subject: formData.subject,
+                message: formData.message,
+                timestamp: Timestamp.now(),
+                status: 'open' // Par défaut, le statut est 'open' (ouvert)
+            });
+            
             // Réinitialiser le formulaire
             setFormData({
                 name: '',
@@ -56,7 +71,7 @@ export default function ContactForm() {
 
             alert('Message envoyé avec succès !');
         } catch (error) {
-            console.error('Erreur lors de l\'envoi:', error);
+            console.error('Erreur lors de l\'envoi ou de l\'enregistrement:', error);
             alert('Une erreur est survenue lors de l\'envoi du message.');
         } finally {
             setIsLoading(false);

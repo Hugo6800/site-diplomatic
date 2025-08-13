@@ -160,27 +160,33 @@ service cloud.firestore {
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
     }
 
-    // Nouvelles règles pour la collection contactSubmissions
+    // Règles pour la collection contactSubmissions
     match /contactSubmissions/{submissionId} {
       // Permettre la création de documents par des utilisateurs non authentifiés
       allow create: if
         // Vérifier que tous les champs requis sont présents et du bon type
         request.resource.data.keys().hasAll(['name', 'email', 'theme', 'subject', 'message', 'timestamp', 'status']) &&
-        request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100 &&
-        request.resource.data.email is string && request.resource.data.email.matches('^[^@]+@[^@]+\\.[^@]+$') &&
-        request.resource.data.theme is string && request.resource.data.theme in ['proposition-article', 'correction-suggestion', 'collaboration', 'question-generale', 'abonnement-suivi', 'recommandation-lecture', 'invitation-evenement', 'partenariat-communication', 'probleme-technique', 'autre'] &&
-        request.resource.data.subject is string && request.resource.data.subject.size() > 0 && request.resource.data.subject.size() <= 200 &&
-        request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 5000 &&
+        request.resource.data.name is string && 
+        request.resource.data.name.size() > 0 && 
+        request.resource.data.name.size() <= 100 &&
+        request.resource.data.email is string && 
+        request.resource.data.theme is string && 
+        request.resource.data.subject is string && 
+        request.resource.data.subject.size() > 0 && 
+        request.resource.data.subject.size() <= 200 &&
+        request.resource.data.message is string && 
+        request.resource.data.message.size() > 0 && 
+        request.resource.data.message.size() <= 5000 &&
         request.resource.data.timestamp is timestamp &&
-        request.resource.data.status == 'pending';
+        request.resource.data.status == 'open';
 
       // Permettre la lecture et la mise à jour uniquement aux administrateurs et journalistes
       allow read, update: if request.auth != null &&
         (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
 
-      // Empêcher la suppression des soumissions
-      allow delete: if false;
+      // Permettre la suppression uniquement aux administrateurs
+      allow delete: if request.auth != null && isAdmin();
     }
     
     // Règles par défaut : tout bloquer

@@ -3,6 +3,7 @@
 import RoleProtection from '@/app/components/RoleProtection'
 import UserManagement from '@/app/components/Sections/UserManagementSection'
 import ArticleManagementSection from '../components/Sections/ArticleManagementSection'
+import ContactSubmissionsSection from '../components/Sections/ContactSubmissionsSection'
 
 export default function Admin() {
     return (
@@ -11,6 +12,7 @@ export default function Admin() {
                 <h2 className="font-bold font-fractul text-4xl lg:text-5xl mb-10">Administration du site</h2>
                 <UserManagement />
                 <ArticleManagementSection />
+                <ContactSubmissionsSection />   
             </main>
         </RoleProtection>
     )
