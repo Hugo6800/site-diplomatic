@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 interface TagSaveNewDraftProps {
-    onSave: (isDraft: boolean) => Promise<void>;
+    onSave: (isDraft: boolean, status?: string, redirect?: boolean) => Promise<void>;
     isLoading?: boolean;
 }
 
@@ -21,8 +21,8 @@ export default function TagSaveNewDraft({
         setError(null);
 
         try {
-            // Appeler la fonction de sauvegarde avec isDraft=true
-            await onSave(true);
+            // Appeler la fonction de sauvegarde avec isDraft=true et redirect=false
+            await onSave(true, 'published', false);
         } catch (err) {
             console.error('Erreur lors de l\'enregistrement comme brouillon:', err);
             setError('Une erreur est survenue lors de l\'enregistrement');

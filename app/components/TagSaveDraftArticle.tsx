@@ -33,6 +33,8 @@ export default function TagSaveDraftArticle({
                 updatedAt: new Date().toISOString()
             });
             
+            // Pas de redirection, on reste sur la page
+            
             // Mettre à jour l'état local via le callback
             onDraftStatusChange(true);
         } catch (err) {

@@ -24,8 +24,14 @@ export const getTagStyles = (category: string) => {
             bg: 'bg-[#F3DEDE] dark:bg-[#3F2525]',
             text: 'text-[#3F2525] dark:text-[#F3DEDE]',
             circle: 'bg-[#3F2525] dark:bg-[#F3DEDE]'
+        },
+        default: {
+            bg: 'bg-[#E5E5E5] dark:bg-[#333333]',
+            text: 'text-[#333333] dark:text-[#E5E5E5]',
+            circle: 'bg-[#333333] dark:bg-[#E5E5E5]'
         }
     } as const;
     
-    return styles[category as keyof typeof styles];
+    // Si la catégorie n'existe pas dans les styles, utiliser le style par défaut
+    return styles[category as keyof typeof styles] || styles.default;
 };

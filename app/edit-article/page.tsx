@@ -10,6 +10,7 @@ import EditorActions from '@/app/components/EditorActions'
 import RoleProtection from '@/app/components/RoleProtection'
 import TagModifyPictureNew from '@/app/components/TagModifyPictureNew'
 import TagSaveNewDraft from '@/app/components/TagSaveNewDraft'
+import TagSubmitNewArticle from '@/app/components/TagSubmitNewArticle'
 import { useRouter } from 'next/navigation'
 
 export default function NewArticlePage() {
@@ -20,7 +21,7 @@ export default function NewArticlePage() {
   const [content, setContent] = useState('')
   const [isSaving, setIsSaving] = useState(false)
 
-  const handleSave = async (isDraft = true) => {
+  const handleSave = async (isDraft = true, status = 'published', redirect = true) => {
     try {
       setIsSaving(true)
       const ref = collection(db, 'articles')
@@ -31,11 +32,15 @@ export default function NewArticlePage() {
         content,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        isDraft
+        isDraft,
+        status,
+        category: 'default' // Ajouter une catégorie par défaut pour éviter l'erreur
       })
       
-      // Rediriger vers la page d'édition de l'article nouvellement créé
-      router.push(`/edit-article/${docRef.id}`)
+      // Rediriger uniquement si demandé (pas pour les brouillons)
+      if (redirect) {
+        router.push(`/edit-article/${docRef.id}`)
+      }
     } catch (error) {
       console.error('Erreur lors de la sauvegarde:', error)
     } finally {
@@ -56,6 +61,10 @@ export default function NewArticlePage() {
             />
             <TagSaveNewDraft 
               onSave={handleSave}
+              isLoading={isSaving}
+            />
+            <TagSubmitNewArticle 
+              onSubmit={(status) => handleSave(false, status)}
               isLoading={isSaving}
             />
           </div>

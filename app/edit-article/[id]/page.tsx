@@ -11,6 +11,7 @@ import EditorActions from '@/app/components/EditorActions'
 import ArticleAuthorProtection from '@/app/components/ArticleAuthorProtection'
 import TagModifyPictureArticle from '@/app/components/TagModifyPictureArticle'
 import TagSaveDraftArticle from '@/app/components/TagSaveDraftArticle'
+import TagSubmitArticle from '@/app/components/TagSubmitArticle'
 
 export default function EditArticlePage() {
   const params = useParams()
@@ -20,6 +21,7 @@ export default function EditArticlePage() {
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isDraft, setIsDraft] = useState(true)
+  const [status, setStatus] = useState('published')
 
   useEffect(() => {
     async function fetchArticle() {
@@ -33,6 +35,7 @@ export default function EditArticlePage() {
           setKeywords((data.keywords || []).join(', '))
           setContent(data.content || '')
           setIsDraft(data.isDraft ?? true)
+          setStatus(data.status || 'published')
         }
       }
     }
@@ -48,7 +51,8 @@ export default function EditArticlePage() {
         keywords: keywords.split(',').map(k => k.trim()),
         content,
         updatedAt: new Date().toISOString(),
-        isDraft: asDraft
+        isDraft: asDraft,
+        status: asDraft ? 'published' : status // Conserver le statut actuel si ce n'est pas un brouillon
       })
       setIsDraft(asDraft)
     }
@@ -72,6 +76,10 @@ export default function EditArticlePage() {
                   articleId={articleId}
                   isDraft={isDraft}
                   onDraftStatusChange={setIsDraft}
+                />
+                <TagSubmitArticle
+                  articleId={articleId}
+                  onStatusChange={setStatus}
                 />
               </div>
             )}  

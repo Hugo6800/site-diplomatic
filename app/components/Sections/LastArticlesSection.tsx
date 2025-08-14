@@ -28,6 +28,7 @@ export default function LastArticlesSection() {
                     console.log(`Article ${doc.id}:`, {
                         title: data.title,
                         createdAt: data.createdAt,
+                        status: data.status || 'published',
                         timestamp: data.createdAt ? new Date(data.createdAt.seconds * 1000) : 'Pas de timestamp'
                     });
                     return {
@@ -37,12 +38,15 @@ export default function LastArticlesSection() {
                         category: data.category,
                         imageUrl: data.imageUrl,
                         createdAt: data.createdAt,
-                        status: data.status // Ajouter le statut
+                        status: data.status || 'published', // Utiliser 'published' comme valeur par défaut
+                        isDraft: data.isDraft || false
                     };
                 });
                 
-                // Filtrer pour n'afficher que les articles publiés
-                const publishedArticles = allArticles.filter(article => article.status === 'published');
+                // Filtrer pour n'afficher que les articles publiés (status = published et isDraft = false)
+                const publishedArticles = allArticles.filter(article => 
+                    article.status === 'published' && article.isDraft === false
+                );
                 
                 // Trier les articles par date (du plus récent au plus ancien)
                 const sortedArticles = publishedArticles.sort((a, b) => {
@@ -84,9 +88,9 @@ export default function LastArticlesSection() {
                     <ArticleOthers
                         key={article.id}
                         id={article.id}
-                        colorCircle={`bg-tag-${article.category.toLowerCase()}`}
-                        name={article.category}
-                        className={`text-tag-${article.category.toLowerCase()} border-2 border-tag-${article.category.toLowerCase()} transition-colors`}
+                        colorCircle={`bg-tag-${article.category?.toLowerCase() || 'default'}`}
+                        name={article.category || 'Non catégorisé'}
+                        className={`text-tag-${article.category?.toLowerCase() || 'default'} border-2 border-tag-${article.category?.toLowerCase() || 'default'} transition-colors`}
                         author={article.authorName}
                         title={article.title}
                         date={formatDate(new Date(article.createdAt.seconds * 1000))}
