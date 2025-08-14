@@ -3,12 +3,19 @@
 import Image from 'next/image'
 import { useTheme } from '@/app/context/ThemeContext'
 
-export default function DarkTheme() {
+interface DarkThemeProps {
+  onClick?: () => void;
+}
+
+export default function DarkTheme({ onClick }: DarkThemeProps) {
   const { isDark, toggleTheme } = useTheme()
 
   return (
     <div
-      onClick={toggleTheme}
+      onClick={() => {
+        toggleTheme();
+        if (onClick) onClick();
+      }}
       className="flex justify-center items-center gap-4 bg-gray dark:bg-gray-700 rounded-full p-2 cursor-pointer w-[48px] h-[48px] hover:bg-gray/80 transition-colors"
     >
       <Image

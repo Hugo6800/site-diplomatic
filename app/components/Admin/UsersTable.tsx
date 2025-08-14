@@ -143,13 +143,14 @@ export default function UsersTable({
                                 ) : (
                                     <button 
                                         onClick={() => user.role !== 'admin' && setConfirmDelete(user.id)}
-                                        className={`p-2 w-full rounded-full text-[14px] font-bold font-neulisalt flex items-center gap-1 ${user.role === 'admin' 
+                                        className={`p-2 w-full rounded-full text-[12px] sm:text-[14px] font-bold font-neulisalt flex items-center justify-center gap-1 ${user.role === 'admin' 
                                             ? 'text-gray-400 bg-gray-200 cursor-not-allowed' 
                                             : 'text-[#4D0506] bg-[#F58688] cursor-pointer'}`}
                                         disabled={user.role === 'admin'}
+                                        title="Supprimer l'utilisateur"
                                     >
                                         <Image src="/icons/delete_forever.svg" alt="Supprimer" width={16} height={16} className={user.role === 'admin' ? 'opacity-50' : ''} />
-                                        Supprimer
+                                        <span className="sm:inline">Supprimer</span>
                                     </button>
                                 )}
                             </td>

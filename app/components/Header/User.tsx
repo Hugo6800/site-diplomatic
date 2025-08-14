@@ -7,7 +7,11 @@ import AuthModal from "../Auth/AuthModal";
 import { LogoutButton } from "../Auth/LogoutButton";
 import { useAuth } from '@/app/hooks/useAuth';
 
-export function User() {
+interface UserProps {
+    onClick?: () => void;
+}
+
+export function User({ onClick }: UserProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { user } = useAuth();
     const router = useRouter();
@@ -16,7 +20,14 @@ export function User() {
         <>
             <div 
                 className="flex items-center gap-4 bg-gray rounded-full p-2 cursor-pointer h-[48px] hover:bg-gray/80 transition-colors"
-                onClick={() => user ? router.push('/profil') : setIsModalOpen(true)}
+                onClick={() => {
+                    if (user) {
+                        router.push('/profil');
+                    } else {
+                        setIsModalOpen(true);
+                    }
+                    if (onClick) onClick();
+                }}
             >
                 <Image
                     src={user?.photoURL || '/icons/account_circle.svg'}

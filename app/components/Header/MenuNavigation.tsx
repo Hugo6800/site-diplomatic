@@ -23,8 +23,8 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
   return (
     <nav className="flex flex-col lg:flex-row items-center px-6 md:px-24 xl:px-64 gap-4 bg-header p-4">
       <div className="flex lg:hidden items-center gap-4 w-full">
-        <DarkTheme />
-        <User />
+        <DarkTheme onClick={handleClick} />
+        <User onClick={handleClick} />
       </div>
       <ul className="flex flex-col xl:flex-row xl:items-center gap-4 w-full font-bold">
         <li className="flex">

@@ -177,11 +177,17 @@ export default function ArticlesTable({
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
                                 <div className="flex items-center gap-2">
-                                    <button className="p-2 rounded-full text-[14px] font-bold font-neulisalt flex items-center gap-1 text-[#4D0506] bg-[#F3DEDE] cursor-pointer">
+                                    <button 
+                                        className="min-w-[90px] p-2 rounded-full text-[12px] sm:text-[14px] font-bold font-neulisalt flex items-center justify-center gap-1 text-[#4D0506] bg-[#F3DEDE] cursor-pointer hover:bg-[#F3DEDE]/80 transition-colors"
+                                        title="Éditer l'article"
+                                    >
                                         <Image src="/icons/edit.svg" alt="Éditer" width={16} height={16} />
-                                        Éditer
+                                        <span>Éditer</span>
                                     </button>
-                                    <button className="p-2 rounded-full flex items-center justify-center text-[#4D0506] bg-[#F58688] cursor-pointer w-10 h-10">
+                                    <button 
+                                        className="p-2 rounded-full flex items-center justify-center text-[#4D0506] bg-[#F58688] cursor-pointer w-10 h-10 hover:bg-[#F58688]/80 transition-colors"
+                                        title="Supprimer l'article"
+                                    >
                                         <Image src="/icons/delete_forever.svg" alt="Supprimer" width={20} height={20} />
                                     </button>
                                 </div>

@@ -27,7 +27,7 @@ export default function LastPodcast({ coverUrl, duration, date, title, descripti
                 />
                 <p className="font-bold font-neulisalt">{duration} - {formattedDate}</p>
                 <h2 className="font-bold font-fractul text-3xl line-clamp-3 tracking-[0.03em] leading-[110%] mb-2">{title}</h2>
-                <p className="font-neulisalt">{description}</p>
+                <p className="font-neulisalt line-clamp-5">{description}</p>
             </div>
         </article>
     );
