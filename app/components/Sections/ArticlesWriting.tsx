@@ -51,12 +51,12 @@ export default function ArticlesWriting() {
             setArticles(articlesData);
         };
 
-        if (user?.role === 'journalist') {
+        if (user?.role === 'journalist' || user?.role === 'admin') {
             fetchArticles();
         }
     }, [user]);
 
-    if (user?.role !== 'journalist') return null;
+    if (user?.role !== 'journalist' && user?.role !== 'admin') return null;
 
 
 

@@ -8,7 +8,7 @@ import EditorHeader from '@/app/components/EditorHeader'
 import EditorMeta from '@/app/components/EditorMeta'
 import TiptapEditor from '@/app/components/TiptapEditor'
 import EditorActions from '@/app/components/EditorActions'
-import RoleProtection from '@/app/components/RoleProtection'
+import ArticleAuthorProtection from '@/app/components/ArticleAuthorProtection'
 
 export default function EditArticlePage() {
   const params = useParams()
@@ -53,7 +53,7 @@ export default function EditArticlePage() {
   }
 
   return (
-    <RoleProtection allowedRoles={['journalist', 'admin']}>
+    <ArticleAuthorProtection articleId={articleId}>
       <main className="min-h-screen bg-white">
         <div className="max-w-5xl mx-auto px-4 py-8">
           <EditorHeader 
@@ -75,6 +75,6 @@ export default function EditArticlePage() {
           />
         </div>
       </main>
-    </RoleProtection>
+    </ArticleAuthorProtection>
   )
 }
