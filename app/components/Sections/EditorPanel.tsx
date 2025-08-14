@@ -22,10 +22,50 @@ interface EditorPanelProps {
 
 export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
     const { user } = useAuth();
-    const [draft, _setDraft] = useState<Article | null>(null);
+    const [draft, setDraft] = useState<Article | null>(null);
     const [mostLikedArticle, setMostLikedArticle] = useState<Article | null>(null);
 
     useEffect(() => {
+        // Fonction pour récupérer le dernier brouillon
+        const fetchLatestDraft = async () => {
+            if (!user?.uid) return;
+            
+            // Récupérer tous les articles brouillons de l'auteur
+            const draftsQuery = query(
+                collection(db, 'articles'),
+                where('authorId', '==', user.uid),
+                where('isDraft', '==', true)
+            );
+            
+            const draftsSnapshot = await getDocs(draftsQuery);
+            
+            if (!draftsSnapshot.empty) {
+                // Convertir les données Firestore en objets articles
+                const drafts = draftsSnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        title: data.title,
+                        imageUrl: data.imageUrl,
+                        author: data.authorName || user.displayName || '',
+                        updatedAt: data.updatedAt || data.createdAt
+                    };
+                });
+                
+                // Trier par date de mise à jour (du plus récent au plus ancien)
+                const sortedDrafts = drafts.sort((a, b) => {
+                    return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+                });
+                
+                // Prendre le plus récent
+                if (sortedDrafts.length > 0) {
+                    setDraft(sortedDrafts[0]);
+                }
+            } else {
+                setDraft(null);
+            }
+        };
+        
         const fetchMostLikedArticle = async () => {
             if (!user?.displayName) return;
 
@@ -36,13 +76,11 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
             );
 
             const articlesSnapshot = await getDocs(articlesQuery);
-            console.log('Articles trouvés:', articlesSnapshot.size);
 
             if (!articlesSnapshot.empty) {
                 // Pour chaque article, compter les favoris
                 const articlePromises = articlesSnapshot.docs.map(async (articleDoc) => {
                     const articleData = articleDoc.data();
-                    console.log('Article:', articleDoc.id, articleData);
 
                     const favoritesQuery = query(
                         collection(db, 'favorites'),
@@ -50,7 +88,6 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
                     );
                     const favoritesSnapshot = await getDocs(favoritesQuery);
                     const likesCount = favoritesSnapshot.size;
-                    console.log('Likes pour article', articleDoc.id, ':', likesCount);
 
                     return {
                         id: articleDoc.id,
@@ -62,11 +99,9 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
                 });
 
                 const articlesWithLikes = await Promise.all(articlePromises);
-                console.log('Articles avec likes:', articlesWithLikes);
 
                 // Trier par nombre de likes et prendre le plus liké
                 const articlesWithAtLeastOneLike = articlesWithLikes.filter(article => article.likes && article.likes > 0);
-                console.log('Articles avec au moins un like:', articlesWithAtLeastOneLike);
 
                 if (articlesWithAtLeastOneLike.length > 0) {
                     const mostLiked = articlesWithAtLeastOneLike[0];
@@ -83,6 +118,7 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
             }
         };
 
+        fetchLatestDraft();
         fetchMostLikedArticle();
     }, [user]);
 

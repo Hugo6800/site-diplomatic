@@ -12,17 +12,33 @@ import TagModifyPictureNew from '@/app/components/TagModifyPictureNew'
 import TagSaveNewDraft from '@/app/components/TagSaveNewDraft'
 import TagSubmitNewArticle from '@/app/components/TagSubmitNewArticle'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/app/hooks/useAuth'
 
 export default function NewArticlePage() {
   const router = useRouter()
+  const { user } = useAuth()
   const [imageUrl, setImageUrl] = useState('/placeholder_view.webp')
   const [title, setTitle] = useState('')
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [category, setCategory] = useState('default')
+  
+  // Fonction pour calculer le temps de lecture estimé
+  const calculateReadTime = (content: string): string => {
+    const wordsPerMinute = 200; // Vitesse de lecture moyenne
+    const wordCount = content.trim().split(/\s+/).length;
+    const readTime = Math.ceil(wordCount / wordsPerMinute);
+    return readTime > 0 ? `${readTime} min` : '< 1 min';
+  };
 
   const handleSave = async (isDraft = true, status = 'published', redirect = true) => {
     try {
+      if (!user) {
+        console.error('Utilisateur non connecté')
+        return
+      }
+      
       setIsSaving(true)
       const ref = collection(db, 'articles')
       const docRef = await addDoc(ref, {
@@ -34,7 +50,11 @@ export default function NewArticlePage() {
         updatedAt: new Date().toISOString(),
         isDraft,
         status,
-        category: 'default' // Ajouter une catégorie par défaut pour éviter l'erreur
+        category,
+        authorId: user.uid,
+        authorName: user.displayName || 'Auteur inconnu',
+        authorEmail: user.email || '',
+        estimatedReadTime: calculateReadTime(content)
       })
       
       // Rediriger uniquement si demandé (pas pour les brouillons)
@@ -70,9 +90,11 @@ export default function NewArticlePage() {
           </div>
           <EditorMeta 
             title={title}
-            keywords={keywords}
             onTitleChange={setTitle}
+            keywords={keywords}
             onKeywordsChange={setKeywords}
+            category={category}
+            onCategoryChange={setCategory}
           />
           <TiptapEditor content={content} onUpdate={setContent} />
           <EditorActions 

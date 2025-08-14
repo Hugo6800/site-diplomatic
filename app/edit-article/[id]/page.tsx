@@ -9,7 +9,7 @@ import EditorMeta from '@/app/components/EditorMeta'
 import TiptapEditor from '@/app/components/TiptapEditor'
 import EditorActions from '@/app/components/EditorActions'
 import ArticleAuthorProtection from '@/app/components/ArticleAuthorProtection'
-import TagModifyPictureArticle from '@/app/components/TagModifyPictureArticle'
+import TagModifyPictureEdit from '@/app/components/TagModifyPictureEdit'
 import TagSaveDraftArticle from '@/app/components/TagSaveDraftArticle'
 import TagSubmitArticle from '@/app/components/TagSubmitArticle'
 
@@ -68,8 +68,8 @@ export default function EditArticlePage() {
             />
             {articleId && (
               <div className="mt-4 flex gap-4">
-                <TagModifyPictureArticle 
-                  articleId={articleId}
+                <TagModifyPictureEdit 
+                  articleId={articleId || ''}
                   onImageUpdate={setImageUrl}
                 />
                 <TagSaveDraftArticle

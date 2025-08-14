@@ -30,7 +30,8 @@ export default function TagSaveDraftArticle({
             const articleRef = doc(db, 'articles', articleId);
             await updateDoc(articleRef, {
                 isDraft: true,
-                updatedAt: new Date().toISOString()
+                updatedAt: new Date().toISOString(),
+                status: 'published' // S'assurer que le statut est défini
             });
             
             // Pas de redirection, on reste sur la page
