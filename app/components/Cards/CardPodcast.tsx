@@ -1,12 +1,9 @@
 import Image from "next/image";
 import { CardPodcastProps } from '@/app/types/cardPodcast';
+import { formatDate } from '@/app/utils/formatDate';
 
 export default function CardPodcast({ coverUrl, duration, date, title, spotifyId }: CardPodcastProps) {
-    const formattedDate = new Date(parseInt(date) * 1000).toLocaleDateString('fr-FR', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric'
-    });
+    const formattedDate = formatDate(new Date(parseInt(date) * 1000));
     return (
         <article 
             className="flex flex-col gap-4 mt-4 cursor-pointer" 

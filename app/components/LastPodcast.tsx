@@ -1,12 +1,9 @@
 import Image from "next/image";
 import { LastPodcastProps } from '@/app/types/LastPodcast';
+import { formatDate } from '@/app/utils/formatDate';
 
 export default function LastPodcast({ coverUrl, duration, date, title, description, spotifyId }: LastPodcastProps) {
-    const formattedDate = new Date(parseInt(date) * 1000).toLocaleDateString('fr-FR', {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric'
-    });
+    const formattedDate = formatDate(new Date(parseInt(date) * 1000));
 
     return (
         <article
