@@ -4,12 +4,21 @@ import { useAuth } from '../hooks/useAuth';
 import Image from 'next/image';
 import TagArticle from './TagArticle';
 import { ArticleProps } from '../types/articleProps';
+// Suppression de l'import non utilisé
 
-export default function Article({ id, name, className, author, title, date, imageUrl }: ArticleProps) {
+interface ExtendedArticleProps extends ArticleProps {
+    showDraftIndicator?: boolean;
+    disableNavigation?: boolean;
+    // Pas besoin de colorCircle car il est déjà dans ArticleProps ou géré par TagArticle
+}
+
+export default function Article({ id, name, className, author, title, date, imageUrl, showDraftIndicator = false, disableNavigation = false }: ExtendedArticleProps) {
     const { user } = useAuth();
 
     const handleArticleClick = () => {
-        window.location.href = `/article?id=${id}${!user ? '&auth=true' : ''}`;
+        if (!disableNavigation) {
+            window.location.href = `/article?id=${id}${!user ? '&auth=true' : ''}`;
+        }
     };
 
     return (
@@ -25,10 +34,17 @@ export default function Article({ id, name, className, author, title, date, imag
                         className="object-cover cursor-pointer rounded-[20px] group-hover:rounded-4xl transition-all"
                     />
                 </div>
-                <TagArticle
-                    name={name}
-                    className={className}
-                />
+                <div className="flex items-center gap-2">
+                    <TagArticle
+                        name={name}
+                        className={className}
+                    />
+                    {showDraftIndicator && (
+                        <div className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-medium">
+                            Brouillon
+                        </div>
+                    )}
+                </div>
                 <p className="mt-2 font-semibold text-[1rem] font-neulisalt">{author} - {date}</p>
                 <h3 className="font-bold font-fractul text-2xl line-clamp-3 tracking-[0.03em] leading-[110%] cursor-pointer group-hover:font-black">{title}</h3>
             </article>

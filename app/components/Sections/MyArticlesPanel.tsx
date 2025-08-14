@@ -35,13 +35,34 @@ export default function MyArticlesPanel() {
             const querySnapshot = await getDocs(articlesQuery);
             const articlesData = querySnapshot.docs.map(doc => {
                 const data = doc.data();
+                
+                // Gérer les différents formats de date possibles
+                let createdAtDate;
+                if (data.createdAt) {
+                    if (data.createdAt.toDate && typeof data.createdAt.toDate === 'function') {
+                        // C'est un Timestamp Firestore
+                        createdAtDate = data.createdAt.toDate();
+                    } else if (typeof data.createdAt === 'string') {
+                        // C'est une chaîne ISO
+                        createdAtDate = new Date(data.createdAt);
+                    } else if (data.createdAt instanceof Date) {
+                        // C'est déjà un objet Date
+                        createdAtDate = data.createdAt;
+                    } else {
+                        // Fallback
+                        createdAtDate = new Date();
+                    }
+                } else {
+                    createdAtDate = new Date();
+                }
+                
                 return {
                     id: doc.id,
-                    title: data.title,
-                    imageUrl: data.imageUrl,
-                    category: data.category,
-                    authorName: data.authorName,
-                    createdAt: data.createdAt.toDate()
+                    title: data.title || 'Sans titre',
+                    imageUrl: data.imageUrl || '/placeholder_view.webp',
+                    category: data.category || 'default',
+                    authorName: data.authorName || 'Auteur inconnu',
+                    createdAt: createdAtDate
                 };
             });
 

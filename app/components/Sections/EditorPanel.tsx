@@ -18,9 +18,10 @@ interface Article {
 
 interface EditorPanelProps {
     onShowMyArticles: () => void;
+    onShowMyDrafts: () => void;
 }
 
-export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
+export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: EditorPanelProps) {
     const { user } = useAuth();
     const [draft, setDraft] = useState<Article | null>(null);
     const [mostLikedArticle, setMostLikedArticle] = useState<Article | null>(null);
@@ -43,12 +44,35 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
                 // Convertir les données Firestore en objets articles
                 const drafts = draftsSnapshot.docs.map(doc => {
                     const data = doc.data();
+                    
+                    // Gérer les différents formats de date possibles
+                    let updatedAt;
+                    const dateField = data.updatedAt || data.createdAt;
+                    
+                    if (dateField) {
+                        if (dateField.toDate && typeof dateField.toDate === 'function') {
+                            // C'est un Timestamp Firestore
+                            updatedAt = dateField.toDate().toISOString();
+                        } else if (typeof dateField === 'string') {
+                            // C'est déjà une chaîne ISO
+                            updatedAt = dateField;
+                        } else if (dateField instanceof Date) {
+                            // C'est un objet Date
+                            updatedAt = dateField.toISOString();
+                        } else {
+                            // Fallback
+                            updatedAt = new Date().toISOString();
+                        }
+                    } else {
+                        updatedAt = new Date().toISOString();
+                    }
+                    
                     return {
                         id: doc.id,
-                        title: data.title,
-                        imageUrl: data.imageUrl,
-                        author: data.authorName || user.displayName || '',
-                        updatedAt: data.updatedAt || data.createdAt
+                        title: data.title || 'Sans titre',
+                        imageUrl: data.imageUrl || '/placeholder_view.webp',
+                        author: data.authorName || user.displayName || 'Auteur inconnu',
+                        updatedAt: updatedAt
                     };
                 });
                 
@@ -175,7 +199,11 @@ export default function EditorPanel({ onShowMyArticles }: EditorPanelProps) {
                             label="Voir tous mes articles"
                             onClick={onShowMyArticles}
                         />
-                        <CardsDownEditPanel icon="/icons/draft.svg" label="Gérer mes brouillons" />
+                        <CardsDownEditPanel 
+                            icon="/icons/draft.svg" 
+                            label="Gérer mes brouillons" 
+                            onClick={onShowMyDrafts}
+                        />
                     </div>
                 </div>
             </div>

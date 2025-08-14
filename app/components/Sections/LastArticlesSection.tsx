@@ -24,20 +24,35 @@ export default function LastArticlesSection() {
                 // Convertir les données Firestore en objets articles
                 const allArticles = querySnapshot.docs.map(doc => {
                     const data = doc.data();
-                    // Log pour déboguer les données des articles
-                    console.log(`Article ${doc.id}:`, {
-                        title: data.title,
-                        createdAt: data.createdAt,
-                        status: data.status || 'published',
-                        timestamp: data.createdAt ? new Date(data.createdAt.seconds * 1000) : 'Pas de timestamp'
-                    });
+                    
+                    // Gérer les différents formats de date possibles
+                    let createdAtDate;
+                    if (data.createdAt) {
+                        if (data.createdAt.toDate && typeof data.createdAt.toDate === 'function') {
+                            // C'est un Timestamp Firestore
+                            createdAtDate = data.createdAt;
+                        } else if (typeof data.createdAt === 'string') {
+                            // C'est une chaîne ISO
+                            const date = new Date(data.createdAt);
+                            createdAtDate = { seconds: Math.floor(date.getTime() / 1000), nanoseconds: 0 };
+                        } else if (data.createdAt instanceof Date) {
+                            // C'est déjà un objet Date
+                            createdAtDate = { seconds: Math.floor(data.createdAt.getTime() / 1000), nanoseconds: 0 };
+                        } else {
+                            // Fallback
+                            createdAtDate = { seconds: Math.floor(Date.now() / 1000), nanoseconds: 0 };
+                        }
+                    } else {
+                        createdAtDate = { seconds: Math.floor(Date.now() / 1000), nanoseconds: 0 };
+                    }
+                    
                     return {
                         id: doc.id,
-                        title: data.title,
-                        authorName: data.authorName,
-                        category: data.category,
-                        imageUrl: data.imageUrl,
-                        createdAt: data.createdAt,
+                        title: data.title || 'Sans titre',
+                        authorName: data.authorName || 'Auteur inconnu',
+                        category: data.category || 'default',
+                        imageUrl: data.imageUrl || '/placeholder_view.webp',
+                        createdAt: createdAtDate,
                         status: data.status || 'published', // Utiliser 'published' comme valeur par défaut
                         isDraft: data.isDraft || false
                     };

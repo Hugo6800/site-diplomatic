@@ -36,15 +36,35 @@ export default function ArticlesWriting() {
             const querySnapshot = await getDocs(articlesQuery);
             const articlesData = querySnapshot.docs.map(doc => {
                 const data = doc.data();
+                // Gérer les différents formats de date possibles
+                let dateObj;
+                if (data.createdAt) {
+                    if (data.createdAt.toDate && typeof data.createdAt.toDate === 'function') {
+                        // C'est un Timestamp Firestore
+                        dateObj = data.createdAt.toDate();
+                    } else if (typeof data.createdAt === 'string') {
+                        // C'est une chaîne ISO
+                        dateObj = new Date(data.createdAt);
+                    } else if (data.createdAt instanceof Date) {
+                        // C'est déjà un objet Date
+                        dateObj = data.createdAt;
+                    } else {
+                        // Fallback
+                        dateObj = new Date();
+                    }
+                } else {
+                    dateObj = new Date();
+                }
+                
                 return {
                     id: doc.id,
-                    name: data.category,
-                    className: `tag-${data.category.toLowerCase()}`,
-                    colorCircle: getColorCircle(data.category),
-                    author: data.authorName,
-                    title: data.title,
-                    date: formatDate(data.createdAt.toDate()),
-                    imageUrl: data.imageUrl
+                    name: data.category || 'default',
+                    className: `tag-${(data.category || 'default').toLowerCase()}`,
+                    colorCircle: getColorCircle(data.category || 'default'),
+                    author: data.authorName || 'Auteur inconnu',
+                    title: data.title || 'Sans titre',
+                    date: formatDate(dateObj),
+                    imageUrl: data.imageUrl || '/placeholder_view.webp'
                 };
             });
 

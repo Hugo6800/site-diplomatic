@@ -11,6 +11,7 @@ import ArticlesWriting from '@/app/components/Sections/ArticlesWriting';
 import { useAuth } from '@/app/hooks/useAuth';
 import EditorPanel from '@/app/components/Sections/EditorPanel';
 import MyArticlesPanel from '@/app/components/Sections/MyArticlesPanel';
+import MyDraftsPanel from '@/app/components/Sections/MyDraftsPanel';
 import Image from 'next/image';
 
 export default function Profil() {
@@ -19,6 +20,7 @@ export default function Profil() {
     const showEditProfil = searchParams.get('editprofil') === 'true';
     const { user } = useAuth();
     const [showMyArticles, setShowMyArticles] = useState(false);
+    const [showMyDrafts, setShowMyDrafts] = useState(false);
 
     return (
         <main className={`px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 ${showEditProfil ? 'h-[calc(100vh-178px-7rem)] flex flex-col' : 'mb-20'}`}>
@@ -29,7 +31,10 @@ export default function Profil() {
                         {showMyArticles ? (
                             <>
                                 <button
-                                    onClick={() => setShowMyArticles(false)}
+                                    onClick={() => {
+                                        setShowMyArticles(false);
+                                        setShowMyDrafts(false);
+                                    }}
                                     className="flex justify-center items-center gap-2 mt-6 w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
                                 >
                                     <Image
@@ -42,10 +47,32 @@ export default function Profil() {
                                 </button>
                                 <MyArticlesPanel />
                             </>
+                        ) : showMyDrafts ? (
+                            <>
+                                <button
+                                    onClick={() => {
+                                        setShowMyArticles(false);
+                                        setShowMyDrafts(false);
+                                    }}
+                                    className="flex justify-center items-center gap-2 mt-6 w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
+                                >
+                                    <Image
+                                        src="/icons/arrow-left.svg"
+                                        alt="Retour"
+                                        width={24}
+                                        height={24}
+                                    />
+                                    Retour au compte
+                                </button>
+                                <MyDraftsPanel />
+                            </>
                         ) : (
                             <>
                                 {(user?.role === 'journalist' || user?.role === 'admin') && (
-                                    <EditorPanel onShowMyArticles={() => setShowMyArticles(true)} />
+                                    <EditorPanel 
+                                        onShowMyArticles={() => setShowMyArticles(true)}
+                                        onShowMyDrafts={() => setShowMyDrafts(true)}
+                                    />
                                 )}
                                 <StatisticsSection />
                                 {(user?.role === 'journalist' || user?.role === 'admin') && <ArticlesWriting />}
