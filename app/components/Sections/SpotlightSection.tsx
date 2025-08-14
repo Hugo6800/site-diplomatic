@@ -24,15 +24,6 @@ export default function SpotlightSection() {
                 const noPaywallDoc = querySnapshot.docs.find(doc => !doc.data().hasPaywall);
                 if (noPaywallDoc) {
                     const data = noPaywallDoc.data();
-                    
-                    // Log pour déboguer les données de l'article spotlight
-                    console.log('Article Spotlight:', {
-                        id: noPaywallDoc.id,
-                        title: data.title,
-                        createdAt: data.createdAt,
-                        timestamp: data.createdAt ? new Date(data.createdAt.seconds * 1000) : 'Pas de timestamp'
-                    });
-                    
                     setArticle({
                         id: noPaywallDoc.id, // Utiliser l'ID du document Firestore
                         title: data.title,
