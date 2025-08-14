@@ -6,6 +6,7 @@ import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { SpotlightArticle } from '../../types/spotlightArticle';
 import Advertising from '../Advertising';
+import { formatDate } from '../../utils/formatDate';
 
 export default function LastArticlesSection() {
     const [articles, setArticles] = useState<SpotlightArticle[]>([]);
@@ -23,6 +24,12 @@ export default function LastArticlesSection() {
                 // Convertir les données Firestore en objets articles
                 const allArticles = querySnapshot.docs.map(doc => {
                     const data = doc.data();
+                    // Log pour déboguer les données des articles
+                    console.log(`Article ${doc.id}:`, {
+                        title: data.title,
+                        createdAt: data.createdAt,
+                        timestamp: data.createdAt ? new Date(data.createdAt.seconds * 1000) : 'Pas de timestamp'
+                    });
                     return {
                         id: doc.id,
                         title: data.title,
@@ -82,7 +89,7 @@ export default function LastArticlesSection() {
                         className={`text-tag-${article.category.toLowerCase()} border-2 border-tag-${article.category.toLowerCase()} transition-colors`}
                         author={article.authorName}
                         title={article.title}
-                        date={new Date(article.createdAt.seconds * 1000).toLocaleDateString('fr-FR')}
+                        date={formatDate(new Date(article.createdAt.seconds * 1000))}
                         imageUrl={article.imageUrl}
                     />
                 ))}

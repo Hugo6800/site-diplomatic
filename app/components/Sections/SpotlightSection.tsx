@@ -6,6 +6,7 @@ import { db } from '../../lib/firebase';
 import ArticleSpotlight from '../ArticleSpotlight';
 import { SpotlightArticle } from '../../types/spotlightArticle';
 import Advertising from '../Advertising';
+import { formatDate } from '../../utils/formatDate';
 
 export default function SpotlightSection() {
     const [article, setArticle] = useState<SpotlightArticle | null>(null);
@@ -23,6 +24,15 @@ export default function SpotlightSection() {
                 const noPaywallDoc = querySnapshot.docs.find(doc => !doc.data().hasPaywall);
                 if (noPaywallDoc) {
                     const data = noPaywallDoc.data();
+                    
+                    // Log pour déboguer les données de l'article spotlight
+                    console.log('Article Spotlight:', {
+                        id: noPaywallDoc.id,
+                        title: data.title,
+                        createdAt: data.createdAt,
+                        timestamp: data.createdAt ? new Date(data.createdAt.seconds * 1000) : 'Pas de timestamp'
+                    });
+                    
                     setArticle({
                         id: noPaywallDoc.id, // Utiliser l'ID du document Firestore
                         title: data.title,
@@ -71,7 +81,7 @@ export default function SpotlightSection() {
                     className={`text-tag-${article.category.toLowerCase()} border-2 border-tag-${article.category.toLowerCase()} transition-colors`}
                     title={article.title}
                     author={article.authorName}
-                    date={new Date(article.createdAt.seconds * 1000).toLocaleDateString('fr-FR')}
+                    date={formatDate(new Date(article.createdAt.seconds * 1000))}
                     imageUrl={article.imageUrl}
                 />
             </div>
