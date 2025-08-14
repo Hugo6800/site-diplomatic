@@ -45,7 +45,7 @@ export default function DeleteAccountForm() {
                 type="submit"
                 disabled={isDeleting}
                 className={`
-                    flex items-center justify-center gap-2 w-[40%] px-2 py-4 
+                    flex items-center justify-center gap-2 lg:w-[40%] px-2 py-4 
                     ${isDeleting ? 'bg-gray-400' : 'bg-[var(--button-color)]'} 
                     rounded-full font-semibold font-neulisalt
                     transition-colors duration-200

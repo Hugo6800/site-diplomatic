@@ -14,7 +14,7 @@ export default function AccountSettings() {
         <section className="flex flex-col gap-8 p-8 max-w-4xl mx-auto">
             <button
                 onClick={() => router.push('/profil')}
-                className="flex justify-center items-center gap-2 w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
+                className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
             >
                 <Image
                     src="/icons/arrow-left.svg"

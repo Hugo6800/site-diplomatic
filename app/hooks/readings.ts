@@ -1,5 +1,6 @@
 import { db } from '@/app/lib/firebase';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc, getDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { formatDate } from '@/app/utils/formatDate';
 
 export interface ReadingProgress {
     startTimestamp: Timestamp;        // Timestamp de début de lecture
@@ -122,11 +123,7 @@ export const getUserReadHistory = async (userId: string): Promise<ArticleData[]>
             let formattedDate = '';
             if (data.createdAt && typeof data.createdAt === 'object' && 'seconds' in data.createdAt) {
                 const date = new Date(data.createdAt.seconds * 1000);
-                formattedDate = date.toLocaleDateString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
+                formattedDate = formatDate(date);
             }
 
             const article = {

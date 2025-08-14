@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ArticleFull from '../components/ArticleFull';
+import { formatDate } from '../utils/formatDate';
 import { db } from '../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import LoginForm from '../components/Auth/LoginForm';
@@ -39,7 +40,7 @@ export default function ArticlePage() {
                         category: articleData.category,
                         content: articleData.content,
                         imageUrl: articleData.imageUrl,
-                        createdAt: new Date(articleData.createdAt.seconds * 1000).toLocaleDateString('fr-FR')
+                        createdAt: formatDate(new Date(articleData.createdAt.seconds * 1000))
                     });
                 }
             }

@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { LogoutButton } from "./Auth/LogoutButton";
+import { formatDate } from '../utils/formatDate';
 import { useAuth } from "@/app/hooks/useAuth";
 
 import EditButton from "./EditButton";
@@ -34,7 +35,7 @@ export default function HeaderUserAccount() {
                             {showStatus && <TagRole role={user?.role || 'reader'} />}
                             {showAccountAge && (
                                 <p className="font-semibold font-neulisalt">
-                                    Depuis {new Date(user?.metadata?.creationTime || '').toLocaleDateString('fr-FR')}
+                                    Depuis {formatDate(new Date(user?.metadata?.creationTime || ''))}
                                 </p>
                             )}
                         </div>

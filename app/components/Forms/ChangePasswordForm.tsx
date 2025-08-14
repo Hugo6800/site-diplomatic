@@ -118,7 +118,7 @@ export default function ChangePasswordForm() {
                 type="submit"
                 disabled={isChangingPassword}
                 className={`
-                    w-1/3 px-2 py-4 
+                    lg:w-1/3 px-2 py-4 
                     ${isChangingPassword ? 'bg-gray-400' : 'bg-[#F3DEDE]'} 
                     cursor-pointer rounded-full font-semibold font-neulisalt
                     transition-colors duration-200

@@ -8,6 +8,7 @@ import ArticleOthers from '@/app/components/ArticleOthers';
 import { tagToClass } from '@/app/utils/tagMapping';
 import { SpotlightArticle } from '@/app/types/spotlightArticle';
 import Advertising from '../components/Advertising';
+import { formatDate } from '@/app/utils/formatDate';
 
 export default function CollectionsPage() {
     const searchParams = useSearchParams();
@@ -84,7 +85,7 @@ export default function CollectionsPage() {
                             className={`bg-background-tag-${article.category.toLowerCase()}`}
                             author={article.authorName}
                             title={article.title}
-                            date={new Date(article.createdAt.seconds * 1000).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            date={formatDate(new Date(article.createdAt.seconds * 1000))}
                             imageUrl={article.imageUrl}
                         />
                     ))}
