@@ -54,9 +54,13 @@ export default function TiptapEditor({ content, onUpdate }: Props) {
   if (!mounted || !editor) return null
 
   return (
-    <div className="border rounded p-3 bg-white">
-      <EditorMenuBar editor={editor} />
-      <EditorContent editor={editor} />
-    </div>
+    <>
+      <div>
+        <EditorMenuBar editor={editor} />
+      </div>
+      <div className="border rounded p-3 bg-white">
+        <EditorContent editor={editor} />
+      </div>
+    </>
   )
 }

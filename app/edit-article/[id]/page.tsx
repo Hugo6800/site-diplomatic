@@ -9,6 +9,8 @@ import EditorMeta from '@/app/components/EditorMeta'
 import TiptapEditor from '@/app/components/TiptapEditor'
 import EditorActions from '@/app/components/EditorActions'
 import ArticleAuthorProtection from '@/app/components/ArticleAuthorProtection'
+import TagModifyPictureArticle from '@/app/components/TagModifyPictureArticle'
+import TagSaveDraftArticle from '@/app/components/TagSaveDraftArticle'
 
 export default function EditArticlePage() {
   const params = useParams()
@@ -54,13 +56,26 @@ export default function EditArticlePage() {
 
   return (
     <ArticleAuthorProtection articleId={articleId}>
-      <main className="min-h-screen bg-white">
-        <div className="max-w-5xl mx-auto px-4 py-8">
-          <EditorHeader 
-            imageUrl={imageUrl} 
-            title={title}
-            onTitleChange={setTitle}
-          />
+      <main className="min-h-screen bg-header">
+        <div className="max-w-5xl mx-auto px-4 py-8 mt-20">
+          <div className="flex flex-col items-center mb-4">
+            <EditorHeader 
+              imageUrl={imageUrl} 
+            />
+            {articleId && (
+              <div className="mt-4 flex gap-4">
+                <TagModifyPictureArticle 
+                  articleId={articleId}
+                  onImageUpdate={setImageUrl}
+                />
+                <TagSaveDraftArticle
+                  articleId={articleId}
+                  isDraft={isDraft}
+                  onDraftStatusChange={setIsDraft}
+                />
+              </div>
+            )}  
+          </div>
           <EditorMeta 
             title={title}
             keywords={keywords}

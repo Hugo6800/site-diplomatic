@@ -7,20 +7,20 @@ type Props = {
 
 export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsChange }: Props) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mt-16">
       <input
         type="text"
         placeholder="Titre de l'article"
         value={title}
         onChange={(e) => onTitleChange(e.target.value)}
-        className="w-full border rounded px-4 py-2"
+        className="w-full border rounded px-4 py-2 font-fractul font-bold text-[34px]"
       />
       <input
         type="text"
         placeholder="Mots clés séparés par des virgules"
         value={keywords}
         onChange={(e) => onKeywordsChange(e.target.value)}
-        className="w-full border rounded px-4 py-2"
+        className="w-full border rounded px-4 py-2 font-neulisalt my-4"
       />
     </div>
   )
