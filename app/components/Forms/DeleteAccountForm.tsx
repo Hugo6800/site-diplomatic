@@ -27,7 +27,7 @@ export default function DeleteAccountForm() {
                 }
             }}
         >
-            <h2 className="font-bold font-neulisalt text-[2rem]">Supprimer mon compte</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Supprimer mon compte</h2>
             <label htmlFor="delete-password" className="text-2xl font-neulisalt font-semibold">Entrez votre mot de passe</label>
             <input
                 type="password"

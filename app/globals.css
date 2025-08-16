@@ -12,14 +12,6 @@
 }
 
 @font-face {
-  font-family: 'Fractul';
-  src: url('/fonts/Fractul-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'NeulisAlt';
   src: url('/fonts/NeulisAlt-Regular.woff2') format('woff2');
   font-weight: 400;

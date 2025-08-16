@@ -34,7 +34,7 @@ export default function ChangePasswordForm() {
                 setIsChangingPassword(false);
             }}
         >
-            <h2 className="font-bold font-neulisalt text-[2rem]">Mot de passe</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Mot de passe</h2>
             <label htmlFor="password" className="text-2xl font-neulisalt font-semibold">Mot de passe actuel</label>
             <div className="relative">
                 <input 

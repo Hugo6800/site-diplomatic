@@ -10,6 +10,12 @@ export default function Links() {
                 <Link href="/">Articles</Link>
             </li>
             <li className="text-[#DE595C] hover:font-bold transition-colors">
+                <Link href="/team">Team</Link>
+            </li>
+            <li className="text-[#DE595C] hover:font-bold transition-colors">
+                <Link href="/jobboard">Recrutement</Link>
+            </li>
+            <li className="text-[#DE595C] hover:font-bold transition-colors">
                 <Link href="/contact">Contact</Link>
             </li>
             <li className="text-[#DE595C] hover:font-bold transition-colors">

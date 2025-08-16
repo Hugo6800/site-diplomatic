@@ -26,7 +26,7 @@ export default function AccountSettings() {
             </button>
             <ChangePasswordForm />
             <div className="flex flex-col gap-4">
-                <h2 className="font-bold font-neulisalt text-[2rem]">Notifications par email</h2>
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Notifications par email</h2>
                 <div className="flex items-center justify-between py-2">
                     <span className="text-gray-700">Recevoir la newsletter par email</span>
                     <button
