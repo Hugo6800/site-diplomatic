@@ -7,6 +7,8 @@ import { useAuth } from '@/app/hooks/useAuth';
 import Article from '@/app/components/ArticleOthers';
 import { formatDate } from '@/app/utils/formatDate';
 import { getColorCircle } from '@/app/utils/category-styles';
+import Image from 'next/image';
+import { useSimplePagination } from '@/app/hooks/useSimplePagination';
 
 interface Article {
     id: string;
@@ -76,30 +78,61 @@ export default function ArticlesWriting() {
         }
     }, [user]);
 
+    // Utiliser le hook de pagination
+    const { 
+        currentItems: currentArticles, 
+        nextPage, 
+        hasMorePages: hasMoreArticles,
+        currentPage,
+        totalPages
+    } = useSimplePagination(articles, { itemsPerPage: 6 });
+    
     if (user?.role !== 'journalist' && user?.role !== 'admin') return null;
-
-
 
     return (
         <section className="mt-12">
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Articles écrits</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {articles.map((article) => (
-                    <Article
-                        key={article.id}
-                        id={article.id}
-                        name={article.name}
-                        className={article.className}
-                        colorCircle={article.colorCircle}
-                        author={article.author}
-                        title={article.title}
-                        date={article.date}
-                        imageUrl={article.imageUrl}
-                    />
-                ))}
+            <div className="flex justify-between items-center gap-2">
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Articles écrits</h2>
+                {hasMoreArticles && (
+                    <div 
+                        className="bg-[#F3DEDE] rounded-full p-2 cursor-pointer hover:bg-[#e6c8c8] transition-colors"
+                        onClick={nextPage}
+                        title={`Page ${currentPage + 1} sur ${totalPages}`}
+                    >
+                        <Image
+                            src="/icons/chevron-right.svg"
+                            alt="Voir plus d'articles"
+                            width={24}
+                            height={24}
+                        />
+                    </div>
+                )}
             </div>
-            {articles.length === 0 && (
+            {articles.length === 0 ? (
                 <p className="text-center text-gray-500 mt-4">Aucun article écrit pour le moment</p>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {currentArticles.map((article) => (
+                        <Article
+                            key={article.id}
+                            id={article.id}
+                            name={article.name}
+                            className={article.className}
+                            colorCircle={article.colorCircle}
+                            author={article.author}
+                            title={article.title}
+                            date={article.date}
+                            imageUrl={article.imageUrl}
+                        />
+                    ))}
+                </div>
+            )}
+            {hasMoreArticles && (
+                <div className="flex justify-center mt-4">
+                    <p className="text-sm text-gray-500 font-neulisalt">
+                        Page {currentPage + 1} sur {totalPages}
+                    </p>
+                </div>
             )}
         </section>
     );
