@@ -6,6 +6,7 @@ import DarkTheme from "./DarkTheme";
 import Link from "next/link";
 import { User } from "./User";
 import { useTheme } from '@/app/context/ThemeContext';
+import PlansButton from "./PlansButton";
 
 export default function Header() {
     const { isDark } = useTheme();
@@ -22,6 +23,7 @@ export default function Header() {
                 />
             </Link>
             <div className="hidden lg:flex items-center gap-4">
+                <PlansButton />
                 <DarkTheme />
                 <User />
             </div>
