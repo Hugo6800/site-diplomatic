@@ -37,7 +37,17 @@ export function useContactSubmissions() {
                     timestamp: doc.data().timestamp || Timestamp.now()
                 })) as ContactSubmission[]
                 
-                setSubmissions(submissionsData)
+                // Trier les soumissions pour mettre celles avec le statut "open" en premier
+                const sortedSubmissions = [...submissionsData].sort((a, b) => {
+                    // Si a est "open" et b ne l'est pas, a vient en premier
+                    if (a.status === 'open' && b.status !== 'open') return -1;
+                    // Si b est "open" et a ne l'est pas, b vient en premier
+                    if (b.status === 'open' && a.status !== 'open') return 1;
+                    // Sinon, trier par date (du plus récent au plus ancien)
+                    return b.timestamp.seconds - a.timestamp.seconds;
+                });
+                
+                setSubmissions(sortedSubmissions)
             } catch (error) {
                 console.error('Erreur lors de la récupération des soumissions de contact:', error)
             } finally {

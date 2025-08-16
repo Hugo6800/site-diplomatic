@@ -76,8 +76,8 @@ export default function ArticlePage() {
     }
 
     return (
-        <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20 relative">
-            <section className={`${showAuth ? 'mt-11 max-h-[100vh] overflow-hidden relative' : ''}`}>
+        <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-28 mb-28 relative">
+            <section className={`${showAuth ? 'mt-11 pt-12 max-h-[100vh] overflow-hidden relative' : ''}`}>
                 <ArticleFull
                     id={article.id}
                     category={article.category}

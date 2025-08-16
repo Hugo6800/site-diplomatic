@@ -35,7 +35,17 @@ export function useArticleManagement() {
                     createdAt: doc.data().createdAt || Timestamp.now()
                 })) as Article[]
                 
-                setArticles(articlesData)
+                // Trier les articles pour mettre ceux avec le statut "waiting" en premier
+                const sortedArticles = [...articlesData].sort((a, b) => {
+                    // Si a est "waiting" et b ne l'est pas, a vient en premier
+                    if (a.status === 'waiting' && b.status !== 'waiting') return -1;
+                    // Si b est "waiting" et a ne l'est pas, b vient en premier
+                    if (b.status === 'waiting' && a.status !== 'waiting') return 1;
+                    // Sinon, trier par date de création (du plus récent au plus ancien)
+                    return b.createdAt.seconds - a.createdAt.seconds;
+                });
+                
+                setArticles(sortedArticles)
             } catch (error) {
                 console.error('Erreur lors de la récupération des articles:', error)
             } finally {

@@ -118,15 +118,15 @@ export default function ContactsTable({
                                 </div>
                             </td>
                             <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <div className="line-clamp-2">{submission.subject}</div>
+                            </td>
+                            <td className="px-4 py-2 text-[1rem] font-semibold">
                                 <div className="flex flex-col">
                                     <span className="truncate">{submission.email.substring(0, 14)}</span>
                                     {submission.email.length > 14 && (
                                         <span className="truncate">{submission.email.substring(14)}</span>
                                     )}
                                 </div>
-                            </td>
-                            <td className="px-4 py-2 text-[1rem] font-semibold">
-                                <div className="line-clamp-2">{submission.subject}</div>
                             </td>
                             <td className="px-4 py-2 text-[1rem] font-semibold">
                                 <div className="line-clamp-2">
