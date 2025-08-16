@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import ArticleSpotlight from '../ArticleSpotlight';
 import { SpotlightArticle } from '../../types/spotlightArticle';
@@ -16,23 +16,26 @@ export default function SpotlightSection() {
         async function fetchSpotlightArticle() {
             setIsLoading(true);
             const articlesRef = collection(db, 'articles');
-            const q = query(articlesRef, where('hasPaywall', '==', false));
+            // Requête pour obtenir l'article le plus récent
+            const q = query(
+                articlesRef,
+                orderBy('createdAt', 'desc'),
+                limit(1)
+            );
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                // Prendre l'article sans paywall
-                const noPaywallDoc = querySnapshot.docs.find(doc => !doc.data().hasPaywall);
-                if (noPaywallDoc) {
-                    const data = noPaywallDoc.data();
-                    setArticle({
-                        id: noPaywallDoc.id, // Utiliser l'ID du document Firestore
-                        title: data.title,
-                        authorName: data.authorName,
-                        category: data.category,
-                        imageUrl: data.imageUrl,
-                        createdAt: data.createdAt
-                    });
-                }
+                // Prendre le premier article (le plus récent)
+                const recentDoc = querySnapshot.docs[0];
+                const data = recentDoc.data();
+                setArticle({
+                    id: recentDoc.id, // Utiliser l'ID du document Firestore
+                    title: data.title,
+                    authorName: data.authorName,
+                    category: data.category,
+                    imageUrl: data.imageUrl,
+                    createdAt: data.createdAt
+                });
             }
             setIsLoading(false);
         }

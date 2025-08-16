@@ -7,7 +7,7 @@ export default function LastPodcast({ coverUrl, duration, date, title, descripti
 
     return (
         <article
-            className="flex flex-col gap-4 lg:flex-row mt-4 cursor-pointer"
+            className="flex flex-col gap-4 lg:flex-row mt-4 cursor-pointer group"
             onClick={() => window.open(`https://open.spotify.com/episode/${spotifyId}`, '_blank')}
         >
             <Image
@@ -15,7 +15,7 @@ export default function LastPodcast({ coverUrl, duration, date, title, descripti
                 alt="Podcast"
                 width={350}
                 height={350}
-                className="object-cover rounded-lg lg:w-[200px] lg:h-[200px]"
+                className="object-cover rounded-[20px] lg:w-[200px] lg:h-[200px] group-hover:rounded-3xl transition-all ease-in-out duration-300"
             />
             <div className="flex flex-col gap-2">
                 <Image
@@ -26,7 +26,7 @@ export default function LastPodcast({ coverUrl, duration, date, title, descripti
                     className="object-cover rounded-full"
                 />
                 <p className="font-bold font-neulisalt">{duration} - {formattedDate}</p>
-                <h2 className="font-bold font-fractul text-3xl line-clamp-3 tracking-[0.03em] leading-[110%] mb-2">{title}</h2>
+                <h2 className="font-bold font-fractul text-3xl line-clamp-3 tracking-[0.03em] leading-[110%] mb-2 group-hover:font-black transition-all ease-in-out duration-200">{title}</h2>
                 <p className="font-neulisalt line-clamp-5">{description}</p>
             </div>
         </article>

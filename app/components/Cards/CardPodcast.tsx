@@ -6,7 +6,7 @@ export default function CardPodcast({ coverUrl, duration, date, title, spotifyId
     const formattedDate = formatDate(new Date(parseInt(date) * 1000));
     return (
         <article 
-            className="flex flex-col gap-4 mt-4 cursor-pointer" 
+            className="flex flex-col gap-4 mt-4 cursor-pointer hover:bg-[#F3DEDE] transition-colors ease-in-out duration-300 rounded-3xl px-1 pt-1 pb-4" 
             onClick={() => window.open(`https://open.spotify.com/episode/${spotifyId}`, '_blank')}
         >
             <Image
@@ -14,7 +14,7 @@ export default function CardPodcast({ coverUrl, duration, date, title, spotifyId
                 alt="Podcast"
                 width={350}
                 height={350}
-                className="object-cover rounded-lg lg:w-[200px] lg:h-[200px]"
+                className="object-cover rounded-3xl lg:w-[200px] lg:h-[200px]"
             />
             <div className="flex flex-col gap-2">
                 <Image
