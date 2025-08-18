@@ -9,12 +9,15 @@ export default function UserManagement() {
     const {
         users,
         loading,
+        searching,
         roles,
         openRoleMenu,
         confirmDelete,
         formatDate,
         changeUserRole,
         deleteUser,
+        searchUsersByEmail,
+        fetchAllUsers,
         setOpenRoleMenu,
         setConfirmDelete
     } = useUserManagement()
@@ -51,9 +54,13 @@ export default function UserManagement() {
                         roles={roles}
                         openRoleMenu={openRoleMenu}
                         confirmDelete={confirmDelete}
+                        loading={loading}
+                        searching={searching}
                         formatDate={formatDate}
                         changeUserRole={changeUserRole}
                         deleteUser={deleteUser}
+                        searchUsersByEmail={searchUsersByEmail}
+                        fetchAllUsers={fetchAllUsers}
                         setOpenRoleMenu={setOpenRoleMenu}
                         setConfirmDelete={setConfirmDelete}
                     />

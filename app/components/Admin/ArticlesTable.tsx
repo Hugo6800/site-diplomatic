@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import { Timestamp } from 'firebase/firestore'
 import TagArticle from '@/app/components/TagArticle'
+import SearchFilter from './SearchFilter'
 
 interface Article {
     id: string
@@ -18,7 +20,11 @@ interface ArticlesTableProps {
     formatDate: (timestamp: Timestamp) => string
     openStatusMenu: string | null
     setOpenStatusMenu: (articleId: string | null) => void
-    changeArticleStatus?: (articleId: string, newStatus: 'published' | 'waiting') => Promise<void>
+    changeArticleStatus?: (articleId: string, newStatus: 'published' | 'waiting') => Promise<{ success: boolean; error?: unknown }>
+    searchArticlesByTitle?: (title: string) => Promise<void>
+    fetchAllArticles?: () => Promise<void>
+    loading?: boolean
+    searching?: boolean
 }
 
 export default function ArticlesTable({
@@ -26,8 +32,25 @@ export default function ArticlesTable({
     formatDate,
     openStatusMenu,
     setOpenStatusMenu,
-    changeArticleStatus
+    changeArticleStatus,
+    searchArticlesByTitle,
+    fetchAllArticles,
+    loading = false,
+    searching = false
 }: ArticlesTableProps) {
+    const [searchTerm, setSearchTerm] = useState('');
+    
+    // Fonction pour gérer la recherche
+    const handleSearch = async (term: string) => {
+        setSearchTerm(term);
+        if (searchArticlesByTitle) {
+            if (term.length >= 3) {
+                await searchArticlesByTitle(term.toLowerCase().trim());
+            } else if (term === '' && fetchAllArticles) {
+                await fetchAllArticles();
+            }
+        }
+    };
     
     // Fonction pour obtenir le texte du statut
     const getStatusText = (status: string) => {
@@ -54,6 +77,36 @@ export default function ArticlesTable({
     };
     return (
         <div className="overflow-x-auto rounded-lg shadow">
+            {/* Filtre de recherche */}
+            {searchArticlesByTitle && (
+                <div className="mb-4">
+                    <SearchFilter 
+                        onSearch={handleSearch} 
+                        placeholder="Rechercher par titre..."
+                        searchMode="startsWith"
+                        minCharacters={3}
+                    />
+                </div>
+            )}
+            
+            {/* Message de chargement ou de recherche */}
+            {(loading || searching) && (
+                <div className="flex justify-center items-center py-4">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+                    <span className="ml-2">{searching ? 'Recherche en cours...' : 'Chargement...'}</span>
+                </div>
+            )}
+            
+            {/* Message si aucun résultat */}
+            {!loading && !searching && articles.length === 0 && (
+                <div className="text-center py-4">
+                    {searchTerm ? 
+                        <p>Aucun article trouvé pour <strong>&ldquo;{searchTerm}&rdquo;</strong></p> : 
+                        <p>Aucun article disponible</p>
+                    }
+                </div>
+            )}
+            
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                     <tr>

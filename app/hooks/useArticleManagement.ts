@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { collection, getDocs, deleteDoc, doc, Timestamp, orderBy, query, updateDoc } from 'firebase/firestore'
 import { db } from '@/app/lib/firebase'
 
@@ -16,45 +16,95 @@ export interface Article {
 export function useArticleManagement() {
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)
+    const [searching, setSearching] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
     const [openStatusMenu, setOpenStatusMenu] = useState<string | null>(null)
 
+    // Fonction pour trier les articles par statut et date
+    const sortArticlesByStatusAndDate = (articlesData: Article[]) => {
+        return [...articlesData].sort((a, b) => {
+            // Si a est "waiting" et b ne l'est pas, a vient en premier
+            if (a.status === 'waiting' && b.status !== 'waiting') return -1;
+            // Si b est "waiting" et a ne l'est pas, b vient en premier
+            if (b.status === 'waiting' && a.status !== 'waiting') return 1;
+            // Sinon, trier par date de création (du plus récent au plus ancien)
+            return b.createdAt.seconds - a.createdAt.seconds;
+        });
+    };
+    
     // Récupérer tous les articles
-    useEffect(() => {
-        const fetchArticles = async () => {
-            try {
-                setLoading(true)
-                const articlesRef = collection(db, 'articles')
-                // Trier les articles par date de création (du plus récent au plus ancien)
-                const q = query(articlesRef, orderBy('createdAt', 'desc'))
-                const snapshot = await getDocs(q)
-                
-                const articlesData = snapshot.docs.map(doc => ({
+    const fetchAllArticles = useCallback(async () => {
+        try {
+            setLoading(true)
+            const articlesRef = collection(db, 'articles')
+            // Trier les articles par date de création (du plus récent au plus ancien)
+            const q = query(articlesRef, orderBy('createdAt', 'desc'))
+            const snapshot = await getDocs(q)
+            
+            const articlesData = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                createdAt: doc.data().createdAt || Timestamp.now()
+            })) as Article[]
+            
+            // Trier les articles pour mettre ceux avec le statut "waiting" en premier
+            const sortedArticles = sortArticlesByStatusAndDate(articlesData);
+            
+            setArticles(sortedArticles)
+        } catch (error) {
+            console.error('Erreur lors de la récupération des articles:', error)
+        } finally {
+            setLoading(false)
+        }
+    }, []);
+    
+    // Fonction pour rechercher des articles par titre
+    const searchArticlesByTitle = useCallback(async (titlePrefix: string) => {
+        if (!titlePrefix || titlePrefix.length < 3) {
+            // Si la recherche est vide ou trop courte, charger tous les articles
+            fetchAllArticles();
+            return;
+        }
+        
+        setSearching(true);
+        try {
+            const articlesRef = collection(db, 'articles');
+            
+            // Récupérer tous les articles et filtrer côté client
+            // Cette approche est nécessaire car Firestore ne supporte pas nativement
+            // la recherche insensible à la casse ou la recherche partielle dans les chaînes
+            const q = query(articlesRef, orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+            
+            const searchTermLower = titlePrefix.toLowerCase();
+            
+            // Filtrer les articles dont le titre contient le terme de recherche (insensible à la casse)
+            const articlesData = snapshot.docs
+                .map(doc => ({
                     id: doc.id,
                     ...doc.data(),
                     createdAt: doc.data().createdAt || Timestamp.now()
-                })) as Article[]
-                
-                // Trier les articles pour mettre ceux avec le statut "waiting" en premier
-                const sortedArticles = [...articlesData].sort((a, b) => {
-                    // Si a est "waiting" et b ne l'est pas, a vient en premier
-                    if (a.status === 'waiting' && b.status !== 'waiting') return -1;
-                    // Si b est "waiting" et a ne l'est pas, b vient en premier
-                    if (b.status === 'waiting' && a.status !== 'waiting') return 1;
-                    // Sinon, trier par date de création (du plus récent au plus ancien)
-                    return b.createdAt.seconds - a.createdAt.seconds;
+                }) as Article)
+                .filter(article => {
+                    const titleLower = article.title.toLowerCase();
+                    return titleLower.includes(searchTermLower);
                 });
-                
-                setArticles(sortedArticles)
-            } catch (error) {
-                console.error('Erreur lors de la récupération des articles:', error)
-            } finally {
-                setLoading(false)
-            }
+            
+            // Trier les articles pour mettre ceux avec le statut "waiting" en premier
+            const sortedArticles = sortArticlesByStatusAndDate(articlesData);
+            
+            setArticles(sortedArticles);
+        } catch (error) {
+            console.error('Erreur lors de la recherche des articles:', error);
+        } finally {
+            setSearching(false);
         }
+    }, [fetchAllArticles]);
 
-        fetchArticles()
-    }, [])
+    // Charger les articles au démarrage
+    useEffect(() => {
+        fetchAllArticles();
+    }, [fetchAllArticles]);
 
     // Formater la date (DD.MM.YY)
     const formatDate = (timestamp: Timestamp) => {
@@ -99,21 +149,25 @@ export function useArticleManagement() {
                     ? { ...article, status: newStatus } 
                     : article
             ));
+
+            return { success: true };
         } catch (error) {
-            console.error('Erreur lors du changement de statut de l\'article:', error);
-            // Afficher plus de détails sur l'erreur pour le débogage
-            console.error('Détails de l\'erreur:', JSON.stringify(error));
+            console.error('Erreur lors du changement de statut:', error);
+            return { success: false, error };
         }
     }
 
     return {
         articles,
         loading,
+        searching,
         confirmDelete,
         openStatusMenu,
         formatDate,
         deleteArticle,
         changeArticleStatus,
+        searchArticlesByTitle,
+        fetchAllArticles,
         setConfirmDelete,
         setOpenStatusMenu
     }

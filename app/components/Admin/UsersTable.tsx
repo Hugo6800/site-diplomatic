@@ -6,15 +6,21 @@ import { UserWithId } from '@/app/hooks/useUserManagement'
 import { Timestamp } from 'firebase/firestore'
 import TagRole from '@/app/components/TagRole'
 import { useAuth } from '@/app/hooks/useAuth'
+import { useState } from 'react'
+import SearchFilter from './SearchFilter'
 
 interface UsersTableProps {
     users: UserWithId[]
     roles: string[]
     openRoleMenu: string | null
     confirmDelete: string | null
+    loading: boolean
+    searching: boolean
     formatDate: (timestamp: Timestamp) => string
     changeUserRole: (userId: string, newRole: string, currentUserId?: string) => Promise<{ success: boolean, isCurrentUser: boolean | undefined }>
     deleteUser: (userId: string) => Promise<void>
+    searchUsersByEmail: (emailPrefix: string) => Promise<void>
+    fetchAllUsers: () => Promise<void>
     setOpenRoleMenu: (userId: string | null) => void
     setConfirmDelete: (userId: string | null) => void
 }
@@ -24,14 +30,32 @@ export default function UsersTable({
     roles,
     openRoleMenu,
     confirmDelete,
+    loading,
+    searching,
     formatDate,
     changeUserRole,
     deleteUser,
+    searchUsersByEmail,
+    fetchAllUsers,
     setOpenRoleMenu,
     setConfirmDelete
 }: UsersTableProps) {
     const router = useRouter();
     const { user: currentUser } = useAuth();
+    const [searchTerm, setSearchTerm] = useState('');
+    
+    // Gestion de la recherche directement dans Firestore
+    const handleSearch = async (term: string) => {
+        setSearchTerm(term);
+        
+        if (term.length >= 3) {
+            // Rechercher dans Firestore
+            await searchUsersByEmail(term.toLowerCase().trim());
+        } else if (term === '') {
+            // Si la recherche est vide, charger tous les utilisateurs
+            await fetchAllUsers();
+        }
+    };
     
     // Fonction pour gérer le changement de rôle avec redirection si nécessaire
     const handleRoleChange = async (userId: string, newRole: string) => {
@@ -50,7 +74,17 @@ export default function UsersTable({
         }
     };
     return (
-        <div className="overflow-x-auto rounded-lg shadow">
+        <div>
+            <SearchFilter 
+                placeholder="Rechercher par email..."
+                onSearch={handleSearch}
+                searchFields={['email']}
+                className="mb-6"
+                minCharacters={3}
+                searchMode="startsWith"
+            />
+            
+            <div className="overflow-x-auto rounded-lg shadow">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                     <tr>
@@ -158,6 +192,19 @@ export default function UsersTable({
                     ))}
                 </tbody>
             </table>
+            
+            {users.length === 0 && searchTerm && !loading && !searching && (
+                <div className="text-center py-4 text-gray-500 font-neulisalt">
+                    Aucun utilisateur trouvé pour cette recherche
+                </div>
+            )}
+            
+            {searching && (
+                <div className="text-center py-4 text-gray-500 font-neulisalt">
+                    Recherche en cours...
+                </div>
+            )}
         </div>
+    </div>
     )
 }

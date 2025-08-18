@@ -9,10 +9,13 @@ export default function ArticleManagement() {
     const {
         articles,
         loading,
+        searching,
         formatDate,
         openStatusMenu,
         setOpenStatusMenu,
-        changeArticleStatus
+        changeArticleStatus,
+        searchArticlesByTitle,
+        fetchAllArticles
     } = useArticleManagement()
     
     // Utiliser le hook de pagination avec 10 éléments par page
@@ -48,6 +51,10 @@ export default function ArticleManagement() {
                         openStatusMenu={openStatusMenu}
                         setOpenStatusMenu={setOpenStatusMenu}
                         changeArticleStatus={changeArticleStatus}
+                        searchArticlesByTitle={searchArticlesByTitle}
+                        fetchAllArticles={fetchAllArticles}
+                        loading={loading}
+                        searching={searching}
                     />
                     
                     <Pagination

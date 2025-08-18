@@ -9,10 +9,14 @@ export default function ContactSubmissionsSection() {
     const {
         submissions,
         loading,
+        searching,
         formatDate,
         openStatusMenu,
         setOpenStatusMenu,
-        changeSubmissionStatus
+        changeSubmissionStatus,
+        searchContactsByName,
+        searchContactsByEmail,
+        fetchAllSubmissions
     } = useContactSubmissions()
     
     // Utiliser le hook de pagination avec 10 éléments par page
@@ -48,6 +52,11 @@ export default function ContactSubmissionsSection() {
                         openStatusMenu={openStatusMenu}
                         setOpenStatusMenu={setOpenStatusMenu}
                         changeSubmissionStatus={changeSubmissionStatus}
+                        searchContactsByName={searchContactsByName}
+                        searchContactsByEmail={searchContactsByEmail}
+                        fetchAllSubmissions={fetchAllSubmissions}
+                        loading={loading}
+                        searching={searching}
                     />
                     
                     <Pagination
