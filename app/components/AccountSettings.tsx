@@ -1,14 +1,57 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import ChangePasswordForm from './Forms/ChangePasswordForm';
 import DeleteAccountForm from './Forms/DeleteAccountForm';
 import { useRouter } from 'next/navigation';
+import { auth, db } from '@/app/lib/firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 export default function AccountSettings() {
     const router = useRouter();
     const [emailNotifications, setEmailNotifications] = useState(false);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const currentUser = auth.currentUser;
+                if (currentUser) {
+                    const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        setEmailNotifications(userData.newsletter || false);
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchUserData();
+    }, []);
+    
+    const handleNewsletterToggle = async () => {
+        try {
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                const newValue = !emailNotifications;
+                setEmailNotifications(newValue);
+                
+                // Update in Firestore
+                await updateDoc(doc(db, 'users', currentUser.uid), {
+                    newsletter: newValue
+                });
+            }
+        } catch (error) {
+            console.error('Error updating newsletter preference:', error);
+            // Revert the UI state if update fails
+            setEmailNotifications(!emailNotifications);
+        }
+    };
 
     return (
         <section className="flex flex-col gap-8 p-8 max-w-4xl mx-auto">
@@ -30,8 +73,9 @@ export default function AccountSettings() {
                 <div className="flex items-center justify-between py-2">
                     <span className="text-gray-700">Recevoir la newsletter par email</span>
                     <button
-                        onClick={() => setEmailNotifications(!emailNotifications)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${emailNotifications ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
+                        onClick={handleNewsletterToggle}
+                        disabled={loading}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${emailNotifications ? 'bg-gray border-0' : 'bg-white border-2 border-black'} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                         <span className="sr-only">Activer les notifications par email</span>
                         <span

@@ -17,6 +17,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [newsletter, setNewsletter] = useState(false);
     const [error, setError] = useState('');
     const [validationErrors, setValidationErrors] = useState({
         email: '',
@@ -51,6 +52,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                 firstName,
                 lastName,
                 email,
+                newsletter: newsletter,
                 preferences: {
                     showEmail: false,
                     showStatus: false,
@@ -162,6 +164,8 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                     <input
                         type="checkbox"
                         id="newsletter"
+                        checked={newsletter}
+                        onChange={(e) => setNewsletter(e.target.checked)}
                         className="w-4 h-4 accent-[#DE595C] cursor-pointer"
                     />
                     <label htmlFor="newsletter" className="font-neulisalt text-sm cursor-pointer">
