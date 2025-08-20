@@ -65,11 +65,11 @@ export default function AllJobsSection() {
     }
 
     if (jobs.length === 0) {
-        return null; // Ne pas afficher la section s'il n'y a pas d'autres offres
+        return null; 
     }
 
     return (
-        <section className="">
+        <section className="mb-16">
             <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Autres offres</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {jobs.map((job) => (

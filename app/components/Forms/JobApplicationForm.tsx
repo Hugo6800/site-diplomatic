@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '@/app/lib/firebase';
+import { useCloudinaryFile } from '@/app/hooks/useCloudinaryFile';
 
 interface JobApplicationFormProps {
     jobId?: string;
@@ -19,8 +22,11 @@ export default function JobApplicationForm({ jobId }: JobApplicationFormProps) {
         jobId: jobId || searchParams.get('jobId') || ''
     });
     
+    const { uploadFile } = useCloudinaryFile({ folder: 'CV' });
+    
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
+    const [submitError, setSubmitError] = useState<string | null>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -43,13 +49,37 @@ export default function JobApplicationForm({ jobId }: JobApplicationFormProps) {
         e.preventDefault();
         setIsSubmitting(true);
         
-        // Simulate form submission
-        setTimeout(() => {
-            console.log('Form submitted:', formData);
+        try {
+            setSubmitError(null);
+            
+            // Vérifier que tous les champs sont remplis
+            if (!formData.firstName || !formData.lastName || !formData.email || !formData.cv || !formData.motivation) {
+                setSubmitError('Veuillez remplir tous les champs');
+                throw new Error('Veuillez remplir tous les champs');
+            }
+            
+            // Télécharger le CV sur Cloudinary
+            const cvUrl = await uploadFile(formData.cv);
+            
+            // Préparer les données pour Firestore
+            const candidateData = {
+                name: `${formData.firstName} ${formData.lastName}`,
+                email: formData.email,
+                motivation: formData.motivation,
+                cvUrl: cvUrl,
+                jobId: formData.jobId,
+                createdAt: new Date().toISOString(),
+                status: 'new' // Statut initial de la candidature
+            };
+            
+            // Enregistrer dans Firestore
+            await addDoc(collection(db, 'candidates'), candidateData);
+            
+            // Afficher le message de succès
             setIsSubmitting(false);
             setSubmitSuccess(true);
             
-            // Reset form after successful submission
+            // Réinitialiser le formulaire après 3 secondes
             setTimeout(() => {
                 setFormData({
                     firstName: '',
@@ -57,15 +87,26 @@ export default function JobApplicationForm({ jobId }: JobApplicationFormProps) {
                     email: '',
                     cv: null,
                     motivation: '',
-                    jobId: formData.jobId // Keep the job ID
+                    jobId: formData.jobId 
                 });
                 setSubmitSuccess(false);
             }, 3000);
-        }, 1000);
+            
+        } catch (error) {
+            console.error('Erreur lors de la soumission du formulaire:', error);
+            setIsSubmitting(false);
+            const errorMessage = error instanceof Error ? error.message : 'Une erreur est survenue lors de l\'envoi du formulaire';
+            setSubmitError(errorMessage);
+        }
     };
 
     return (
         <div className="bg-[#F9F1F1] dark:bg-[#1E1E1E] rounded-3xl py-6 md:py-8 w-full">
+            {submitError && (
+                <div className="mb-6 p-4 bg-red-100 dark:bg-red-900 border-l-4 border-red-500 text-red-700 dark:text-red-200">
+                    <p>{submitError}</p>
+                </div>
+            )}
             {submitSuccess ? (
                 <div className="text-center py-8">
                     <div className="flex justify-center mb-4">
@@ -140,7 +181,7 @@ export default function JobApplicationForm({ jobId }: JobApplicationFormProps) {
                                 type="file"
                                 id="cv"
                                 name="cv"
-                                accept=".pdf,.doc,.docx"
+                                accept=".pdf"
                                 onChange={handleFileChange}
                                 required
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"

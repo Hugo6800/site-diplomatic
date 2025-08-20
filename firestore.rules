@@ -198,6 +198,34 @@ service cloud.firestore {
       allow delete: if request.auth != null && isAdmin();
     }
     
+    // Règles pour la collection candidates (candidatures aux offres d'emploi)
+    match /candidates/{candidateId} {
+      // Permettre la création de documents par des utilisateurs non authentifiés
+      allow create: if
+        // Vérifier que tous les champs requis sont présents et du bon type
+        request.resource.data.keys().hasAll(['name', 'email', 'motivation', 'cvUrl', 'createdAt', 'status']) &&
+        request.resource.data.name is string && 
+        request.resource.data.name.size() > 0 && 
+        request.resource.data.name.size() <= 100 &&
+        request.resource.data.email is string && 
+        request.resource.data.email.size() > 0 &&
+        request.resource.data.motivation is string && 
+        request.resource.data.motivation.size() > 0 && 
+        request.resource.data.motivation.size() <= 5000 &&
+        request.resource.data.cvUrl is string &&
+        request.resource.data.cvUrl.size() > 0 &&
+        request.resource.data.createdAt is string &&
+        request.resource.data.status == 'new';
+
+      // Permettre la lecture et la mise à jour uniquement aux administrateurs et journalistes
+      allow read, update: if request.auth != null &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist');
+
+      // Permettre la suppression uniquement aux administrateurs
+      allow delete: if request.auth != null && isAdmin();
+    }
+    
     // Règles par défaut : tout bloquer
     match /{document=**} {
       allow read, write: if false;
