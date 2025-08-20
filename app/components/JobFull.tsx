@@ -9,11 +9,28 @@ export default function JobFull({ title, shortDescription, postDescription, sear
                     Postuler
                 </button>
             </div>
-            <p className="mb-2">{shortDescription}</p>
+            
+            {/* Affichage du contenu HTML pour la description courte */}
+            <div 
+                className="mb-2"
+                dangerouslySetInnerHTML={{ __html: shortDescription }}
+            />
+            
             <h3 className="font-bold font-fractul text-[30px] mb-2 dark:text-white w-fit">Le poste</h3>
-            <p className="mb-2">{postDescription}</p>
+            
+            {/* Affichage du contenu HTML pour la description du poste */}
+            <div 
+                className="mb-2 prose dark:prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: postDescription }}
+            />
+            
             <h3 className="font-bold font-fractul text-[30px] mb-2 dark:text-white w-fit">Profil recherché</h3>
-            <p className="mb-2">{searchProfil}</p>
+            
+            {/* Affichage du contenu HTML pour le profil recherché */}
+            <div 
+                className="mb-2 prose dark:prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: searchProfil }}
+            />
         </section>
     )
 }
