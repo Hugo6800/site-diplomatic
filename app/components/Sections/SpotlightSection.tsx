@@ -63,7 +63,7 @@ export default function SpotlightSection() {
 
     return (
         <section className="relative pt-12 lg:pt-24 mt-16 w-full 2xl:flex">
-            <div className="hidden 2xl:flex absolute left-0 -translate-x-full 2xl:pr-6 inset-y-0 pt-24">
+            <div className="flex absolute left-0 -translate-x-full inset-y-0 pt-24 pr-6">
                 <Advertising className="" />
             </div>
             <div className="mt-12">
