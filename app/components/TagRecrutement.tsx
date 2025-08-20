@@ -7,21 +7,21 @@ export default function TagEditArticle() {
     const router = useRouter();
 
     const handleClick = () => {
-        router.push('/edit-article');
+        router.push('/recrutement');
     };
 
     return (
         <div 
             onClick={handleClick}
-            className="rounded-full bg-[#9AF2A3] flex items-center justify-center gap-2 py-10 cursor-pointer"
+            className="rounded-full bg-[#F29A9C] flex items-center justify-center gap-2 py-10 cursor-pointer"
         >
             <Image
-                src="/icons/edit_square.svg"
+                src="/icons/add_to_queue.svg"
                 alt="edit"
                 width={30}
                 height={30}
             />
-            <p className="font-bold font-neulisalt">Écrire un article</p>
+            <p className="font-bold font-neulisalt">Recrutement</p>
         </div>
     );
 }
