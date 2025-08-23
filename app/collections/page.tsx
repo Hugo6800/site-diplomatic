@@ -15,9 +15,9 @@ export default function CollectionsPage() {
     const tag = searchParams.get('tag') || '';
     const tagLower = tag.toLowerCase();
     const cssTag = tagToClass[tagLower] || tagLower;
-    const colorCircle = `bg-tag-${cssTag}`;
-    const titleColor = `text-tag-${cssTag}`;
-    const formattedTag = tag ? tag.charAt(0).toUpperCase() + tag.slice(1) : '';
+    const colorCircle = tag ? `bg-tag-${cssTag}` : 'bg-tag-all';
+    const titleColor = tag ? `text-tag-${cssTag}` : 'text-tag-all';
+    const formattedTag = tag ? tag.charAt(0).toUpperCase() + tag.slice(1) : 'Tous';
 
     const [articles, setArticles] = useState<SpotlightArticle[]>([]);
     const [loading, setLoading] = useState(true);
@@ -40,7 +40,6 @@ export default function CollectionsPage() {
                     createdAt: doc.data().createdAt
                 }));
 
-                // Trier les articles par date
                 const sortedArticles = fetchedArticles.sort((a, b) =>
                     b.createdAt.seconds - a.createdAt.seconds
                 );

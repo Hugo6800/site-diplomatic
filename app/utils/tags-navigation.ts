@@ -9,7 +9,7 @@ export interface TagNavigation {
 export const tagsNavigation: TagNavigation[] = [
     {
         name: "Tous",
-        href: "/",
+        href: "/all",
         colorCircle: "bg-tag-all",
         className: "text-tag-all border-2 border-tag-all transition-colors",
         backgroundArticle: "background-tag-all"
