@@ -6,4 +6,5 @@ export interface ArticleFullProps {
     date: string;
     imageUrl: string;
     content: string;
+    paywall?: boolean;
 }

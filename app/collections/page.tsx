@@ -1,14 +1,25 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase';
 import ArticleOthers from '@/app/components/ArticleOthers';
-import { tagToClass } from '@/app/utils/tagMapping';
-import { SpotlightArticle } from '@/app/types/spotlightArticle';
-import Advertising from '../components/Advertising';
+import Advertising from '@/app/components/Advertising';
 import { formatDate } from '@/app/utils/formatDate';
+import { tagToClass } from '@/app/utils/tagMapping';
+import { usePaywall } from '@/app/hooks/usePaywall';
+
+// Define the SpotlightArticle interface here if it's not exported from a module
+interface SpotlightArticle {
+  id: string;
+  title: string;
+  category: string;
+  authorName: string;
+  imageUrl: string;
+  createdAt: { seconds: number };
+  paywall?: boolean;
+}
 
 export default function CollectionsPage() {
     const searchParams = useSearchParams();
@@ -21,14 +32,21 @@ export default function CollectionsPage() {
 
     const [articles, setArticles] = useState<SpotlightArticle[]>([]);
     const [loading, setLoading] = useState(true);
+    const { hasFullAccess } = usePaywall();
 
     useEffect(() => {
         async function fetchArticles() {
             try {
                 const articlesRef = collection(db, 'articles');
-                const q = tag
-                    ? query(articlesRef, where('category', '==', tagLower))
-                    : query(articlesRef);
+                let q;
+                
+                if (tag) {
+                    // Filter by tag
+                    q = query(articlesRef, where('category', '==', tagLower));
+                } else {
+                    // Show all articles by default
+                    q = query(articlesRef);
+                }
 
                 const querySnapshot = await getDocs(q);
                 const fetchedArticles = querySnapshot.docs.map(doc => ({
@@ -37,7 +55,8 @@ export default function CollectionsPage() {
                     category: doc.data().category,
                     authorName: doc.data().authorName,
                     imageUrl: doc.data().imageUrl,
-                    createdAt: doc.data().createdAt
+                    createdAt: doc.data().createdAt,
+                    paywall: doc.data().paywall || false // Default to false if not specified
                 }));
 
                 const sortedArticles = fetchedArticles.sort((a, b) =>
@@ -53,7 +72,7 @@ export default function CollectionsPage() {
         }
 
         fetchArticles();
-    }, [tag, tagLower]);
+    }, [tag, tagLower, hasFullAccess]);
 
     if (loading) {
         return (
@@ -86,6 +105,7 @@ export default function CollectionsPage() {
                             title={article.title}
                             date={formatDate(new Date(article.createdAt.seconds * 1000))}
                             imageUrl={article.imageUrl}
+                            paywall={article.paywall}
                         />
                     ))}
                 </section>

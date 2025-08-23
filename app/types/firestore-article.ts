@@ -8,4 +8,5 @@ export interface FirestoreArticle {
     content: string;
     imageUrl: string;
     createdAt: Timestamp;
+    paywall?: boolean;
 }

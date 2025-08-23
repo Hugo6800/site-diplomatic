@@ -6,4 +6,5 @@ export interface Article {
     content: string;
     imageUrl: string;
     createdAt: string;
+    paywall?: boolean;
 }
