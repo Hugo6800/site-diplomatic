@@ -6,7 +6,7 @@ import { db } from '@/app/lib/firebase'
 import { formatDate } from '@/app/utils/formatDate'
 import JobsTable from '@/app/components/Admin/JobsTable'
 import CandidatesTable from '@/app/components/Admin/CandidatesTable'
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
 interface JobOffer {
@@ -31,11 +31,26 @@ export default function RecrutementSection() {
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null)
     const [selectedJobTitle, setSelectedJobTitle] = useState<string>('')
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const candidatsParam = searchParams.get('candidats');
 
-    // Récupération des offres d'emploi
+    // Synchroniser l'état avec les paramètres d'URL
+    useEffect(() => {
+        if (candidatsParam && jobs.length > 0) {
+            const job = jobs.find(job => job.id === candidatsParam);
+            if (job) {
+                setSelectedJobId(candidatsParam);
+                setSelectedJobTitle(job.title);
+            }
+        } else if (!candidatsParam && selectedJobId) {
+            setSelectedJobId(null);
+            setSelectedJobTitle('');
+        }
+    }, [candidatsParam, jobs, selectedJobId]);
+
     useEffect(() => {
         async function fetchJobs() {
-            if (selectedJobId) return; // Ne pas charger les jobs si on affiche les candidatures
+            if (selectedJobId) return;
 
             setLoading(true)
             try {
@@ -65,10 +80,9 @@ export default function RecrutementSection() {
         fetchJobs()
     }, [selectedJobId])
 
-    // Récupération des candidatures pour une offre spécifique
     useEffect(() => {
         async function fetchCandidates() {
-            if (!selectedJobId) return; // Ne charger les candidatures que si un job est sélectionné
+            if (!selectedJobId) return;
 
             setLoading(true)
             try {
@@ -87,10 +101,9 @@ export default function RecrutementSection() {
                             id: doc.id,
                             fullName: data.name || 'Candidat sans nom',
                             createdAt: data.createdAt,
-                            submittedAt: data.createdAt ? 
-                                // Gérer à la fois les objets Timestamp et les chaînes ISO
-                                (data.createdAt.seconds ? 
-                                    formatDate(new Date(data.createdAt.seconds * 1000)) : 
+                            submittedAt: data.createdAt ?
+                                (data.createdAt.seconds ?
+                                    formatDate(new Date(data.createdAt.seconds * 1000)) :
                                     formatDate(new Date(data.createdAt))
                                 ) : 'Date inconnue',
                             jobId: data.jobId
@@ -114,16 +127,21 @@ export default function RecrutementSection() {
     const handleViewCandidates = (jobId: string, jobTitle: string) => {
         setSelectedJobId(jobId)
         setSelectedJobTitle(jobTitle)
+        router.push(`/recrutement?candidats=${jobId}`)
+    }
+    
+    // Fonction pour revenir à la liste des offres
+    const handleBackToJobs = () => {
+        setSelectedJobId(null)
+        setSelectedJobTitle('')
+        router.push('/recrutement')
     }
 
     return (
         <section className="my-12">
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">
-                {selectedJobId ? `Candidatures: ${selectedJobTitle}` : 'Recrutement'}
-            </h2>
             <button
                 onClick={() => router.push('/profil')}
-                className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer my-6"
+                className="flex justify-center items-center gap-2 lg:w-1/5 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer my-6"
             >
                 <Image
                     src="/icons/arrow-left.svg"
@@ -131,15 +149,32 @@ export default function RecrutementSection() {
                     width={24}
                     height={24}
                 />
-                Retour au compte
+                Retour au profil
             </button>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">
+                {selectedJobId ? `Candidatures : ${selectedJobTitle}` : 'Recrutement'}
+            </h2>
 
             {selectedJobId ? (
-                <CandidatesTable
-                    candidates={candidates}
-                    loading={loading}
-                    jobId={selectedJobId}
-                />
+                <>
+                    <button
+                        onClick={handleBackToJobs}
+                        className="flex justify-center items-center gap-2 w-fit px-4 py-2 bg-[#F58688] font-semibold rounded-full cursor-pointer mb-4"
+                    >
+                        <Image
+                            src="/icons/arrow-left.svg"
+                            alt="Retour"
+                            width={16}
+                            height={16}
+                        />
+                        Retour aux offres
+                    </button>
+                    <CandidatesTable
+                        candidates={candidates}
+                        loading={loading}
+                        jobId={selectedJobId}
+                    />
+                </>
             ) : (
                 <JobsTable
                     jobs={jobs}

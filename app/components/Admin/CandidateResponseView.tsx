@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '@/app/lib/firebase'
+import { useSearchParams } from 'next/navigation';
 
 interface CandidateResponseViewProps {
     candidateId: string
@@ -22,6 +23,14 @@ export default function CandidateResponseView({ candidateId }: CandidateResponse
     const [candidate, setCandidate] = useState<CandidateData | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
+    const searchParams = useSearchParams();
+    const jobId = searchParams.get('candidats');
+    const candidatParam = searchParams.get('candidat');
+
+    useEffect(() => {
+        if (candidatParam && candidatParam !== candidateId) {
+        }
+    }, [candidatParam, candidateId]);
 
     useEffect(() => {
         async function fetchCandidateData() {
@@ -51,6 +60,16 @@ export default function CandidateResponseView({ candidateId }: CandidateResponse
         fetchCandidateData()
     }, [candidateId])
 
+    const handleBackToJobs = () => {        
+        if (jobId) {
+            window.location.href = `/recrutement?candidats=${jobId}`;
+        } else if (candidate && candidate.jobId) {
+            window.location.href = `/recrutement?candidats=${candidate.jobId}`;
+        } else {
+            window.location.href = '/recrutement';
+        }
+    }
+
     if (loading) {
         return (
             <div className="flex justify-center items-center p-10">
@@ -71,6 +90,21 @@ export default function CandidateResponseView({ candidateId }: CandidateResponse
 
     return (
         <div className="bg-[#FDF8F8] dark:bg-gray-800 rounded-lg shadow-md p-6 mt-4">
+            <button
+                onClick={(e) => {
+                    e.preventDefault();
+                    handleBackToJobs();
+                }}
+                className="flex justify-center items-center gap-2 w-fit px-4 py-2 hover:bg-[#F58688] font-semibold rounded-full cursor-pointer mb-4"
+            >
+                <Image
+                    src="/icons/arrow-left.svg"
+                    alt="Retour"
+                    width={16}
+                    height={16}
+                />
+                Retour aux candidatures
+            </button>
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold font-neulisalt text-[#3F3F43] dark:text-white">
                     Réponse de {candidate.name}
@@ -95,11 +129,9 @@ export default function CandidateResponseView({ candidateId }: CandidateResponse
                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
                         <a
                             href={candidate.cvUrl}
-                            // download={`CV_${candidate.name.replace(/\s+/g, '_')}.pdf`}
                             className="flex items-center gap-2 bg-[#3F3F43] text-white px-4 py-2 rounded-md hover:bg-opacity-80"
                             onClick={(e) => {
                                 e.preventDefault();
-                                // Ouvrir l'URL dans un nouvel onglet
                                 window.open(candidate.cvUrl, '_blank');
                             }}
                         >

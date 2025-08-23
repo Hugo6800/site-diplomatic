@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Timestamp } from 'firebase/firestore'
 import CandidateResponseView from './CandidateResponseView'
+import { useRouter } from 'next/navigation'
 
 interface Candidate {
     id: string
@@ -16,18 +17,21 @@ interface Candidate {
 interface CandidatesTableProps {
     candidates: Candidate[]
     loading: boolean
-    jobId?: string // Identifiant de l'offre d'emploi pour filtrer les candidatures
+    jobId?: string
 }
 
-export default function CandidatesTable({ candidates, loading }: CandidatesTableProps) {
+export default function CandidatesTable({ candidates, loading, jobId }: CandidatesTableProps) {
     const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null)
+    const router = useRouter()
     
-    // Fonction pour afficher les détails d'une candidature
     const handleViewResponse = (candidateId: string) => {
         setSelectedCandidateId(candidateId)
+        // Update URL to include the candidate ID
+        if (jobId) {
+            router.push(`/recrutement?candidats=${jobId}&candidat=${candidateId}`)
+        }
     }
     
-    // Si un candidat est sélectionné, afficher ses détails
     if (selectedCandidateId) {
         return <CandidateResponseView candidateId={selectedCandidateId} />
     }
