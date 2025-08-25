@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Cardplans({ title, image, line1, line2, line3, line4, duration, priceTag }: { title: string, image: string, line1: string, line2: string, line3: string, line4: string, duration: string, priceTag: string }) {
+export default function Cardplans({ title, image, line1, line2, line3, priceTag  }: { title: string, image: string, line1: string, line2: string, line3: string, priceTag: string }) {
     return (
         <article className="flex flex-col gap-4 px-4 pt-16 pb-8 bg-[#F3DEDE] rounded-3xl">
             <Image
@@ -44,18 +44,6 @@ export default function Cardplans({ title, image, line1, line2, line3, line4, du
                     />
                     {line3}
                 </p>
-                {line4 && (
-                    <p className="flex items-center gap-2">
-                        <Image
-                            src="/icons/Checkbox.svg"
-                            alt="Check"
-                            width={24}
-                            height={24}
-                            className="object-contain"
-                        />
-                        {line4}
-                    </p>
-                )}
             </div>
             <div className="flex items-center gap-2">
                 <p className="font-neulisalt">TOTAL</p>
@@ -69,7 +57,6 @@ export default function Cardplans({ title, image, line1, line2, line3, line4, du
                     height={60}
                     className="object-cover w-[100px] h-[60px] mx-auto"
                 />
-                {duration}
             </div>
             <div className="border-t-[3px] border-dotted border-black w-full"></div>
             <Link href={"/pricing"} className="font-bold font-neulisalt underline underline-offset-2 decoration-dotted w-full text-center hover:bg-black hover:text-[#F3DEDE] hover:no-underline hover:underline-offset-0">Payer avec Stripe</Link>

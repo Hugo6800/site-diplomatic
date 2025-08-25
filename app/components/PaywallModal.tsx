@@ -19,8 +19,6 @@ export default function PaywallModal() {
                         line1="Accès à cet article"
                         line2="Soutien à notre équipe"
                         line3="Contenu exclusif"
-                        line4=""
-                        duration="unique"
                         priceTag="/Price_tag_monthly.svg"
                     />
                 </div>

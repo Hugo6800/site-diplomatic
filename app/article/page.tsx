@@ -106,17 +106,17 @@ export default function ArticlePage() {
             {article?.paywall && !hasAccess && user && (
                 <>
                     <div className="absolute inset-0 bg-black/20 z-40" aria-hidden="true" />
-                    <div className="absolute left-0 right-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-8">
+                    <div className="absolute left-0 right-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-2">
                         <PaywallModal />
                     </div>
                 </>
             )}
 
             {/* Afficher la modale d'authentification si l'utilisateur n'est pas connecté et que l'article est premium */}
-            {article?.paywall && !user && (
+            {!user && (
                 <>
                     <div className="absolute inset-0 bg-black/20 z-40" aria-hidden="true" onClick={() => setAuthMode('buttons')} />
-                    <div className="absolute left-0 right-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-8">
+                    <div className="absolute left-0 right-0 z-50 mx-4 md:mx-12 lg:mx-64 backdrop-blur-md bg-white/30 border border-white/20 rounded-lg shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] bottom-2">
                         <div className="container mx-auto max-w-md px-4 py-8">
                             <div className="max-h-[80vh] md:max-h-none overflow-y-auto">
                                 <h2 className="text-2xl font-fractul font-bold mb-4 text-center">Soutenez The Diplomatic Post</h2>
