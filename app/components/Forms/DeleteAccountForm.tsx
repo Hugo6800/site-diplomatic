@@ -49,7 +49,7 @@ export default function DeleteAccountForm() {
                     ${isDeleting ? 'bg-gray-400' : 'bg-[var(--button-color)]'} 
                     rounded-full font-semibold font-neulisalt
                     transition-colors duration-200
-                    disabled:cursor-not-allowed
+                    cursor-pointer
                 `}
             >
                 {isDeleting ? (

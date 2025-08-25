@@ -63,6 +63,30 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                 emailVerified: false
             });
 
+            // Ajouter l'utilisateur à la liste Brevo si newsletter activée
+            if (newsletter) {
+                try {
+                    const response = await fetch('/api/newsletter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email,
+                            firstName,
+                            lastName
+                        }),
+                    });
+                    
+                    if (!response.ok) {
+                        console.error('Erreur lors de l\'ajout à la newsletter');
+                    }
+                } catch (newsletterError) {
+                    console.error('Erreur lors de l\'ajout à la newsletter:', newsletterError);
+                    // Ne pas bloquer l'inscription si l'ajout à la newsletter échoue
+                }
+            }
+
             // Stocker les données temporairement dans localStorage
             localStorage.setItem('pendingUserData', JSON.stringify({
                 firstName,

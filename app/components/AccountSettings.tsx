@@ -45,6 +45,35 @@ export default function AccountSettings() {
                 await updateDoc(doc(db, 'users', currentUser.uid), {
                     newsletter: newValue
                 });
+                
+                // Mettre à jour dans Brevo
+                try {
+                    if (newValue) {
+                        // Ajouter à la liste Brevo
+                        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                        const userData = userDoc.exists() ? userDoc.data() : null;
+                        
+                        await fetch('/api/newsletter', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                email: currentUser.email,
+                                firstName: userData?.firstName || '',
+                                lastName: userData?.lastName || ''
+                            }),
+                        });
+                    } else {
+                        // Supprimer de la liste Brevo
+                        await fetch(`/api/newsletter?email=${encodeURIComponent(currentUser.email || '')}`, {
+                            method: 'DELETE',
+                        });
+                    }
+                } catch (brevoError) {
+                    console.error('Erreur lors de la mise à jour de la newsletter Brevo:', brevoError);
+                    // Ne pas bloquer la mise à jour Firestore si Brevo échoue
+                }
             }
         } catch (error) {
             console.error('Error updating newsletter preference:', error);
@@ -69,7 +98,7 @@ export default function AccountSettings() {
             </button>
             <ChangePasswordForm />
             <div className="flex flex-col gap-4">
-                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Notifications par email</h2>
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Newsletter par email</h2>
                 <div className="flex items-center justify-between py-2">
                     <span className="text-gray-700">Recevoir la newsletter par email</span>
                     <button
