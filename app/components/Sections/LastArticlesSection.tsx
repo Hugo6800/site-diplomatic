@@ -68,8 +68,9 @@ export default function LastArticlesSection() {
                     return b.createdAt.seconds - a.createdAt.seconds;
                 });
                 
-                // Limiter à 6 articles maximum
-                setArticles(sortedArticles.slice(0, 6));
+                // Exclure le premier article (le plus récent) qui est déjà affiché dans SpotlightSection
+                // et limiter à 6 articles maximum
+                setArticles(sortedArticles.slice(1, 7));
             }
             setIsLoading(false);
         }

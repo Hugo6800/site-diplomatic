@@ -12,13 +12,13 @@ import { usePaywall } from '@/app/hooks/usePaywall';
 
 // Define the SpotlightArticle interface here if it's not exported from a module
 interface SpotlightArticle {
-  id: string;
-  title: string;
-  category: string;
-  authorName: string;
-  imageUrl: string;
-  createdAt: { seconds: number };
-  paywall?: boolean;
+    id: string;
+    title: string;
+    category: string;
+    authorName: string;
+    imageUrl: string;
+    createdAt: { seconds: number };
+    paywall?: boolean;
 }
 
 export default function CollectionsPage() {
@@ -39,7 +39,7 @@ export default function CollectionsPage() {
             try {
                 const articlesRef = collection(db, 'articles');
                 let q;
-                
+
                 if (tag) {
                     // Filter by tag
                     q = query(articlesRef, where('category', '==', tagLower));
@@ -86,6 +86,9 @@ export default function CollectionsPage() {
 
     return (
         <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
+            <div className="hidden xl:block fixed top-24 left-8 z-10 w-[170px] mt-24">
+                <Advertising className="h-[350px]" />
+            </div>
             <div className="flex items-center gap-2 mb-8">
                 <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
                 <h2 className={`font-bold font-fractul text-[2rem] ${titleColor}`}>{formattedTag}</h2>

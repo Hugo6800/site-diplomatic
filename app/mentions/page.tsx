@@ -12,22 +12,38 @@ export default function Mentions() {
             <div className="flex flex-col">
                 <h3 className="font-bold font-fractul text-lg mb-2">Éditeur du site</h3>
                 <p className="font-neulisalt">
-                    {`Angélique Copéré - Email : angelique.copere@free-dev.fr`}
+                    {`Angélique Copéré`}
                 </p>
-                <Link href="https://free-dev.fr">
-                    {`Free-dev.fr`}
+                <p className="font-neulisalt">
+                    {`Email : angelique.copere@free-dev.fr`}
+                </p>
+                <Link href="https://www.free-dev.fr" target="_blank">
+                    {`free-dev.fr`}
                 </Link>
             </div>
             <div className="flex flex-col">
                 <h3 className="font-bold font-fractul text-lg mb-2">Hébergement</h3>
                 <p className="font-neulisalt">
-                    {`Vercel Inc.
-                    340 S Lemon Ave #4133
-                    Walnut, CA 91789
+                    {`Netlify
+                    610 22nd Street, 
+                    Suite 315
+                    CA 94107 San Francisco
                     États-Unis`}
                 </p>
-                <Link href="https://vercel.com">
-                    {`Vercel.com`}
+                <Link href="https://www.netlify.com" target="_blank">
+                    {`netlify.com`}
+                </Link>
+            </div>
+            <div className="flex flex-col">
+                <h3 className="font-bold font-fractul text-lg mb-2">Stockages des données</h3>
+                <p className="font-neulisalt">
+                    {`Firebase
+                    1600 Amphitheatre Parkway
+                    Mountain View, CA 94043
+                    États-Unis`}
+                </p>
+                <Link href="https://www.firebase.google.com" target="_blank">
+                    {`firebase.google.com`}
                 </Link>
             </div>
             <div className="flex flex-col">
