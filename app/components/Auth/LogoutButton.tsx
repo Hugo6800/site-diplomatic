@@ -9,7 +9,7 @@ export function LogoutButton() {
   };
 
   return (
-    <button onClick={handleLogout} className="text-sm text-red-500 hover:underline">
+    <button onClick={handleLogout} className="text-sm text-red-500 hover:underline flex justify-start">
       Se déconnecter
     </button>
   );

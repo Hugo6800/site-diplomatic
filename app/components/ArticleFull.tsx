@@ -73,7 +73,7 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
                 />
                 <div className="flex items-center gap-4 text-black font-semibold">
                     <span>{authorName}</span>
-                    <span>•</span>
+                    <span>-</span>
                     <time>{date}</time>
                 </div>
             </div>

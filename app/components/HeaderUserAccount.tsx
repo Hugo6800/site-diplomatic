@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
-import { LogoutButton } from "./Auth/LogoutButton";
 import { formatDate } from '../utils/formatDate';
 import { useAuth } from "@/app/hooks/useAuth";
 
@@ -30,7 +29,12 @@ export default function HeaderUserAccount() {
                 {user && (
                     <div className="flex flex-col gap-2">
                         <p className="font-bold font-fractul text-4xl lg:text-5xl">{user?.displayName}</p>
-                        {showEmail && <p className="font-bold font-fractul text-xl lg:text-2xl">{user?.email}</p>}
+                        {showEmail && (
+                            <>
+                                <p className="font-bold font-fractul text-xl w-full break-words block lg:hidden">{user?.email}</p>
+                                <p className="font-bold font-fractul text-2xl hidden lg:block whitespace-nowrap overflow-hidden text-ellipsis max-w-md">{user?.email}</p>
+                            </>
+                        )}
                         <div className="flex items-center gap-2">
                             {showStatus && <TagRole role={user?.role || 'reader'} />}
                             {showAccountAge && (
@@ -38,10 +42,9 @@ export default function HeaderUserAccount() {
                                     Depuis {formatDate(new Date(user?.metadata?.creationTime || ''))}
                                 </p>
                             )}
-                        </div>
+                        </div>  
                     </div>
                 )}
-                <LogoutButton />
             </div>
             <div className="flex items-stretch h-20 lg:h-40 gap-2">
                 <EditButton
