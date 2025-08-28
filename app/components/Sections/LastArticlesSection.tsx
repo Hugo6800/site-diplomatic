@@ -58,9 +58,9 @@ export default function LastArticlesSection() {
                     };
                 });
                 
-                // Filtrer pour n'afficher que les articles publiés (status = published et isDraft = false)
+                // Filtrer pour exclure les articles avec le statut "waiting"
                 const publishedArticles = allArticles.filter(article => 
-                    article.status === 'published' && article.isDraft === false
+                    article.status !== 'waiting'
                 );
                 
                 // Trier les articles par date (du plus récent au plus ancien)

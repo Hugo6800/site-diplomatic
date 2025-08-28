@@ -152,7 +152,7 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
             <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">{`Panel d'éditeur`}</h2>
             <div className="flex flex-col lg:flex-row gap-4">
                 <div className="lg:w-1/2">
-                    {user?.role !== 'admin' ? (
+                    {user?.role === 'journalist' || user?.role === 'admin' ? (
                         <div className="grid grid-cols-2 gap-8">
                             <div>
                                 {draft ? (

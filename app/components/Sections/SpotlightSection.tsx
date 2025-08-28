@@ -25,17 +25,26 @@ export default function SpotlightSection() {
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                // Prendre le premier article (le plus récent)
-                const recentDoc = querySnapshot.docs[0];
-                const data = recentDoc.data();
-                setArticle({
-                    id: recentDoc.id, // Utiliser l'ID du document Firestore
-                    title: data.title,
-                    authorName: data.authorName,
-                    category: data.category,
-                    imageUrl: data.imageUrl,
-                    createdAt: data.createdAt
+                // Filtrer pour exclure les articles avec le statut "waiting"
+                const publishedDocs = querySnapshot.docs.filter(doc => {
+                    const data = doc.data();
+                    const status = data.status || 'published'; // Default to published if not specified
+                    return status !== 'waiting';
                 });
+                
+                if (publishedDocs.length > 0) {
+                    // Prendre le premier article publié (le plus récent)
+                    const recentDoc = publishedDocs[0];
+                    const data = recentDoc.data();
+                    setArticle({
+                        id: recentDoc.id, // Utiliser l'ID du document Firestore
+                        title: data.title,
+                        authorName: data.authorName,
+                        category: data.category,
+                        imageUrl: data.imageUrl,
+                        createdAt: data.createdAt
+                    });
+                }
             }
             setIsLoading(false);
         }

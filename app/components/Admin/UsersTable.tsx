@@ -158,7 +158,7 @@ export default function UsersTable({
                                     )}
                                 </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="pl-6 py-4 whitespace-nowrap text-[1rem] font-semibold">
                                 {confirmDelete === user.id ? (
                                     <div className="flex items-center gap-2">
                                         <button 

@@ -44,7 +44,7 @@ export default function CollectionsPage() {
                     // Filter by tag
                     q = query(articlesRef, where('category', '==', tagLower));
                 } else {
-                    // Show all articles by default
+                    // Get all articles
                     q = query(articlesRef);
                 }
 
@@ -56,10 +56,16 @@ export default function CollectionsPage() {
                     authorName: doc.data().authorName,
                     imageUrl: doc.data().imageUrl,
                     createdAt: doc.data().createdAt,
-                    paywall: doc.data().paywall || false // Default to false if not specified
+                    paywall: doc.data().paywall || false, // Default to false if not specified
+                    status: doc.data().status || 'published' // Default to published if not specified
                 }));
 
-                const sortedArticles = fetchedArticles.sort((a, b) =>
+                // Filtrer pour exclure les articles avec le statut "waiting"
+                const filteredArticles = fetchedArticles.filter(article => 
+                    article.status !== 'waiting'
+                );
+
+                const sortedArticles = filteredArticles.sort((a, b) =>
                     b.createdAt.seconds - a.createdAt.seconds
                 );
 
