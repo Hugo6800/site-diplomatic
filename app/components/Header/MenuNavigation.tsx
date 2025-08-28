@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import TagNavigationArticles from "../TagNavigationArticles";
 import { User } from "./User";
 import PlansButton from "./PlansButton";
+import { useRouter } from "next/navigation";
 
 interface MenuNavigationProps {
   onNavigate?: () => void;
@@ -14,6 +15,7 @@ interface MenuNavigationProps {
 
 export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const handleClick = () => {
     if (onNavigate) {
@@ -80,7 +82,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
           />
         ))}
       </ul>
-      <div className="flex justify-center items-center lg:hidden mr-auto bg-gray rounded-full p-2 cursor-pointer">
+      <div className="flex justify-center items-center lg:hidden mr-auto bg-gray rounded-full p-2 cursor-pointer" onClick={() => {router.push('/pricing')}}>
         <PlansButton />
         <p className="font-bold font-neulisalt text-[1rem] dark:text-white pr-2">Débloquer les articles !</p>
       </div>

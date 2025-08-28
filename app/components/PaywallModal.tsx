@@ -1,6 +1,6 @@
 'use client'
 
-import Cardplans from './Cardplans';
+import CardPlansUnique from './CardPlansUnique';
 
 export default function PaywallModal() {
     return (
@@ -9,18 +9,11 @@ export default function PaywallModal() {
                 <div className="w-1/2">
                     <h2 className="text-2xl font-fractul font-bold mb-4">Soutenez The Diplomatic Post !</h2>
                     <p className="mb-4 font-neulisalt">
-                        L&apos;accès de cet article est soumis à un payment de 5€. Cette méthode nous sert à financer notre entreprise indépendante. Merci à ceux qui nous soutiennent !
+                        L&apos;accès de cet article est soumis à un payment de 4 €. Cette méthode nous sert à financer notre entreprise indépendante. Merci à ceux qui nous soutiennent !
                     </p>
                 </div>
-                <div className="rotate-6">
-                    <Cardplans
-                        title="Article unique"
-                        image="/Logo_plans.png"
-                        line1="Accès à cet article"
-                        line2="Soutien à notre équipe"
-                        line3="Contenu exclusif"
-                        priceTag="/Price_tag_monthly.svg"
-                    />
+                <div className="rotate-3">
+                    <CardPlansUnique />
                 </div>
             </div>
         </div>
