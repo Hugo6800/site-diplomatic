@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import TagNavigationArticles from "../TagNavigationArticles";
 import { User } from "./User";
+import PlansButton from "./PlansButton";
 
 interface MenuNavigationProps {
   onNavigate?: () => void;
@@ -79,6 +80,10 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
           />
         ))}
       </ul>
+      <div className="flex justify-center items-center lg:hidden mr-auto bg-gray rounded-full p-2 cursor-pointer">
+        <PlansButton />
+        <p className="font-bold font-neulisalt text-[1rem] dark:text-white pr-2">Débloquer les articles !</p>
+      </div>
     </nav>
   );
 }
