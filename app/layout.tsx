@@ -4,7 +4,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { ThemeProvider } from "./context/ThemeContext";
 import { UserPreferencesProvider } from "./context/UserPreferencesContext";
-import { UserProvider } from "./contexts/UserContext";
+import { UserProvider } from "./context/UserContext";
 
 export const metadata: Metadata = {
   title: "The Diplomatic Post",

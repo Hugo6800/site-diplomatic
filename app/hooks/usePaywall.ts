@@ -1,6 +1,6 @@
 'use client';
 
-import { useUser } from '@/app/contexts/UserContext';
+import { useUser } from '@/app/context/UserContext';
 
 interface UsePaywallResult {
   hasFullAccess: boolean;
