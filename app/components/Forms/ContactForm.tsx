@@ -89,8 +89,8 @@ export default function ContactForm() {
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-neulisalt">
             <div className="flex flex-col lg:flex-row gap-4">
-                <div className="flex flex-col gap-4 lg:w-1/2">
-                    <label htmlFor="name" className="text-3xl font-bold">Nom</label>
+                <div className="flex flex-col lg:w-1/2">
+                    <label htmlFor="name" className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-2 dark:text-white w-fit">Nom</label>
                     <input
                         type="text"
                         id="name"
@@ -102,7 +102,7 @@ export default function ContactForm() {
                     />
                 </div>
                 <div className="flex flex-col gap-4 lg:w-1/2">
-                    <label htmlFor="firstname" className="text-3xl font-bold">Prénom</label>
+                    <label htmlFor="firstname" className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-2 dark:text-white w-fit">Prénom</label>
                     <input
                         type="text"
                         id="firstname"
@@ -114,7 +114,7 @@ export default function ContactForm() {
                     />
                 </div>
             </div>
-            <label htmlFor="email" className="text-3xl font-bold">Email</label>
+            <label htmlFor="email" className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-2 dark:text-white w-fit">Email</label>
             <input
                 type="email"
                 id="email"
@@ -124,7 +124,7 @@ export default function ContactForm() {
                 placeholder="jean.eudes@gmail.com"
                 required
             />
-            <label htmlFor="theme" className="text-3xl font-bold">Thème</label>
+            <label htmlFor="theme" className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-2 dark:text-white w-fit">Thème</label>
             <select
                 id="theme"
                 value={formData.theme}
@@ -144,7 +144,7 @@ export default function ContactForm() {
                 <option value="Problème technique sur le site">Problème technique sur le site</option>
                 <option value="Autre">Autre (à préciser dans le message)</option>
             </select>
-            <label htmlFor="subject" className="text-3xl font-bold">Sujet</label>
+            <label htmlFor="subject" className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-2 dark:text-white w-fit">Sujet</label>
             <input
                 type="text"
                 id="subject"
@@ -154,7 +154,7 @@ export default function ContactForm() {
                 placeholder="Que nous vaut votre visite ?"
                 required
             />
-            <label htmlFor="message" className="text-3xl font-bold">Message</label>
+            <label htmlFor="message" className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-2 dark:text-white w-fit">Message</label>
             <textarea
                 id="message"
                 value={formData.message}

@@ -6,7 +6,7 @@ export default function LastJob({ title, shortDescription, id }: { title: string
                 className="prose dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: shortDescription }}
             />
-            <div className="flex flex-col lg:flex-row gap-4 mt-2 ml-auto">
+            <div className="flex flex-row gap-4 mt-2 ml-auto">
                 <button
                     onClick={() => window.location.href = `/jobboard/${id}`}
                     className="font-bold font-neulisalt cursor-pointer bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] dark:text-white w-fit">

@@ -47,7 +47,7 @@ export default function LastJobSection() {
 
     if (isLoading) {
         return (
-            <section className="pt-24 my-16">
+            <section className="pt-8 lg:pt-24 lg:my-16">
                 <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Dernière offre</h2>
                 <div className="animate-pulse mt-4">
                     <div className="flex flex-col gap-4">
@@ -61,7 +61,7 @@ export default function LastJobSection() {
     }
 
     return (
-        <section className="pt-24 my-16">
+        <section className="pt-8 lg:pt-24 lg:my-16">
             <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Dernière offre</h2>
             {latestJob ? (
                 <LastJob

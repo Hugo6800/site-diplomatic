@@ -73,7 +73,7 @@ export default function AllJobsSection() {
             <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Autres offres</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {jobs.map((job) => (
-                    <div key={job.id} className="cursor-pointer" onClick={() => window.location.href = `/jobboard/${job.id}`}>
+                    <div key={job.id} className="cursor-pointer w-full bg-[#F3DEDE] dark:bg-[#1E1E1E] flex rounded-2xl px-4 py-2 italic text-[1rem] dark:text-white" onClick={() => window.location.href = `/jobboard/${job.id}`}>
                         <CardJob title={job.title} />
                     </div>
                 ))}
