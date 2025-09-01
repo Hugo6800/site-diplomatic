@@ -21,7 +21,7 @@ export default function TagShareArticle() {
             onClick={handleShare}
             className={`
                 inline-flex justify-center items-center gap-2 px-3 py-2
-                ${copied ? 'bg-green-100' : 'bg-[#F3DEDE]'}
+                ${copied ? 'bg-[#E8B7B7]' : 'bg-[#F3DEDE] dark:bg-[#433D3D]'}
                 rounded-full font-semibold font-neulisalt cursor-pointer
                 transition-colors duration-200
             `}
@@ -31,9 +31,16 @@ export default function TagShareArticle() {
                 alt="Partager"
                 width={24}
                 height={24}
-                className="w-6 h-6 object-cover"
+                className="w-6 h-6 object-cover dark:hidden"
             />
-            <span className="font-bold font-neulisalt text-sm text-[#3F2525]">
+            <Image
+                src="/icons/dark_collection/share.svg"
+                alt="Partager"
+                width={24}
+                height={24}
+                className="w-6 h-6 object-cover hidden dark:block"
+            />
+            <span className="font-bold font-neulisalt text-sm text-[#3F2525] dark:text-[#EECECE]">
                 {copied ? 'Copié !' : 'Partager'}
             </span>
         </button>

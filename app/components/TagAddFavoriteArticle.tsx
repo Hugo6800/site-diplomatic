@@ -51,16 +51,23 @@ export default function TagAddFavoriteArticle({ articleId }: TagAddFavoriteArtic
         <button
             onClick={handleToggleFavorite}
             disabled={isLoading}
-            className={`inline-flex justify-center items-center gap-2 px-3 py-2 ${isFavorited ? 'bg-[#E8B7B7]' : 'bg-[#F3DEDE]'} rounded-full font-semibold font-neulisalt cursor-pointer transition-colors duration-200 ${isLoading ? 'opacity-50' : ''}`}
+            className={`inline-flex justify-center items-center gap-2 px-3 py-2 ${isFavorited ? 'bg-[#E8B7B7]' : 'bg-[#F3DEDE] dark:bg-[#433D3D]'} rounded-full font-semibold font-neulisalt cursor-pointer transition-colors duration-200 ${isLoading ? 'opacity-50' : ''}`}
         >
             <Image
                 src={isFavorited ? "/icons/heart-full.svg" : "/icons/heart.svg"}
                 alt={isFavorited ? "Retirer des favoris" : "Ajouter aux favoris"}
                 width={24}
                 height={24}
-                className="w-6 h-6 object-cover"
+                className="w-6 h-6 object-cover dark:hidden"
             />
-            <h2 className="font-bold font-neulisalt text-sm text-[#3F2525]">
+            <Image
+                src={isFavorited ? "/icons/dark_collection/heart_full.svg" : "/icons/dark_collection/favorite.svg"}
+                alt={isFavorited ? "Retirer des favoris" : "Ajouter aux favoris"}
+                width={24}
+                height={24}
+                className="w-6 h-6 object-cover hidden dark:block"
+            />
+            <h2 className="font-bold font-neulisalt text-sm text-[#3F2525] dark:text-[#EECECE]">
                 {isFavorited ? 'Retirer des favoris' : 'Ajouter aux favoris'}
             </h2>
         </button>

@@ -71,13 +71,13 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
                     name={category}
                     className={`text-tag-${category.toLowerCase()} border-2 border-tag-${category.toLowerCase()} transition-colors`}
                 />
-                <div className="flex items-center gap-4 text-black font-semibold">
+                <div className="flex items-center gap-4 text-black font-semibold dark:text-[#EECECE]">
                     <span>{authorName}</span>
                     <span>-</span>
                     <time>{date}</time>
                 </div>
             </div>
-            <h1 className="font-bold font-fractul text-2xl md:text-4xl mt-6 mb-11 tracking-[0.03em] leading-[110%]">
+            <h1 className="font-bold font-fractul text-2xl md:text-4xl mt-6 mb-11 tracking-[0.03em] leading-[110%] dark:text-[#F4DFDF]">
                 {title}
             </h1>
 
@@ -85,7 +85,7 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
                 {splitContentIntoSections(content).map((section, index) => (
                     <Fragment key={index}>
                         <div
-                            className="prose prose-lg max-w-none prose-headings:font-fractul prose-headings:font-bold prose-p:font-neulisalt prose-h2:text-lg lg:prose-h2:text-2xl xl:prose-h2:text-3xl prose-p:text-lg prose-p:leading-relaxed"
+                            className="dark:text-[#F4DFDF] prose prose-lg max-w-none prose-headings:font-fractul prose-headings:font-bold prose-p:font-neulisalt prose-h2:text-lg lg:prose-h2:text-2xl xl:prose-h2:text-3xl prose-p:text-lg prose-p:leading-relaxed dark:prose-h2:text-[#F4DFDF]"
                             dangerouslySetInnerHTML={{ __html: section }}
                         />
                         {(index === Math.floor(splitContentIntoSections(content).length * 0.25) || 
