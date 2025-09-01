@@ -19,6 +19,7 @@ export function User({ onClick }: UserProps) {
     return (
         <>
             <div 
+                title="Profil"
                 className="flex items-center gap-4 bg-gray rounded-full p-2 cursor-pointer h-[48px] hover:bg-gray/80 transition-colors"
                 onClick={() => {
                     if (user) {

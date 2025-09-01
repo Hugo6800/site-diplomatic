@@ -12,6 +12,7 @@ export default function DarkTheme({ onClick }: DarkThemeProps) {
 
   return (
     <div
+      title="Changer de thème"
       onClick={() => {
         toggleTheme();
         if (onClick) onClick();
