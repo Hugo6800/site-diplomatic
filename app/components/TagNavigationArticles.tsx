@@ -7,14 +7,12 @@ import { getTagStyles } from '../utils/tag-styles';
 interface TagNavigationProps {
     name: string;
     className: string;
-    colorCircle: string;
     onClick?: () => void;
 }
 
 export default function TagNavigationArticles({
     name,
     className,
-    colorCircle,
     onClick
 }: TagNavigationProps) {
     const pathname = usePathname();
@@ -48,7 +46,7 @@ export default function TagNavigationArticles({
                     ${!isTagSelected ? 'hover:border-[1px]' : ''}
                     ${isTagSelected ? tagStyles.bg : ''}
                 `}>
-                <div className={`w-4 h-4 rounded-full ${colorCircle || tagStyles.circle} transition-colors duration-200`}></div>
+                <div className={`w-4 h-4 rounded-full ${tagStyles.circle} transition-colors duration-200`}></div>
                 <p className="font-bold group-hover:font-normal group-active:font-black transition-all">{name.charAt(0).toUpperCase() + name.slice(1)}</p>
             </Link>
         </li>

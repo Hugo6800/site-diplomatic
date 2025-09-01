@@ -75,7 +75,6 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
         {tagsNavigation.map((tag: TagNavigation) => (
           <TagNavigationArticles
             key={tag.name}
-            colorCircle={tag.colorCircle}
             name={tag.name}
             className={tag.className}
             onClick={handleClick}
