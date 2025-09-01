@@ -12,9 +12,9 @@ export default function Links() {
             <li className="text-[#DE595C] hover:font-bold transition-colors">
                 <Link href="/team">Team</Link>
             </li>
-            <li className="text-[#DE595C] hover:font-bold transition-colors">
+            {/* <li className="text-[#DE595C] hover:font-bold transition-colors">
                 <Link href="/jobboard">Recrutement</Link>
-            </li>
+            </li> */}
             <li className="text-[#DE595C] hover:font-bold transition-colors">
                 <Link href="/contact">Contact</Link>
             </li>

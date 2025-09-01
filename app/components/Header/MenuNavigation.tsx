@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import TagNavigationArticles from "../TagNavigationArticles";
 import { User } from "./User";
-import PlansButton from "./PlansButton";
-import { useRouter } from "next/navigation";
+// import PlansButton from "./PlansButton";
+// import { useRouter } from "next/navigation";
 
 interface MenuNavigationProps {
   onNavigate?: () => void;
@@ -15,7 +15,7 @@ interface MenuNavigationProps {
 
 export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleClick = () => {
     if (onNavigate) {
@@ -58,7 +58,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             Podcasts
           </Link>
         </li>
-        <li className="flex">
+        {/* <li className="flex">
           <Link
             href="/ateliers"
             onClick={handleClick}
@@ -71,7 +71,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
           >
             Ateliers
           </Link>
-        </li>
+        </li> */}
         {tagsNavigation.map((tag: TagNavigation) => (
           <TagNavigationArticles
             key={tag.name}
@@ -82,10 +82,10 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
           />
         ))}
       </ul>
-      <div className="flex justify-center items-center lg:hidden mr-auto bg-gray rounded-full p-2 cursor-pointer" onClick={() => {router.push('/pricing')}}>
+      {/* <div className="flex justify-center items-center lg:hidden mr-auto bg-gray rounded-full p-2 cursor-pointer" onClick={() => {router.push('/pricing')}}>
         <PlansButton />
         <p className="font-bold font-neulisalt text-[1rem] dark:text-white pr-2">Débloquer les articles !</p>
-      </div>
+      </div> */}
     </nav>
   );
 }
