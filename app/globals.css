@@ -32,7 +32,7 @@
 @layer base {
   :root {
     --color-background: #FEF5F5;
-    --color-foreground: #1B0505;
+    --color-foreground: #171414;
     --color-gray: #F3DEDE;
     --color-accent: #DE595C;
     --color-header: #FEF5F5;
@@ -40,15 +40,15 @@
   }
 
   .dark {
-    --color-background: #1B0505;
+    --color-background: #171414;
     --color-foreground: #FEF5F5;
     --color-gray: #2D2D2D;
-    --color-header: #1B0505;
+    --color-header: #171414;
   }
 
   body {
     background-color: var(--color-background);
-    color: var(--color-foreground);
+    /* color: var(--color-foreground); */
   }
 
   .bg-header {

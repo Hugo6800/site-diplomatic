@@ -24,7 +24,7 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
   };
 
   return (
-    <nav className="flex flex-col lg:flex-row items-center px-6 md:px-24 xl:px-64 gap-4 bg-header p-4">
+    <nav className="flex flex-col lg:flex-row items-center px-6 md:px-24 xl:px-64 gap-4 bg-header dark:bg-background p-4">
       <div className="flex lg:hidden items-center gap-4 w-full">
         <DarkTheme onClick={handleClick} />
         <User onClick={handleClick} />
@@ -35,10 +35,10 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/"
             onClick={handleClick}
             className={`
-              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full dark:text-[#E6D2D2]
               ${pathname === "/" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
-              dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
+              dark:hover:[background-color:#847979] dark:hover:text-[#EECECE]
             `}
           >
             Accueil
@@ -49,10 +49,10 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/podcasts"
             onClick={handleClick}
             className={`
-              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full dark:text-[#E6D2D2]
               ${pathname === "/podcasts" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
-              dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
+              dark:hover:[background-color:#847979] dark:hover:text-[#EECECE]
             `}
           >
             Podcasts
@@ -63,10 +63,10 @@ export default function MenuNavigation({ onNavigate }: MenuNavigationProps) {
             href="/ateliers"
             onClick={handleClick}
             className={`
-              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full
+              inline-flex justify-center items-center gap-2 px-4 py-1 rounded-full dark:text-[#E6D2D2]
               ${pathname === "/ateliers" ? "[background-color:var(--color-gray)] dark:bg-[#433D3D] dark:text-[#EECECE]" : ""}
               hover:[background-color:var(--color-gray)] 
-              dark:hover:[background-color:var(--color-gray)] dark:hover:text-[#EECECE]
+              dark:hover:[background-color:#847979] dark:hover:text-[#EECECE]
             `}
           >
             Ateliers

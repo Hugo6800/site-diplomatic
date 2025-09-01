@@ -20,8 +20,8 @@ export default function Article({ id, name, className, author, title, date, imag
                         name={name}
                         className={className}
                     />
-                    <p className="mt-2 font-semibold text-[1rem] font-neulisalt dark:text-gray-300">{author} - {date}</p>
-                    <h3 className="font-bold font-fractul hover:font-black text-5xl line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-white">{title}</h3>
+                    <p className="mt-2 font-semibold text-[1rem] font-neulisalt dark:text-[#EECECE]">{author} - {date}</p>
+                    <h3 className="font-bold font-fractul hover:font-black text-5xl line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-[#F4DFDF]">{title}</h3>
                 </div>
                 <div className="relative w-full md:w-1/2 aspect-[16/9] group-hover:scale-110 transition-all">
                     <Image

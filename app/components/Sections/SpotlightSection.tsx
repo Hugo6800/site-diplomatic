@@ -77,7 +77,7 @@ export default function SpotlightSection() {
             </div>
             <section className="relative pt-12 lg:pt-24 mt-16 w-full">
                 <div className="mt-12">
-                    <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">À la une</h2>
+                    <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">À la une</h2>
                     <ArticleSpotlight
                         id={article.id}
                         colorCircle={`bg-tag-${article.category.toLowerCase()}`}

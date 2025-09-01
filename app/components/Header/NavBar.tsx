@@ -47,7 +47,7 @@ export default function NavBar() {
       {(isMenuOpen || animation === "out") && (
         <div
           onAnimationEnd={handleAnimationEnd}
-          className={`absolute top-24 left-0 right-0 z-50 bg-white dark:bg-foreground shadow-lg
+          className={`absolute top-24 left-0 right-0 z-50 bg-white dark:bg-background shadow-lg
             ${animation === "in" ? "slide-in" : ""}
             ${animation === "out" ? "slide-out" : ""}
             `}
