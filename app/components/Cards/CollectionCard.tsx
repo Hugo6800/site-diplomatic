@@ -19,7 +19,14 @@ export default function CollectionCard({ name, icon, category }: CollectionCardP
                         alt={name}
                         width={32}
                         height={32}
-                        className={`object-contain`}
+                        className="object-contain dark:hidden"
+                    />
+                    <Image
+                        src={`/icons/dark_collection/${icon.split('/').pop()?.replace('.svg', '.png')}`}
+                        alt={name}
+                        width={32}
+                        height={32}
+                        className="object-contain hidden dark:block"
                     />
                 </div>
 
