@@ -114,6 +114,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
     return (
         <div className="w-full max-w-md mx-auto p-6">
             <h1 className="text-3xl font-bold font-fractul mb-6">Créer un compte</h1>
+            <p className="font-neulisalt mb-6">Avec un compte, gardez vos articles favoris, suivez votre historique et personnalisez votre lecture.</p>
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <div className="grid grid-cols-2 gap-4">
                     <div>

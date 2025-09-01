@@ -78,6 +78,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
     return (
         <div className="w-full max-w-md mx-auto p-6">
             <h1 className="text-3xl font-bold font-fractul mb-6">Se connecter</h1>
+            <p className="font-neulisalt mb-6">Inscrivez-vous pour profiter d’un espace personnalisé : profil, favoris et suivi de vos articles.</p>
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <div>
                     <label htmlFor="email" className="block font-neulisalt mb-2">Adresse mail</label>
