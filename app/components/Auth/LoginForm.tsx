@@ -28,14 +28,14 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
 
         const errors = validateAuthFields(email, password);
         setValidationErrors(errors);
-        
+
         if (!isValidAuth(errors)) {
             return;
         }
 
         try {
             const { user } = await signInWithEmailAndPassword(auth, email, password);
-            
+
             if (!user.emailVerified) {
                 // Déconnexion de l'utilisateur car email non vérifié
                 await auth.signOut();
@@ -78,7 +78,6 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
     return (
         <div className="w-full max-w-md mx-auto p-6">
             <h1 className="text-3xl font-bold font-fractul mb-6">Se connecter</h1>
-            <p className="font-neulisalt mb-6">Inscrivez-vous pour profiter d’un espace personnalisé : profil, favoris et suivi de vos articles.</p>
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                 <div>
                     <label htmlFor="email" className="block font-neulisalt mb-2">Adresse mail</label>
@@ -111,7 +110,7 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                             onClick={() => setShowPassword(!showPassword)}
                             aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                         >
-                            <Image 
+                            <Image
                                 src={showPassword ? "/icons/visibility.svg" : "/icons/visibility_off.svg"}
                                 alt={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                                 width={24}
@@ -136,11 +135,12 @@ export default function LoginForm({ onSwitchToSignUp, onForgotPassword, redirect
                 >
                     Se connecter
                 </button>
-                <div className="flex flex-col items-center gap-2 text-sm mt-4">
+                <div className="flex flex-col items-center mt-4">
+                    <p className="font-neulisalt mb-1 text-center">Inscrivez-vous pour profiter d’un espace personnalisé : profil, favoris et suivi de vos articles.</p>
                     <button
                         type="button"
                         onClick={() => onSwitchToSignUp()}
-                        className="text-[#DE595C] hover:font-bold cursor-pointer rounded-full"
+                        className="text-[#DE595C] hover:font-bold cursor-pointer rounded-full mb-2"
                     >
                         Créer un compte
                     </button>

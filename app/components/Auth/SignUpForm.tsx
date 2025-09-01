@@ -208,7 +208,7 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
                 >
                     {"S'inscrire"}
                 </button>
-                <div className="text-sm text-center mt-4">
+                <div className="text-center mt-4">
                     <button
                         type="button"
                         onClick={() => onSwitchToLogin()}
