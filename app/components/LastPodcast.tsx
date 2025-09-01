@@ -25,9 +25,9 @@ export default function LastPodcast({ coverUrl, duration, date, title, descripti
                     height={32}
                     className="object-cover rounded-full"
                 />
-                <p className="font-bold font-neulisalt">{duration} - {formattedDate}</p>
-                <h2 className="font-bold font-fractul text-3xl line-clamp-3 tracking-[0.03em] leading-[110%] mb-2 group-hover:font-black transition-all ease-in-out duration-200">{title}</h2>
-                <p className="font-neulisalt line-clamp-5">{description}</p>
+                <p className="font-bold font-neulisalt dark:text-[#C5B0B0]">{duration} - {formattedDate}</p>
+                <h2 className="font-bold font-fractul text-3xl line-clamp-3 dark:text-[#F4DFDF] tracking-[0.03em] leading-[110%] mb-2 group-hover:font-black transition-all ease-in-out duration-200">{title}</h2>
+                <p className="font-neulisalt line-clamp-5 dark:text-[#F4DFDF]">{description}</p>
             </div>
         </article>
     );

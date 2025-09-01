@@ -18,9 +18,9 @@ export function User({ onClick }: UserProps) {
 
     return (
         <>
-            <div 
+            <div
                 title="Profil"
-                className="flex items-center gap-4 bg-gray rounded-full p-2 cursor-pointer h-[48px] hover:bg-gray/80 transition-colors"
+                className="flex items-center gap-4 bg-[#F3DEDE] dark:bg-[#433D3D] rounded-full p-2 cursor-pointer h-[48px] hover:bg-gray/80 transition-colors"
                 onClick={() => {
                     if (user) {
                         router.push('/profil');
@@ -35,17 +35,24 @@ export function User({ onClick }: UserProps) {
                     alt="User"
                     width={32}
                     height={32}
-                    className="rounded-full object-contain"
+                    className="object-contain dark:hidden"
+                />
+                <Image
+                    src={user?.photoURL || `/icons/dark_collection/account_circle.png`}
+                    alt="User"
+                    width={28}
+                    height={28}
+                    className="object-contain hidden dark:block"
                 />
                 {user && (
-                    <span className="text-sm text-gray-700">
+                    <span className="text-sm text-gray-700 dark:text-[#EECECE]">
                         {user.displayName}
                     </span>
                 )}
             </div>
             {user && <LogoutButton />}
 
-            <AuthModal 
+            <AuthModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
             />

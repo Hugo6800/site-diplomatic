@@ -38,7 +38,7 @@ export default function AllPodcastsSection() {
     if (isLoading) {
         return (
             <section className="my-16">
-                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Tous les épisodes</h2>
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Tous les épisodes</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {[1, 2, 3].map((index) => (
                         <div key={index} className="animate-pulse mt-4">
@@ -57,7 +57,7 @@ export default function AllPodcastsSection() {
 
     return (
         <section className="my-16">
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Tous les épisodes</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Tous les épisodes</h2>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {podcasts?.map((podcast) => (
                     <CardPodcast

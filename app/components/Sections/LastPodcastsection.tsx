@@ -39,7 +39,7 @@ export default function LastPodcastSection() {
     if (isLoading) {
         return (
             <section className="pt-24 my-16">
-                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Dernier podcast</h2>
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Dernier podcast</h2>
                 <div className="animate-pulse mt-4">
                     <div className="flex flex-col lg:flex-row gap-4">
                         <div className="w-full lg:w-[200px] h-[200px] bg-gray-200 rounded-lg"></div>
@@ -56,7 +56,7 @@ export default function LastPodcastSection() {
 
     return (
         <section className="pt-24 my-16">
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Dernier podcast</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Dernier podcast</h2>
             <LastPodcast
                 coverUrl={podcast?.coverUrl || ''}
                 duration={podcast?.duration || ''}
