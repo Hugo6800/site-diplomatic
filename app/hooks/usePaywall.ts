@@ -26,19 +26,19 @@ export function usePaywall(): UsePaywallResult {
    * @param articlePaywalled Whether the article requires paywall access
    * @returns Boolean indicating if the user can access the full article
    */
-  const canAccessArticle = (articlePaywalled: boolean): boolean => {
-    // If article is not paywalled, everyone can access it
-    if (!articlePaywalled) {
+  const canAccessArticle = () => {
+    // // If article is not paywalled, everyone can access it
+    // if (!articlePaywalled) {
       return true;
-    }
+    // }
     
-    // If user is not authenticated, they can access all articles
-    if (!isAuthenticated) {
-      return true;
-    }
+    // // If user is not authenticated, they can access all articles
+    // if (!isAuthenticated) {
+    //   return true;
+    // }
     
-    // If user is authenticated and article is paywalled, only users with paywall access can see it fully
-    return hasFullAccess;
+    // // If user is authenticated and article is paywalled, only users with paywall access can see it fully
+    // return hasFullAccess;
   };
   
   return {
