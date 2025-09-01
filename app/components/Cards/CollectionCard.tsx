@@ -13,18 +13,16 @@ export default function CollectionCard({ name, icon, category }: CollectionCardP
                 cursor-pointer h-full w-[170px] transition-all duration-300 ease-in-out 
                 lg:w-[200px] lg:hover:w-[400px] lg:hover:flex-[2] group`}
             >
-                {/* Icône (affichée par défaut) */}
                 <div className="group-hover:hidden transition duration-300">
                     <Image
                         src={icon}
                         alt={name}
                         width={32}
                         height={32}
-                        className="object-contain"
+                        className={`object-contain`}
                     />
                 </div>
 
-                {/* Texte (affiché au hover) */}
                 <div className="hidden group-hover:flex transition duration-300">
                     <p className={`font-bold font-fractul text-2xl text-center ${getCollectionStyles(category).text}`}>
                         {name}
