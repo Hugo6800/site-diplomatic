@@ -32,7 +32,7 @@ export default function TiptapEditor({ content, onUpdate }: Props) {
     content,
     editorProps: {
       attributes: {
-        class: 'min-h-[300px] prose prose-lg max-w-none tiptap-editor dark:bg-[#171414] dark:border-[#575656]',
+        class: 'min-h-[300px] prose prose-lg max-w-none tiptap-editor dark:bg-[#171414] dark:border-[#575656] dark:text-[#EECECE] dark:prose-headings:text-[#EECECE] dark:prose-strong:text-[#EECECE] dark:prose-a:text-[#EECECE]',
       },
     },
     onUpdate: ({ editor }) => {

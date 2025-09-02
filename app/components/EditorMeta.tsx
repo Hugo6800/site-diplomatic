@@ -30,7 +30,7 @@ export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsC
         <select 
           value={category} 
           onChange={(e) => onCategoryChange && onCategoryChange(e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 mb-4 font-neulisalt dark:text-[#EECECE]"
+          className="w-full border rounded-xl px-4 py-2 mb-4 font-neulisalt dark:text-[#EECECE] dark:bg-[#171414]"
         >
           <option value="default">Sélectionner une catégorie</option>
           <option value="international">International</option>

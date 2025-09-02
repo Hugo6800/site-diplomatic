@@ -2,12 +2,11 @@
 
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { db } from '@/app/lib/firebase'
 import EditorHeader from '@/app/components/EditorHeader'
 import EditorMeta from '@/app/components/EditorMeta'
 import TiptapEditor from '@/app/components/TiptapEditor'
-import EditorActions from '@/app/components/EditorActions'
 import ArticleAuthorProtection from '@/app/components/ArticleAuthorProtection'
 import TagModifyPictureEdit from '@/app/components/TagModifyPictureEdit'
 import TagSaveDraftArticle from '@/app/components/TagSaveDraftArticle'
@@ -21,7 +20,7 @@ export default function EditArticlePage() {
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isDraft, setIsDraft] = useState(true)
-  const [status, setStatus] = useState('published')
+  const [_status, setStatus] = useState('published')
 
   useEffect(() => {
     async function fetchArticle() {
@@ -41,22 +40,6 @@ export default function EditArticlePage() {
     }
     fetchArticle()
   }, [articleId])
-
-  const handleSave = async (asDraft = isDraft) => {
-    if (articleId) {
-      const ref = doc(db, 'articles', articleId)
-      await updateDoc(ref, {
-        imageUrl,
-        title,
-        keywords: keywords.split(',').map(k => k.trim()),
-        content,
-        updatedAt: new Date().toISOString(),
-        isDraft: asDraft,
-        status: asDraft ? 'published' : status // Conserver le statut actuel si ce n'est pas un brouillon
-      })
-      setIsDraft(asDraft)
-    }
-  }
 
   return (
     <ArticleAuthorProtection articleId={articleId}>
@@ -91,11 +74,6 @@ export default function EditArticlePage() {
             onKeywordsChange={setKeywords}
           />
           <TiptapEditor content={content} onUpdate={setContent} />
-          <EditorActions 
-            onSave={() => handleSave(true)} 
-            onPublish={() => handleSave(false)} 
-            isDraft={isDraft} 
-          />
         </div>
       </main>
     </ArticleAuthorProtection>
