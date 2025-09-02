@@ -35,14 +35,14 @@ export function User({ onClick }: UserProps) {
                     alt="User"
                     width={32}
                     height={32}
-                    className="object-contain dark:hidden"
+                    className="object-contain rounded-full dark:hidden"
                 />
                 <Image
                     src={user?.photoURL || `/icons/dark_collection/account_circle.svg`}
                     alt="User"
                     width={28}
                     height={28}
-                    className="object-contain hidden dark:block"
+                    className="object-contain rounded-full hidden dark:block"
                 />
                 {user && (
                     <span className="text-sm text-gray-700 dark:text-[#EECECE]">

@@ -22,7 +22,7 @@ export default function LeftCardsEditorPanel({ className, title, image, category
                 height={250}
                 className="object-cover w-full rounded-[20px]"
             />  
-            <h2 className="font-bold font-fractul text-2xl line-clamp-2 tracking-[0.03em] leading-[110%] mb-2">{title}</h2>
+            <h2 className="font-bold font-fractul text-2xl line-clamp-2 tracking-[0.03em] leading-[110%] mb-2 dark:text-[#E0E0E0]">{title}</h2>
         </article>
     );
 }

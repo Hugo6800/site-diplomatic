@@ -24,14 +24,14 @@ export default function HeaderUserAccount() {
                     alt="User"
                     width={120}
                     height={120}
-                    className="object-cover dark:hidden"
+                    className="object-cover rounded-full dark:hidden"
                 />
                 <Image
                     src={user?.photoURL || `/icons/dark_collection/account_circle.svg`}
                     alt="User"
                     width={120}
                     height={120}
-                    className="object-cover hidden dark:block"
+                    className="object-cover rounded-full hidden dark:block"
                 />
                 {user && (
                     <div className="flex flex-col gap-2">

@@ -92,10 +92,10 @@ export default function ArticlesWriting() {
     return (
         <section className="mt-12">
             <div className="flex justify-between items-center gap-2">
-                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Articles écrits</h2>
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Articles écrits</h2>
                 {hasMoreArticles && (
                     <div 
-                        className="bg-[#F3DEDE] rounded-full p-2 cursor-pointer hover:bg-[#e6c8c8] transition-colors"
+                        className="bg-[#F3DEDE] dark:bg-[#433D3D] rounded-full p-2 cursor-pointer hover:bg-[#e6c8c8] transition-colors"
                         onClick={nextPage}
                         title={`Page ${currentPage + 1} sur ${totalPages}`}
                     >
@@ -109,7 +109,7 @@ export default function ArticlesWriting() {
                 )}
             </div>
             {articles.length === 0 ? (
-                <p className="text-center text-gray-500 mt-4">Aucun article écrit pour le moment</p>
+                <p className="text-center text-gray-500 dark:text-[#E0E0E0] mt-4">Aucun article écrit pour le moment</p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {currentArticles.map((article) => (
@@ -129,7 +129,7 @@ export default function ArticlesWriting() {
             )}
             {hasMoreArticles && (
                 <div className="flex justify-center mt-4">
-                    <p className="text-sm text-gray-500 font-neulisalt">
+                    <p className="text-sm text-gray-500 dark:text-[#E0E0E0] font-neulisalt">
                         Page {currentPage + 1} sur {totalPages}
                     </p>
                 </div>

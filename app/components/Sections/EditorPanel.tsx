@@ -149,7 +149,7 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
 
     return (
         <section className="mt-12">
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">{`Panel d'éditeur`}</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">{`Panel d'éditeur`}</h2>
             <div className="flex flex-col lg:flex-row gap-4">
                 <div className="lg:w-1/2">
                     {user?.role === 'journalist' || user?.role === 'admin' ? (
@@ -157,18 +157,18 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
                             <div>
                                 {draft ? (
                                     <LeftCardsEditorPanel
-                                        className="bg-[#A7A7A7] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm"
+                                        className="bg-[#A7A7A7] dark:bg-[#636363] px-4 py-2 w-fit text-xs lg:text-sm dark:text-[#E0E0E0]"
                                         title={draft.title}
                                         image={draft.imageUrl}
                                         category="Dernier brouillon"
                                     />
                                 ) : (
                                     <div className="flex flex-col gap-2.5">
-                                        <div className="bg-[#A7A7A7] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt">
+                                        <div className="bg-[#A7A7A7] dark:bg-[#636363] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt dark:text-[#E0E0E0]">
                                             Dernier brouillon
                                         </div>
                                         <div className="flex flex-col items-center justify-center h-full bg-gray-100 dark:bg-gray-800 rounded-lg p-8">
-                                            <p className="text-gray-500 dark:text-gray-400">Pas de brouillon</p>
+                                            <p className="text-gray-500 dark:text-[#E0E0E0]">Pas de brouillon</p>
                                         </div>
                                     </div>
                                 )}
@@ -176,7 +176,7 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
                             <div>
                                 {mostLikedArticle ? (
                                     <LeftCardsEditorPanel
-                                        className="bg-[#9AF2A3] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm"
+                                        className="bg-[#9AF2A3] dark:bg-[#3B6E40] px-4 py-2 w-fit text-xs lg:text-sm dark:text-[#E0E0E0]"
                                         title={mostLikedArticle.title}
                                         image={mostLikedArticle.imageUrl}
                                         category="Vos lecteurs aiment"
@@ -229,11 +229,13 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
                     <div className="flex gap-4">
                         <CardsDownEditPanel 
                             icon="/icons/full_coverage.svg" 
+                            darkIcon="/icons/dark_collection/full_coverage.svg"
                             label="Voir tous mes articles"
                             onClick={onShowMyArticles}
                         />
                         <CardsDownEditPanel 
                             icon="/icons/draft.svg" 
+                            darkIcon="/icons/dark_collection/draft.svg" 
                             label="Gérer mes brouillons" 
                             onClick={onShowMyDrafts}
                         />

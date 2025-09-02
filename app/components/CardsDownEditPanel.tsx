@@ -4,26 +4,44 @@ import Image from 'next/image';
 
 interface CardsDownEditPanelProps {
     icon: string;
+    darkIcon?: string;
     label: string;
     onClick?: () => void;
 }
 
-export default function CardsDownEditPanel({ icon, label, onClick }: CardsDownEditPanelProps) {
+export default function CardsDownEditPanel({ icon, darkIcon, label, onClick }: CardsDownEditPanelProps) {
     return (
-        <article 
+        <article
             onClick={onClick}
-            className="flex flex-col items-start p-4 bg-[#F3DEDE] dark:bg-[#2C2C2C] rounded-2xl w-1/2 cursor-pointer hover:bg-opacity-90 transition-colors"
+            className="flex flex-col items-start p-4 bg-[#F3DEDE] dark:bg-[#433D3D] rounded-2xl w-1/2 cursor-pointer hover:bg-opacity-90 transition-colors"
         >
             <div className="w-8 h-8 mb-3 relative">
-                <Image
-                    src={icon}
-                    alt={label}
-                    fill
-                    className="object-contain"
-                />
+                {darkIcon ? (
+                    <>
+                        <Image
+                            src={icon}
+                            alt={label}
+                            fill
+                            className="object-contain block dark:hidden"
+                        />
+                        <Image
+                            src={darkIcon}
+                            alt={label}
+                            fill
+                            className="object-contain hidden dark:block"
+                        />
+                    </>
+                ) : (
+                    <Image
+                        src={icon}
+                        alt={label}
+                        fill
+                        className="object-contain"
+                    />
+                )}
             </div>
             <div className="flex items-center gap-2">
-                <p className="text-[#3F2525] dark:text-white font-neulisalt font-bold text-sm">
+                <p className="text-[#3F2525] dark:text-[#E0E0E0] font-neulisalt font-bold text-sm">
                     {label}
                 </p>
                 <Image
