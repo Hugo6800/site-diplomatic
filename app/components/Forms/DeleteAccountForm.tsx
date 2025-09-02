@@ -27,14 +27,14 @@ export default function DeleteAccountForm() {
                 }
             }}
         >
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Supprimer mon compte</h2>
-            <label htmlFor="delete-password" className="text-2xl font-neulisalt font-semibold">Entrez votre mot de passe</label>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Supprimer mon compte</h2>
+            <label htmlFor="delete-password" className="text-2xl font-neulisalt font-semibold dark:text-[#EECECE]">Entrez votre mot de passe</label>
             <input
                 type="password"
                 id="delete-password"
                 value={deletePassword}
                 onChange={(e) => setDeletePassword(e.target.value)}
-                className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5"
+                className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5 dark:placeholder:text-[#EECECE]"
                 placeholder="Une erreur est si vite arrivée !"
                 required
             />

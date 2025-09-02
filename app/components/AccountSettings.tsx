@@ -12,7 +12,7 @@ export default function AccountSettings() {
     const router = useRouter();
     const [emailNotifications, setEmailNotifications] = useState(false);
     const [loading, setLoading] = useState(true);
-    
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -30,29 +30,29 @@ export default function AccountSettings() {
                 setLoading(false);
             }
         };
-        
+
         fetchUserData();
     }, []);
-    
+
     const handleNewsletterToggle = async () => {
         try {
             const currentUser = auth.currentUser;
             if (currentUser) {
                 const newValue = !emailNotifications;
                 setEmailNotifications(newValue);
-                
+
                 // Update in Firestore
                 await updateDoc(doc(db, 'users', currentUser.uid), {
                     newsletter: newValue
                 });
-                
+
                 // Mettre à jour dans Brevo
                 try {
                     if (newValue) {
                         // Ajouter à la liste Brevo
                         const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
                         const userData = userDoc.exists() ? userDoc.data() : null;
-                        
+
                         await fetch('/api/newsletter', {
                             method: 'POST',
                             headers: {
@@ -86,21 +86,29 @@ export default function AccountSettings() {
         <section className="flex flex-col gap-8 p-8 max-w-4xl mx-auto">
             <button
                 onClick={() => router.push('/profil')}
-                className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
+                className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] dark:bg-[#433D3D] rounded-full font-semibold font-neulisalt cursor-pointer dark:text-[#EECECE]"
             >
                 <Image
                     src="/icons/arrow-left.svg"
                     alt="Retour"
                     width={24}
                     height={24}
+                    className="dark:hidden"
+                />
+                <Image
+                    src="/icons/dark_collection/arrow-left.svg"
+                    alt="Retour"
+                    width={24}
+                    height={24}
+                    className="hidden dark:block"
                 />
                 Retour au compte
             </button>
             <ChangePasswordForm />
             <div className="flex flex-col gap-4">
-                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Newsletter par email</h2>
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Newsletter par email</h2>
                 <div className="flex items-center justify-between py-2">
-                    <span className="text-gray-700">Recevoir la newsletter par email</span>
+                    <span className="text-gray-700 dark:text-[#EECECE]">Recevoir la newsletter par email</span>
                     <button
                         onClick={handleNewsletterToggle}
                         disabled={loading}

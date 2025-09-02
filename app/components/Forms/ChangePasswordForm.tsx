@@ -34,15 +34,15 @@ export default function ChangePasswordForm() {
                 setIsChangingPassword(false);
             }}
         >
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Mot de passe</h2>
-            <label htmlFor="password" className="text-2xl font-neulisalt font-semibold">Mot de passe actuel</label>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Mot de passe</h2>
+            <label htmlFor="password" className="text-2xl font-neulisalt font-semibold dark:text-[#EECECE]">Mot de passe actuel</label>
             <div className="relative">
                 <input 
                     type={showCurrentPassword ? "text" : "password"} 
                     id="password" 
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt pr-12" 
+                    className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt pr-12 dark:placeholder:text-[#EECECE]" 
                     placeholder="Celui que vous utilisez en ce moment !" 
                     required
                 />
@@ -60,14 +60,14 @@ export default function ChangePasswordForm() {
                     />
                 </button>
             </div>
-            <label htmlFor="new-password" className="text-2xl font-neulisalt font-semibold">Nouveau mot de passe</label>
+            <label htmlFor="new-password" className="text-2xl font-neulisalt font-semibold dark:text-[#EECECE]">Nouveau mot de passe</label>
             <div className="relative">
                 <input 
                     type={showNewPassword ? "text" : "password"} 
                     id="new-password" 
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt pr-12" 
+                    className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt pr-12 dark:placeholder:text-[#EECECE]" 
                     placeholder="C'est le moment de faire parler votre imagination !" 
                     required
                     minLength={6}
@@ -86,14 +86,14 @@ export default function ChangePasswordForm() {
                     />
                 </button>
             </div>
-            <label htmlFor="confirm-password" className="text-2xl font-neulisalt font-semibold">Confirmer le nouveau mot de passe</label>
+            <label htmlFor="confirm-password" className="text-2xl font-neulisalt font-semibold dark:text-[#EECECE]">Confirmer le nouveau mot de passe</label>
             <div className="relative">
                 <input 
                     type={showConfirmPassword ? "text" : "password"} 
                     id="confirm-password" 
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt pr-12" 
+                    className="w-full p-4 border-2 border-[#F3DEDE] rounded-full bg-white/5 font-neulisalt pr-12 dark:placeholder:text-[#EECECE]" 
                     placeholder="On n'est jamais sûr de rien !" 
                     required
                 />
@@ -112,7 +112,7 @@ export default function ChangePasswordForm() {
                 </button>
             </div>
             {passwordError && (
-                <p className="text-red-500 font-neulisalt">{passwordError}</p>
+                <p className="text-red-500 font-neulisalt dark:text-[#EECECE]">{passwordError}</p>
             )}
             <button 
                 type="submit"

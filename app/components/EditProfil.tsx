@@ -16,27 +16,41 @@ export default function EditProfil() {
         <section className="flex flex-col gap-8 p-8 max-w-4xl mx-auto font-neulisalt">
             <button
                 onClick={() => router.push('/profil')}
-                className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
+                className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] dark:bg-[#433D3D] dark:text-[#EECECE] rounded-full font-semibold font-neulisalt cursor-pointer"
             >
                 <Image
                     src="/icons/arrow-left.svg"
                     alt="Retour"
                     width={24}
                     height={24}
+                    className="dark:hidden"
+                />
+                <Image
+                    src="/icons/dark_collection/arrow-left.svg"
+                    alt="Retour"
+                    width={24}
+                    height={24}
+                    className="hidden dark:block"
                 />
                 Retour au compte
             </button>
-
             <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between py-2">
-                    <p>Photo de profil</p>
+                    <p className="dark:text-[#EECECE]">Photo de profil</p>
                     <div className="relative w-16 h-16">
                         <Image
                             src={user?.photoURL || '/icons/account_circle.svg'}
                             alt="User"
                             width={60}
                             height={60}
-                            className="rounded-full object-cover"
+                            className="rounded-full object-cover dark:hidden"
+                        />
+                        <Image
+                            src={user?.photoURL || '/icons/dark_collection/account_circle.svg'}
+                            alt="User"
+                            width={60}
+                            height={60}
+                            className="rounded-full object-cover hidden dark:block"
                         />
                         <input
                             type="file"
@@ -63,7 +77,7 @@ export default function EditProfil() {
                     </div>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                    <span className="text-gray-700">{`Afficher l'adresse email`}</span>
+                    <span className="text-gray-700 dark:text-[#EECECE]">{`Afficher l'adresse email`}</span>
                     <button
                         onClick={toggleEmail}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showEmail ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
@@ -76,7 +90,7 @@ export default function EditProfil() {
                 </div>
 
                 <div className="flex items-center justify-between py-2">
-                    <span className="text-gray-700">Afficher le statut</span>
+                    <span className="text-gray-700 dark:text-[#EECECE]">Afficher le statut</span>
                     <button
                         onClick={toggleStatus}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showStatus ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
@@ -89,7 +103,7 @@ export default function EditProfil() {
                 </div>
 
                 <div className="flex items-center justify-between py-2">
-                    <span className="text-gray-700">{`Afficher l'âge du compte`}</span>
+                    <span className="text-gray-700 dark:text-[#EECECE]">{`Afficher l'âge du compte`}</span>
                     <button
                         onClick={toggleAccountAge}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showAccountAge ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
