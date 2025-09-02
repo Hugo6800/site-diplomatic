@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react';
-import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import AuthModal from "../Auth/AuthModal";
 import { LogoutButton } from "../Auth/LogoutButton";
@@ -30,18 +29,23 @@ export function User({ onClick }: UserProps) {
                     if (onClick) onClick();
                 }}
             >
-                <Image
-                    src={user?.photoURL || '/icons/account_circle.svg'}
+                {/* Image claire */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src="/icons/account_circle.svg"
                     alt="User"
                     width={32}
                     height={32}
                     className="object-contain rounded-full dark:hidden"
                 />
-                <Image
-                    src={user?.photoURL || `/icons/dark_collection/account_circle.svg`}
+
+                {/* Image sombre */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src="/icons/dark_collection/account_circle.svg"
                     alt="User"
-                    width={28}
-                    height={28}
+                    width={32}
+                    height={32}
                     className="object-contain rounded-full hidden dark:block"
                 />
                 {user && (

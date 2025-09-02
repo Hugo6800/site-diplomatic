@@ -35,13 +35,21 @@ export default function Profil() {
                                         setShowMyArticles(false);
                                         setShowMyDrafts(false);
                                     }}
-                                    className="flex justify-center items-center gap-2 mt-6 w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
+                                    className="flex justify-center items-center gap-2 mt-6 w-1/4 px-2 py-4 bg-[#F3DEDE] dark:bg-[#433D3D] dark:text-[#EECECE] rounded-full font-semibold font-neulisalt cursor-pointer"
                                 >
                                     <Image
                                         src="/icons/arrow-left.svg"
                                         alt="Retour"
                                         width={24}
                                         height={24}
+                                        className="dark:hidden"
+                                    />
+                                    <Image
+                                        src="/icons/dark_collection/arrow-left.svg"
+                                        alt="Retour"
+                                        width={24}
+                                        height={24}
+                                        className="hidden dark:block"
                                     />
                                     Retour au compte
                                 </button>
@@ -54,13 +62,21 @@ export default function Profil() {
                                         setShowMyArticles(false);
                                         setShowMyDrafts(false);
                                     }}
-                                    className="flex justify-center items-center gap-2 mt-6 w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer"
+                                    className="flex justify-center items-center gap-2 mt-6 w-1/4 px-2 py-4 bg-[#F3DEDE] dark:bg-[#433D3D] dark:text-[#EECECE] rounded-full font-semibold font-neulisalt cursor-pointer"
                                 >
                                     <Image
                                         src="/icons/arrow-left.svg"
                                         alt="Retour"
                                         width={24}
                                         height={24}
+                                        className="dark:hidden"
+                                    />
+                                    <Image
+                                        src="/icons/dark_collection/arrow-left.svg"
+                                        alt="Retour"
+                                        width={24}
+                                        height={24}
+                                        className="hidden dark:block"
                                     />
                                     Retour au compte
                                 </button>

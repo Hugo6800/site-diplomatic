@@ -103,10 +103,10 @@ export default function MyDraftsPanel() {
 
     return (
         <section className="mt-8">
-            <h2 className="font-bold font-neulisalt text-[1rem] mb-6">Mes Brouillons</h2>
+            <h2 className="font-bold font-neulisalt text-[1rem] mb-6 dark:text-[#EECECE]">Mes Brouillons</h2>
             
             {drafts.length === 0 ? (
-                <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                <div className="text-center py-8 bg-gray-100 dark:bg-gray-800 dark:text-[#EECECE] rounded-lg">
                     <p className="text-gray-500 dark:text-gray-400">Vous n&apos;avez pas encore de brouillons.</p>
                 </div>
             ) : (

@@ -176,14 +176,14 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
                             <div>
                                 {mostLikedArticle ? (
                                     <LeftCardsEditorPanel
-                                        className="bg-[#9AF2A3] dark:bg-[#3B6E40] px-4 py-2 w-fit text-xs lg:text-sm dark:text-[#E0E0E0]"
+                                        className="bg-[#9AF2A3] dark:bg-[#3B6E40] dark:text-[#EECECE] px-4 py-2 w-fit text-xs lg:text-sm"
                                         title={mostLikedArticle.title}
                                         image={mostLikedArticle.imageUrl}
                                         category="Vos lecteurs aiment"
                                     />
                                 ) : (
                                     <div className="flex flex-col gap-2.5">
-                                        <div className="bg-[#9AF2A3] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt">
+                                        <div className="bg-[#9AF2A3] dark:bg-[#3B6E40] dark:text-[#EECECE] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt">
                                             Vos lecteurs aiment
                                         </div>
                                         <div className="flex flex-col items-center justify-center h-full bg-gray-100 dark:bg-gray-800 rounded-lg p-8">
@@ -197,14 +197,14 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
                         <div>
                             {mostLikedArticle ? (
                                 <LeftCardsEditorPanel
-                                    className="bg-[#9AF2A3] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm"
+                                    className="bg-[#9AF2A3] dark:bg-[#3B6E40] dark:text-[#EECECE] px-4 py-2 w-fit text-xs lg:text-sm"
                                     title={mostLikedArticle.title}
                                     image={mostLikedArticle.imageUrl}
                                     category="Vos lecteurs aiment"
                                 />
                             ) : (
                                 <div className="flex flex-col gap-2.5">
-                                    <div className="bg-[#9AF2A3] dark:bg-[#1E1E1E] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt">
+                                    <div className="bg-[#9AF2A3] dark:bg-[#3B6E40] dark:text-[#EECECE] px-4 py-2 w-fit text-xs lg:text-sm rounded-full font-bold font-neulisalt">
                                         Vos lecteurs aiment
                                     </div>
                                     <div className="flex flex-col items-center justify-center h-full bg-gray-100 dark:bg-gray-800 rounded-lg p-8">

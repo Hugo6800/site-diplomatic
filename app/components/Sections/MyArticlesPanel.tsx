@@ -79,7 +79,7 @@ export default function MyArticlesPanel() {
 
     return (
         <section className="mt-8">
-            <h2 className="font-bold font-neulisalt text-[1rem] mb-6">Mes Articles</h2>
+            <h2 className="font-bold font-neulisalt text-[1rem] mb-6 dark:text-[#EECECE]">Mes Articles</h2>
             {articles.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {articles.map(article => (
@@ -97,7 +97,7 @@ export default function MyArticlesPanel() {
                     ))}
                 </div>
             ) : (
-                <div className="text-center text-gray-500">
+                <div className="text-center text-gray-500 dark:text-[#E0E0E0]">
                     Vous n&apos;avez pas encore écrit d&apos;articles.
                 </div>
             )}
