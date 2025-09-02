@@ -14,7 +14,7 @@ export default function EditorMenuBar({ editor }: Props) {
   if (!editor) return null
 
   return (
-    <div className="flex flex-wrap gap-2 p-2 rounded-full mb-4 bg-gray">
+    <div className="flex flex-wrap gap-2 p-2 rounded-full mb-4 bg-[#f3dede] dark:bg-[#433D3D] dark:border-[#575656]">
       <Button
         type="button"
         variant={editor.isActive('bold') ? 'primary' : 'secondary'}

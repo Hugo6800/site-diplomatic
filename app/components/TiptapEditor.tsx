@@ -32,7 +32,7 @@ export default function TiptapEditor({ content, onUpdate }: Props) {
     content,
     editorProps: {
       attributes: {
-        class: 'min-h-[300px] prose prose-lg max-w-none tiptap-editor',
+        class: 'min-h-[300px] prose prose-lg max-w-none tiptap-editor dark:bg-[#171414] dark:border-[#575656]',
       },
     },
     onUpdate: ({ editor }) => {
@@ -58,7 +58,7 @@ export default function TiptapEditor({ content, onUpdate }: Props) {
       <div>
         <EditorMenuBar editor={editor} />
       </div>
-      <div className="border rounded p-3 bg-white">
+      <div className="border rounded-xl p-3 bg-white dark:bg-[#171414] dark:border-[#575656]">
         <EditorContent editor={editor} />
       </div>
     </>

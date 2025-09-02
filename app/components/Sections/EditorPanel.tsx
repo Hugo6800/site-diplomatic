@@ -7,7 +7,7 @@ import { useAuth } from '@/app/hooks/useAuth';
 import LeftCardsEditorPanel from '@/app/components/LeftCardsEditorPanel';
 import TagEditArticle from '../TagEditArticle';
 import CardsDownEditPanel from '../CardsDownEditPanel';
-import TagRecrutement from '../TagRecrutement';
+// import TagRecrutement from '../TagRecrutement';
 
 interface Article {
     id: string;
@@ -220,11 +220,11 @@ export default function EditorPanel({ onShowMyArticles, onShowMyDrafts }: Editor
                     <div className="flex-1">
                         <TagEditArticle />
                     </div>
-                    {user?.role === 'admin' && (
+                    {/* {user?.role === 'admin' && (
                         <div className="flex-1">
                             <TagRecrutement />
                         </div>
-                    )}
+                    )} */}
                 </div>
                     <div className="flex gap-4">
                         <CardsDownEditPanel 

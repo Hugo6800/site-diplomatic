@@ -6,7 +6,6 @@ import { db } from '@/app/lib/firebase'
 import EditorHeader from '@/app/components/EditorHeader'
 import EditorMeta from '@/app/components/EditorMeta'
 import TiptapEditor from '@/app/components/TiptapEditor'
-import EditorActions from '@/app/components/EditorActions'
 import RoleProtection from '@/app/components/RoleProtection'
 import TagModifyPictureNew from '@/app/components/TagModifyPictureNew'
 import TagSaveNewDraft from '@/app/components/TagSaveNewDraft'
@@ -70,7 +69,7 @@ export default function NewArticlePage() {
 
   return (
     <RoleProtection allowedRoles={['journalist', 'admin']}>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-[#171414]">
         <div className="max-w-5xl mx-auto px-4 py-8 mt-20">
           <EditorHeader 
             imageUrl={imageUrl} 
@@ -97,11 +96,6 @@ export default function NewArticlePage() {
             onCategoryChange={setCategory}
           />
           <TiptapEditor content={content} onUpdate={setContent} />
-          <EditorActions 
-            onSave={() => handleSave(true)} 
-            onPublish={() => handleSave(false)} 
-            isDraft={true} 
-          />
         </div>
       </div>
     </RoleProtection>

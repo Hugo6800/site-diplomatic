@@ -15,22 +15,22 @@ export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsC
         placeholder="Titre de l'article"
         value={title}
         onChange={(e) => onTitleChange(e.target.value)}
-        className="w-full border rounded px-4 py-2 font-fractul font-bold text-[34px]"
+        className="w-full border rounded-xl px-4 py-2 font-fractul font-bold text-[34px] dark:text-[#EECECE]"
       />
       <input
         type="text"
         placeholder="Mots clés séparés par des virgules"
         value={keywords}
         onChange={(e) => onKeywordsChange(e.target.value)}
-        className="w-full border rounded px-4 py-2 font-neulisalt my-4"
+        className="w-full border rounded-xl px-4 py-2 font-neulisalt my-4 dark:text-[#EECECE]"
       />
       
       <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-[#EECECE]">Catégorie</label>
         <select 
           value={category} 
           onChange={(e) => onCategoryChange && onCategoryChange(e.target.value)}
-          className="w-full border rounded px-4 py-2 font-neulisalt"
+          className="w-full border rounded-xl px-4 py-2 mb-4 font-neulisalt dark:text-[#EECECE]"
         >
           <option value="default">Sélectionner une catégorie</option>
           <option value="international">International</option>
