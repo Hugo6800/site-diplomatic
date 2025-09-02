@@ -38,7 +38,7 @@ export function User({ onClick }: UserProps) {
                     className="object-contain dark:hidden"
                 />
                 <Image
-                    src={user?.photoURL || `/icons/dark_collection/account_circle.png`}
+                    src={user?.photoURL || `/icons/dark_collection/account_circle.svg`}
                     alt="User"
                     width={28}
                     height={28}

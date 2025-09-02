@@ -44,7 +44,7 @@ export default function HistoryReadSection() {
     return (
         <section className="mt-12">
             <div className="flex justify-between items-center gap-2">
-                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Histoire de lecture</h2>
+                <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">Histoire de lecture</h2>
                 {hasMoreArticles && (
                     <div 
                         className="bg-[#F3DEDE] rounded-full p-2 cursor-pointer hover:bg-[#e6c8c8] transition-colors"
@@ -61,7 +61,7 @@ export default function HistoryReadSection() {
                 )}
             </div>
             {readArticles.length === 0 ? (
-                <div className="py-8 text-gray-500 font-neulisalt text-lg">
+                <div className="py-4 text-gray-500 font-neulisalt text-lg dark:text-[#EECECE]">
                     Pas d&apos;articles lus
                 </div>
             ) : (
