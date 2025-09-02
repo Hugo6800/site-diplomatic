@@ -61,7 +61,7 @@ export default function SearchFilter({
           placeholder={placeholder}
           value={searchTerm}
           onChange={handleSearchChange}
-          className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-full bg-white/5 focus:outline-none focus:ring-2 focus:ring-[#DE595C] font-neulisalt"
+          className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-full dark:placeholder:text-[#E0E0E0] dark:bg-[#433D3D] dark:text-[#EECECE] bg-white/5 focus:outline-none focus:ring-2 focus:ring-[#DE595C] font-neulisalt"
         />
         {searchTerm && (
           <button 
@@ -85,7 +85,7 @@ export default function SearchFilter({
         </div>
       )} */}
       {searchTerm.length > 0 && searchTerm.length < minCharacters && (
-        <div className="mt-1 text-xs text-amber-500 font-neulisalt">
+        <div className="mt-1 text-xs text-amber-500 font-neulisalt dark:text-[#EECECE]">
           Saisissez au moins {minCharacters} caractères pour lancer la recherche
         </div>
       )}

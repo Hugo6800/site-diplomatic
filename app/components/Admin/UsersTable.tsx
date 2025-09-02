@@ -91,25 +91,25 @@ export default function UsersTable({
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/mail.svg" alt="Email" width={20} height={20} className="dark:invert" />
-                                <span>E-Mail</span>
+                                <span className="dark:text-[#EECECE]">E-Mail</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/event_upcoming.svg" alt="Date" width={20} height={20} className="dark:invert" />
-                                <span>{`Date d'inscription`}</span>
+                                <span className="dark:text-[#EECECE]">{`Date d'inscription`}</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/assignment_ind.svg" alt="Rôle" width={20} height={20} className="dark:invert" />
-                                <span>Rôle</span>
+                                <span className="dark:text-[#EECECE]">Rôle</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/interests.svg" alt="Actions" width={20} height={20} className="dark:invert" />
-                                <span>Actions</span>
+                                <span className="dark:text-[#EECECE]">Actions</span>
                             </div>
                         </th>
                     </tr>
@@ -117,13 +117,13 @@ export default function UsersTable({
                 <tbody>
                     {users.map((user) => (
                         <tr key={user.id}>
-                            <td className="px-6 py-4 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="px-6 py-4 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 {user.email}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="px-6 py-4 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 {formatDate(user.createdAt)}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="px-6 py-4 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 <div className="relative">
                                     <button 
                                         onClick={() => setOpenRoleMenu(openRoleMenu === user.id ? null : user.id)}
@@ -158,7 +158,7 @@ export default function UsersTable({
                                     )}
                                 </div>
                             </td>
-                            <td className="pl-6 py-4 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="pl-6 py-4 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 {confirmDelete === user.id ? (
                                     <div className="flex items-center gap-2">
                                         <button 
@@ -178,13 +178,13 @@ export default function UsersTable({
                                     <button 
                                         onClick={() => user.role !== 'admin' && setConfirmDelete(user.id)}
                                         className={`p-2 w-full rounded-full text-[12px] sm:text-[14px] font-bold font-neulisalt flex items-center justify-center gap-1 ${user.role === 'admin' 
-                                            ? 'text-gray-400 bg-gray-200 cursor-not-allowed' 
-                                            : 'text-[#4D0506] bg-[#F58688] cursor-pointer'}`}
+                                            ? 'text-[#4D0506] bg-[#B9B9B9] dark:bg-[#414141] cursor-not-allowed' 
+                                            : 'text-[#4D0506] bg-[#F58688] dark:bg-[#560C0E] dark:text-[#979797] cursor-pointer'}`}
                                         disabled={user.role === 'admin'}
                                         title="Supprimer l'utilisateur"
                                     >
-                                        <Image src="/icons/delete_forever.svg" alt="Supprimer" width={16} height={16} className={user.role === 'admin' ? 'opacity-50' : ''} />
-                                        <span className="sm:inline">Supprimer</span>
+                                        <Image src="/icons/delete_forever.svg" alt="Supprimer" width={16} height={16} className={user.role === 'admin' ? 'opacity-50 dark:invert' : 'dark:invert'} />
+                                        <span className="sm:inline dark:text-[#979797]">Supprimer</span>
                                     </button>
                                 )}
                             </td>
@@ -194,13 +194,13 @@ export default function UsersTable({
             </table>
             
             {users.length === 0 && searchTerm && !loading && !searching && (
-                <div className="text-center py-4 text-gray-500 font-neulisalt">
+                <div className="text-center py-4 text-gray-500 font-neulisalt dark:text-[#EECECE]">
                     Aucun utilisateur trouvé pour cette recherche
                 </div>
             )}
             
             {searching && (
-                <div className="text-center py-4 text-gray-500 font-neulisalt">
+                <div className="text-center py-4 text-gray-500 font-neulisalt dark:text-[#EECECE]">
                     Recherche en cours...
                 </div>
             )}

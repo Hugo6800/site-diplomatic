@@ -152,43 +152,43 @@ export default function ContactsTable({
                             <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Image src="/icons/account_circle.svg" alt="Nom" width={20} height={20} className="dark:invert" />
-                                    <span>Nom</span>
+                                    <span className="dark:text-[#EECECE]">Nom</span>
                                 </div>
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Image src="/icons/event_upcoming.svg" alt="Date" width={20} height={20} className="dark:invert" />
-                                    <span>Date</span>
+                                    <span className="dark:text-[#EECECE]">Date</span>
                                 </div>
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Image src="/icons/category.svg" alt="Thème" width={20} height={20} className="dark:invert" />
-                                    <span>Thème</span>
+                                    <span className="dark:text-[#EECECE]">Thème</span>
                                 </div>
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Image src="/icons/topic.svg" alt="Sujet" width={20} height={20} className="dark:invert" />
-                                    <span>Sujet</span>
+                                    <span className="dark:text-[#EECECE]">Sujet</span>
                                 </div>
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Image src="/icons/mail.svg" alt="Email" width={20} height={20} className="dark:invert" />
-                                    <span>Email</span>
+                                    <span className="dark:text-[#EECECE]">Email</span>
                                 </div>
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Image src="/icons/app_badging.svg" alt="Statut" width={20} height={20} className="dark:invert" />
-                                    <span>Statut</span>
+                                    <span className="dark:text-[#EECECE]">Statut</span>
                                 </div>
                             </th>
                             <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                                 <div className="flex items-center gap-2">
                                     <Image src="/icons/interests.svg" alt="Actions" width={20} height={20} className="dark:invert" />
-                                    <span>Actions</span>
+                                    <span className="dark:text-[#EECECE]">Actions</span>
                                 </div>
                             </th>
                         </tr>
@@ -196,21 +196,21 @@ export default function ContactsTable({
                     <tbody>
                         {submissions.map((submission) => (
                             <tr key={submission.id}>
-                                <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <td className="px-4 py-2 text-[1rem] font-semibold dark:text-[#EECECE]">
                                     <div className="line-clamp-2">{submission.name}</div>
                                 </td>
-                                <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
+                                <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                     {formatDate(submission.timestamp)}
                                 </td>
-                                <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <td className="px-4 py-2 text-[1rem] font-semibold dark:text-[#EECECE]">
                                     <div className="line-clamp-2">
                                         {submission.theme.length > 20 ? `${submission.theme.substring(0, 20)}...` : submission.theme}
                                     </div>
                                 </td>
-                                <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <td className="px-4 py-2 text-[1rem] font-semibold dark:text-[#EECECE]">
                                     <div className="line-clamp-2">{submission.subject}</div>
                                 </td>
-                                <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <td className="px-4 py-2 text-[1rem] font-semibold dark:text-[#EECECE]">
                                     <div className="flex flex-col">
                                         <span className="truncate">{submission.email.substring(0, 14)}</span>
                                         {submission.email.length > 14 && (
@@ -218,13 +218,13 @@ export default function ContactsTable({
                                         )}
                                     </div>
                                 </td>
-                                <td className="px-4 py-2 text-[1rem] font-semibold">
+                                <td className="px-4 py-2 text-[1rem] font-semibold dark:text-[#EECECE]">
                                     <div className="line-clamp-2">
                                         {submission.message.split(' ').slice(0, 6).join(' ')}
                                         {submission.message.split(' ').length > 6 ? '...' : ''}
                                     </div>
                                 </td>
-                                <td className="px-4 py-2 whitespace-nowrap text-sm font-semibold">
+                                <td className="px-4 py-2 whitespace-nowrap text-sm font-semibold dark:text-[#EECECE]">
                                     <div className="relative">
                                         <button 
                                             onClick={() => setOpenStatusMenu(openStatusMenu === submission.id ? null : submission.id)}
@@ -236,7 +236,6 @@ export default function ContactsTable({
                                                     alt={submission.status === 'closed' ? 'Traité' : 'Ouvert'} 
                                                     width={16} 
                                                     height={16} 
-                                                    className="dark:invert" 
                                                 />
                                                 <span className="min-w-[60px] text-center">{getStatusText(submission.status)}</span>
                                                 <div className="ml-1">

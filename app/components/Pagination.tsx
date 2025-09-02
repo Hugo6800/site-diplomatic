@@ -35,8 +35,8 @@ export default function Pagination({
           disabled={currentPage === 1}
           className={`p-3 rounded-full ${
             currentPage === 1
-              ? 'text-gray-400 cursor-not-allowed'
-              : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
+              ? 'text-[#4D0506] dark:text-[#F3DEDE] cursor-not-allowed'
+              : 'text-[#1B0505] dark:text-[#EECECE] hover:bg-[#F3DEDE] dark:hover:bg-[#560C0E] cursor-pointer'
           }`}
           aria-label="Première page"
         >
@@ -52,8 +52,8 @@ export default function Pagination({
           disabled={currentPage === 1}
           className={`p-3 rounded-full ${
             currentPage === 1
-              ? 'text-gray-400 cursor-not-allowed'
-              : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
+              ? 'text-[#4D0506] dark:text-[#F3DEDE] cursor-not-allowed'
+              : 'text-[#1B0505] dark:text-[#EECECE] hover:bg-[#F3DEDE] dark:hover:bg-[#560C0E] cursor-pointer'
           }`}
           aria-label="Page précédente"
         >
@@ -69,8 +69,8 @@ export default function Pagination({
             onClick={() => goToPage(number)}
             className={`px-3 py-1 rounded-full font-neulisalt ${
               currentPage === number
-                ? 'bg-[#DE595C] text-white font-bold'
-                : 'text-[#1B0505] hover:bg-[#F3DEDE]'
+                ? 'bg-[#DE595C] text-white dark:text-[#EECECE] font-bold'
+                : 'text-[#1B0505] dark:text-[#EECECE] hover:bg-[#F3DEDE] dark:hover:bg-[#560C0E] cursor-pointer'
             }`}
           >
             {number}
@@ -83,8 +83,8 @@ export default function Pagination({
           disabled={currentPage === totalPages}
           className={`p-3 rounded-full ${
             currentPage === totalPages
-              ? 'text-gray-400 cursor-not-allowed'
-              : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
+              ? 'text-[#4D0506] dark:text-[#F3DEDE] cursor-not-allowed'
+              : 'text-[#1B0505] dark:text-[#EECECE] hover:bg-[#F3DEDE] dark:hover:bg-[#560C0E] cursor-pointer'
           }`}
           aria-label="Page suivante"
         >
@@ -99,8 +99,8 @@ export default function Pagination({
           disabled={currentPage === totalPages}
           className={`p-3 rounded-full ${
             currentPage === totalPages
-              ? 'text-gray-400 cursor-not-allowed'
-              : 'text-[#1B0505] hover:bg-[#F3DEDE] cursor-pointer'
+              ? 'text-[#4D0506] dark:text-[#F3DEDE] cursor-not-allowed'
+              : 'text-[#1B0505] dark:text-[#EECECE] hover:bg-[#F3DEDE] dark:hover:bg-[#560C0E] cursor-pointer'
           }`}
           aria-label="Dernière page"
         >

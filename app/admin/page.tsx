@@ -12,16 +12,24 @@ export default function Admin() {
     return (
         <RoleProtection allowedRoles={['admin']}>
             <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
-                <h2 className="font-bold font-fractul text-4xl lg:text-5xl mb-10">Administration du site</h2>
+                <h2 className="font-bold font-fractul text-4xl lg:text-5xl mb-10 dark:text-[#EECECE]">Administration du site</h2>
                 <button
                     onClick={() => router.push('/profil')}
-                    className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer my-6"
+                    className="flex justify-center items-center gap-2 lg:w-1/4 px-2 py-4 bg-[#F3DEDE] dark:bg-[#433D3D] dark:text-[#EECECE] rounded-full font-semibold font-neulisalt cursor-pointer my-6"
                 >
                     <Image
                         src="/icons/arrow-left.svg"
                         alt="Retour"
                         width={24}
                         height={24}
+                        className="dark:hidden"
+                    />
+                    <Image
+                        src="/icons/dark_collection/arrow-left.svg"
+                        alt="Retour"
+                        width={24}
+                        height={24}
+                        className="hidden dark:block"
                     />
                     Retour au compte
                 </button>

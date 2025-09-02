@@ -39,7 +39,7 @@ export default function ArticlesTable({
     searching = false
 }: ArticlesTableProps) {
     const [searchTerm, setSearchTerm] = useState('');
-    
+
     // Fonction pour gérer la recherche
     const handleSearch = async (term: string) => {
         setSearchTerm(term);
@@ -51,7 +51,7 @@ export default function ArticlesTable({
             }
         }
     };
-    
+
     // Fonction pour obtenir le texte du statut
     const getStatusText = (status: string) => {
         switch (status) {
@@ -80,15 +80,15 @@ export default function ArticlesTable({
             {/* Filtre de recherche */}
             {searchArticlesByTitle && (
                 <div className="mb-4">
-                    <SearchFilter 
-                        onSearch={handleSearch} 
+                    <SearchFilter
+                        onSearch={handleSearch}
                         placeholder="Rechercher par titre..."
                         searchMode="startsWith"
                         minCharacters={3}
                     />
                 </div>
             )}
-            
+
             {/* Message de chargement ou de recherche */}
             {(loading || searching) && (
                 <div className="flex justify-center items-center py-4">
@@ -96,54 +96,54 @@ export default function ArticlesTable({
                     <span className="ml-2">{searching ? 'Recherche en cours...' : 'Chargement...'}</span>
                 </div>
             )}
-            
+
             {/* Message si aucun résultat */}
             {!loading && !searching && articles.length === 0 && (
                 <div className="text-center py-4">
-                    {searchTerm ? 
-                        <p>Aucun article trouvé pour <strong>&ldquo;{searchTerm}&rdquo;</strong></p> : 
+                    {searchTerm ?
+                        <p>Aucun article trouvé pour <strong>&ldquo;{searchTerm}&rdquo;</strong></p> :
                         <p>Aucun article disponible</p>
                     }
                 </div>
             )}
-            
+
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead>
                     <tr>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/title.svg" alt="Titre" width={20} height={20} className="dark:invert" />
-                                <span>Titre</span>
+                                <span className="dark:text-[#EECECE]">Titre</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/event_upcoming.svg" alt="Date" width={20} height={20} className="dark:invert" />
-                                <span>Date</span>
+                                <span className="dark:text-[#EECECE]">Date</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/category.svg" alt="Catégorie" width={20} height={20} className="dark:invert" />
-                                <span>Catégorie</span>
+                                <span className="dark:text-[#EECECE]">Catégorie</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/person_edit.svg" alt="Auteur" width={20} height={20} className="dark:invert" />
-                                <span>Auteur</span>
+                                <span className="dark:text-[#EECECE]">Auteur</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/app_badging.svg" alt="Statut" width={20} height={20} className="dark:invert" />
-                                <span>Statut</span>
+                                <span className="dark:text-[#EECECE]">Statut</span>
                             </div>
                         </th>
                         <th scope="col" className="px-6 py-3 text-left text-[1rem] font-semibold tracking-wider text-[#3F3F43] dark:text-gray-400">
                             <div className="flex items-center gap-2">
                                 <Image src="/icons/interests.svg" alt="Actions" width={20} height={20} className="dark:invert" />
-                                <span>Actions</span>
+                                <span className="dark:text-[#EECECE]">Actions</span>
                             </div>
                         </th>
                     </tr>
@@ -151,31 +151,30 @@ export default function ArticlesTable({
                 <tbody>
                     {articles.map((article) => (
                         <tr key={article.id}>
-                            <td className="px-4 py-2 text-[1rem] font-semibold">
+                            <td className="px-4 py-2 text-[1rem] font-semibold dark:text-[#EECECE]  ">
                                 <div className="line-clamp-2">{article.title}</div>
                             </td>
-                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 {formatDate(article.createdAt)}
                             </td>
-                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 <TagArticle name={article.category} className={`tag-${article.category.toLowerCase()}`} />
                             </td>
-                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
+                            <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 {article.authorEmail}
                             </td>
-                            <td className="px-4 py-2 whitespace-nowrap text-sm font-semibold">
+                            <td className="px-4 py-2 whitespace-nowrap text-sm font-semibold dark:text-[#EECECE]">
                                 <div className="relative">
-                                    <button 
+                                    <button
                                         onClick={() => setOpenStatusMenu(openStatusMenu === article.id ? null : article.id)}
                                         className="cursor-pointer w-full"
                                     >
                                         <div className={`flex items-center justify-center gap-2 px-5 py-1 rounded-full ${getStatusClass(article.status)}`}>
-                                            <Image 
-                                                src={article.status === 'published' ? '/icons/check_circle.svg' : '/icons/arrow_upload_progress.svg'} 
-                                                alt={article.status === 'published' ? 'Publié' : 'En attente'} 
-                                                width={16} 
-                                                height={16} 
-                                                className="dark:invert" 
+                                            <Image
+                                                src={article.status === 'published' ? '/icons/check_circle.svg' : '/icons/arrow_upload_progress.svg'}
+                                                alt={article.status === 'published' ? 'Publié' : 'En attente'}
+                                                width={16}
+                                                height={16}
                                             />
                                             <span className="min-w-[60px] text-center">{getStatusText(article.status)}</span>
                                             <div className="ml-1">
@@ -185,7 +184,7 @@ export default function ArticlesTable({
                                             </div>
                                         </div>
                                     </button>
-                                    
+
                                     {openStatusMenu === article.id && (
                                         <div className="absolute z-10 mt-1 w-full bg-white dark:bg-[#1E1E1E] rounded-lg py-2 px-1 shadow-lg">
                                             <div className="flex flex-col gap-2" role="menu" aria-orientation="vertical">
@@ -201,7 +200,12 @@ export default function ArticlesTable({
                                                         role="menuitem"
                                                     >
                                                         <div className="flex items-center justify-center gap-2 px-5 py-1 rounded-full bg-[#9AF2A3] text-[#1B0505]">
-                                                            <Image src="/icons/check_circle.svg" alt="Publié" width={16} height={16} />
+                                                            <Image
+                                                                src="/icons/check_circle.svg"
+                                                                alt="Publié"
+                                                                width={16}
+                                                                height={16}
+                                                            />
                                                             <span className="min-w-[60px] text-center">Publié</span>
                                                         </div>
                                                     </button>
@@ -230,14 +234,14 @@ export default function ArticlesTable({
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
                                 <div className="flex items-center gap-2">
-                                    <button 
+                                    <button
                                         className="min-w-[90px] p-2 rounded-full text-[12px] sm:text-[14px] font-bold font-neulisalt flex items-center justify-center gap-1 text-[#4D0506] bg-[#F3DEDE] cursor-pointer hover:bg-[#F3DEDE]/80 transition-colors"
                                         title="Éditer l'article"
                                     >
                                         <Image src="/icons/edit.svg" alt="Éditer" width={16} height={16} />
                                         <span>Éditer</span>
                                     </button>
-                                    <button 
+                                    <button
                                         className="p-2 rounded-full flex items-center justify-center text-[#4D0506] bg-[#F58688] cursor-pointer w-10 h-10 hover:bg-[#F58688]/80 transition-colors"
                                         title="Supprimer l'article"
                                     >

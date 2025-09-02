@@ -38,7 +38,7 @@ export default function ContactSubmissionsSection() {
     
     return (
         <section className="mb-10">
-            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-white w-fit">Soumissions de contact</h2>
+            <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] dark:text-[#EECECE] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 w-fit">Soumissions de contact</h2>
             
             {loading ? (
                 <div className="flex justify-center items-center py-10">
