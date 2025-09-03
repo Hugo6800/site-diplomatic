@@ -67,7 +67,6 @@ export default function LastArticlesSection() {
                 const sortedArticles = publishedArticles.sort((a, b) => {
                     return b.createdAt.seconds - a.createdAt.seconds;
                 });
-                console.log("🚀 ~ sortedArticles ~ sortedArticles:", sortedArticles)
                 
                 // Exclure le premier article (le plus récent) qui est déjà affiché dans SpotlightSection
                 // et limiter à 6 articles maximum

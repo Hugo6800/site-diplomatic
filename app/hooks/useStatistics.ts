@@ -41,7 +41,7 @@ export const useStatistics = (user: User | null): Statistics => {
             return;
         }
 
-        // Créer les queries
+        // Créer les queries pour les statistiques de base (favoris et lectures)
         const favoritesQuery = query(
             collection(db, 'favorites'),
             where('userId', '==', user.uid)
@@ -51,103 +51,203 @@ export const useStatistics = (user: User | null): Statistics => {
             collection(db, 'userReadings'),
             where('userId', '==', user.uid)
         );
-
-        const articlesQuery = user.role === 'journalist' ? query(
+        
+        // Query pour les articles écrits par l'utilisateur
+        // Essayer d'abord avec authorId pour les rôles journalist et admin
+        const articlesQuery = (user.role === 'journalist' || user.role === 'admin') ? query(
             collection(db, 'articles'),
-            where('authorName', '==', user.displayName)
+            where('authorId', '==', user.uid)
         ) : null;
-        let authorArticleIds: string[] = [];
 
-        // Écouter les changements
+        // Écouter les changements dans les favoris
         const unsubscribeAll = () => {
             const unsubscribeFavorites = onSnapshot(favoritesQuery, async (favoritesSnapshot: QuerySnapshot<DocumentData>) => {
                 const favoriteCount = favoritesSnapshot.size.toString();
 
+                // Calculer le temps de lecture total et le nombre d'articles lus
                 const readingsSnapshot = await getDocs(readingsQuery);
                 const readCount = readingsSnapshot.size.toString();
 
-                // Calculer le temps total de lecture
-                const totalSeconds = readingsSnapshot.docs.reduce((total, doc) => {
+                let totalReadingTimeSeconds = 0;
+                readingsSnapshot.forEach((doc) => {
                     const data = doc.data();
-                    return total + (data.totalReadTime || 0);
-                }, 0);
-                
-                const totalMinutes = Math.round(totalSeconds / 60);
-                const totalReadingTime = formatReadingTime(totalMinutes);
+                    if (data.totalReadTime) {
+                        totalReadingTimeSeconds += data.totalReadTime;
+                    }
+                });
 
-                // Statistiques de base
+                // Formater le temps de lecture (convertir en minutes)
+                const totalMinutes = Math.round(totalReadingTimeSeconds / 60);
+                const formattedReadingTime = formatReadingTime(totalMinutes);
+
+                // Stats de base pour tous les utilisateurs
                 const baseStats = {
                     favoriteCount,
                     readCount,
-                    totalReadingTime,
+                    totalReadingTime: formattedReadingTime,
                     articlesWrittenCount: '0',
                     likesReceivedCount: '0',
                     totalWordsCount: '0',
                     totalViewsCount: '0'
                 };
 
-                if (user.role === 'journalist' && articlesQuery) {
-                    const articlesSnapshot = await getDocs(articlesQuery);
-                    const articlesWrittenCount = articlesSnapshot.size.toString();
-
-                    authorArticleIds = articlesSnapshot.docs.map(doc => doc.id);
-
-                    let likesReceivedCount = '0';
-                    let totalViews = 0;
-
-                    if (authorArticleIds.length > 0) {
-                        // Compter les likes
-                        const journalistFavoritesQuery = query(
-                            collection(db, 'favorites'),
-                            where('articleId', 'in', authorArticleIds)
-                        );
-                        const journalistFavoritesSnapshot = await getDocs(journalistFavoritesQuery);
-                        likesReceivedCount = journalistFavoritesSnapshot.size.toString();
-
-                        // Compter les vues
-                        const articleReadingsQuery = query(
-                            collection(db, 'userReadings'),
-                            where('articleId', 'in', authorArticleIds)
-                        );
-                        const articleReadingsSnapshot = await getDocs(articleReadingsQuery);
-                        totalViews = articleReadingsSnapshot.size;
-                    }
-
-                    // Calculer le nombre total de mots
-                    const totalWords = articlesSnapshot.docs.reduce((total, doc) => {
-                        const data = doc.data() as { content?: string };
-                        if (data.content) {
-                            const words = data.content.trim().split(/\s+/);
-                            return total + words.length;
+                // Si l'utilisateur est journaliste ou admin, récupérer les statistiques d'articles
+                if ((user.role === 'journalist' || user.role === 'admin') && articlesQuery) {
+                    try {
+                        // Récupérer les articles écrits par l'utilisateur
+                        const articlesSnapshot = await getDocs(articlesQuery);
+                        const articlesWrittenCount = articlesSnapshot.size.toString();
+                        
+                        // Calculer le nombre total de mots
+                        const totalWords = articlesSnapshot.docs.reduce((total, doc) => {
+                            const data = doc.data() as { content?: string };
+                            if (data.content) {
+                                const words = data.content.trim().split(/\s+/);
+                                return total + words.length;
+                            }
+                            return total;
+                        }, 0);
+                        
+                        // Compter les likes pour les articles de l'auteur
+                        try {
+                            // Récupérer les IDs des articles écrits par l'utilisateur
+                            const authorArticleIds = articlesSnapshot.docs.map(doc => doc.id);
+                            
+                            // Compter les likes pour chaque article
+                            let totalLikes = 0;
+                            let totalViews = 0;
+                            
+                            // Compter les likes en utilisant la même approche que dans EditorPanel
+                            for (const articleId of authorArticleIds) {
+                                const favoritesQuery = query(
+                                    collection(db, 'favorites'),
+                                    where('articleId', '==', articleId)
+                                );
+                                const favoritesSnapshot = await getDocs(favoritesQuery);
+                                totalLikes += favoritesSnapshot.size;
+                                
+                                // Compter les vues en utilisant userReadings
+                                const viewsQuery = query(
+                                    collection(db, 'userReadings'),
+                                    where('articleId', '==', articleId)
+                                );
+                                const viewsSnapshot = await getDocs(viewsQuery);
+                                totalViews += viewsSnapshot.size;
+                            }
+                            
+                            // Mettre à jour les statistiques avec les articles écrits, les likes et les vues
+                            setStats({
+                                ...baseStats,
+                                articlesWrittenCount,
+                                likesReceivedCount: totalLikes.toString(),
+                                totalWordsCount: totalWords.toString(),
+                                totalViewsCount: totalViews.toString()
+                            });
+                        } catch (error) {
+                            console.error('Erreur lors du comptage des likes et vues:', error);
+                            // En cas d'erreur, utiliser des valeurs par défaut
+                            setStats({
+                                ...baseStats,
+                                articlesWrittenCount,
+                                likesReceivedCount: '0',
+                                totalWordsCount: totalWords.toString(),
+                                totalViewsCount: '0'
+                            });
                         }
-                        return total;
-                    }, 0);
-
-                    setStats({
-                        ...baseStats,
-                        articlesWrittenCount,
-                        likesReceivedCount,
-                        totalWordsCount: totalWords.toString(),
-                        totalViewsCount: totalViews.toLocaleString()
-                    });
+                    } catch (error) {
+                        console.error('Erreur lors de la récupération des articles avec authorId:', error);
+                        
+                        // Solution alternative : essayer avec authorName
+                        try {
+                            const authorNameQuery = query(
+                                collection(db, 'articles'),
+                                where('authorName', '==', user.displayName)
+                            );
+                            
+                            const articlesSnapshot = await getDocs(authorNameQuery);
+                            const articlesWrittenCount = articlesSnapshot.size.toString();
+                            
+                            if (articlesSnapshot.size > 0) {
+                                // Calculer le nombre total de mots
+                                const totalWords = articlesSnapshot.docs.reduce((total, doc) => {
+                                    const data = doc.data() as { content?: string };
+                                    if (data.content) {
+                                        const words = data.content.trim().split(/\s+/);
+                                        return total + words.length;
+                                    }
+                                    return total;
+                                }, 0);
+                                
+                                // Compter les likes pour les articles de l'auteur
+                                try {
+                                    // Récupérer les IDs des articles écrits par l'utilisateur
+                                    const authorArticleIds = articlesSnapshot.docs.map(doc => doc.id);
+                                    
+                                    // Compter les likes pour chaque article
+                                    let totalLikes = 0;
+                                    let totalViews = 0;
+                                    
+                                    // Compter les likes en utilisant la même approche que dans EditorPanel
+                                    for (const articleId of authorArticleIds) {
+                                        const favoritesQuery = query(
+                                            collection(db, 'favorites'),
+                                            where('articleId', '==', articleId)
+                                        );
+                                        const favoritesSnapshot = await getDocs(favoritesQuery);
+                                        totalLikes += favoritesSnapshot.size;
+                                        
+                                        // Compter les vues en utilisant userReadings
+                                        const viewsQuery = query(
+                                            collection(db, 'userReadings'),
+                                            where('articleId', '==', articleId)
+                                        );
+                                        const viewsSnapshot = await getDocs(viewsQuery);
+                                        totalViews += viewsSnapshot.size;
+                                    }
+                                    
+                                    // Mettre à jour les statistiques avec les articles écrits, les likes et les vues
+                                    setStats({
+                                        ...baseStats,
+                                        articlesWrittenCount,
+                                        likesReceivedCount: totalLikes.toString(),
+                                        totalWordsCount: totalWords.toString(),
+                                        totalViewsCount: totalViews.toString()
+                                    });
+                                } catch (error) {
+                                    console.error('Erreur lors du comptage des likes et vues (fallback):', error);
+                                    // En cas d'erreur, utiliser des valeurs par défaut
+                                    setStats({
+                                        ...baseStats,
+                                        articlesWrittenCount,
+                                        likesReceivedCount: '0',
+                                        totalWordsCount: totalWords.toString(),
+                                        totalViewsCount: '0'
+                                    });
+                                }
+                            } else {
+                                // Si aucun article n'est trouvé
+                                setStats(baseStats);
+                            }
+                        } catch (fallbackError) {
+                            console.error('Erreur lors de la récupération des articles avec authorName:', fallbackError);
+                            setStats(baseStats);
+                        }
+                    }
                 } else {
-                    setStats({
-                        ...baseStats,
-                        totalViewsCount: '0'
-                    });
+                    // Pour les utilisateurs qui ne sont pas journalistes ou admin
+                    setStats(baseStats);
                 }
             });
 
-            return () => {
-                unsubscribeFavorites();
-            };
+            return unsubscribeFavorites;
         };
 
         const unsubscribe = unsubscribeAll();
 
-        // Cleanup
         return () => {
-            unsubscribe();
+            if (unsubscribe) {
+                unsubscribe();
+            }
         };
     }, [user]);
 

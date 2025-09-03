@@ -35,8 +35,11 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist';
     }
 
-    function isArticleAuthor(authorName) {
-      return isJournalist() && request.auth.token.name == authorName;
+    function isArticleAuthor(articleId) {
+      return request.auth != null && (
+        (isJournalist() && get(/databases/$(database)/documents/articles/$(articleId)).data.authorId == request.auth.uid) ||
+        isAdmin()
+      );
     }
     
     // Permettre la lecture/écriture pour les utilisateurs authentifiés
@@ -83,7 +86,9 @@ service cloud.firestore {
         resource.data.userId == request.auth.uid ||
         // Les journalistes peuvent lire les lectures de leurs articles
         (isJournalist() && exists(/databases/$(database)/documents/articles/$(resource.data.articleId)) &&
-         get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.authorName == request.auth.token.name)
+         get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.authorId == request.auth.uid) ||
+        // Les admins peuvent tout lire
+        isAdmin()
       );
       
       allow create: if request.auth != null && 
@@ -102,7 +107,9 @@ service cloud.firestore {
         resource.data.userId == request.auth.uid ||
         // Les journalistes peuvent mettre à jour les lectures de leurs articles
         (isJournalist() && exists(/databases/$(database)/documents/articles/$(resource.data.articleId)) &&
-         get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.authorName == request.auth.token.name)
+         get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.authorId == request.auth.uid) ||
+        // Les admins peuvent tout mettre à jour
+        isAdmin()
       );
 
       allow delete: if request.auth != null && 
@@ -114,8 +121,10 @@ service cloud.firestore {
       allow read: if request.auth != null && 
         (request.auth.uid == resource.data.userId ||
          // Permettre aux journalistes de compter les likes sur leurs articles
-         (request.auth.token.email_verified && 
-          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'journalist'));
+         (isJournalist() && exists(/databases/$(database)/documents/articles/$(resource.data.articleId)) &&
+          get(/databases/$(database)/documents/articles/$(resource.data.articleId)).data.authorId == request.auth.uid) ||
+         // Permettre aux admins de lire tous les favoris
+         isAdmin());
       allow list: if request.auth != null;
       allow create: if request.auth != null && 
         request.auth.uid == request.resource.data.userId;
@@ -123,7 +132,7 @@ service cloud.firestore {
         request.auth.uid == resource.data.userId;
     }
     
-    // Règles pour la collection articles
+   // Règles pour la collection articles
     match /articles/{articleId} {
       allow read: if true; // Permet la lecture publique des articles
       
@@ -131,9 +140,9 @@ service cloud.firestore {
       allow write: if request.auth != null && isAdmin();
       
       // Règles spécifiques pour les journalistes
-      allow create: if isJournalist() && request.resource.data.authorName == request.auth.token.name;
-      allow update: if isArticleAuthor(resource.data.authorName) || isAdmin();
-      allow delete: if isArticleAuthor(resource.data.authorName) || isAdmin();
+      allow create: if isJournalist() && request.resource.data.authorId == request.auth.uid;
+      allow update: if isArticleAuthor(articleId) || isAdmin();
+      allow delete: if isArticleAuthor(articleId) || isAdmin();
     }
     
     // NOUVELLE RÈGLE POUR LA COLLECTION PODCASTS
