@@ -45,12 +45,6 @@ export default function TiptapEditor({ content, onUpdate }: Props) {
     setMounted(true)
   }, [])
 
-  useEffect(() => {
-    if (editor && content) {
-      editor.commands.setContent(content, { emitUpdate: false })
-    }
-  }, [content, editor])
-
   if (!mounted || !editor) return null
 
   return (
