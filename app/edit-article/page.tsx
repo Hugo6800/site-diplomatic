@@ -22,6 +22,7 @@ export default function NewArticlePage() {
   const [content, setContent] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [category, setCategory] = useState('default')
+  const [status, setStatus] = useState('')  // Initialiser avec une chaîne vide pour un nouvel article
   
   // Fonction pour calculer le temps de lecture estimé
   const calculateReadTime = (content: string): string => {
@@ -31,7 +32,8 @@ export default function NewArticlePage() {
     return readTime > 0 ? `${readTime} min` : '< 1 min';
   };
 
-  const handleSave = async (isDraft = true, status = 'published', redirect = true) => {
+  const handleSave = async (isDraft = true, newStatus = 'waiting', redirect = true) => {
+    setStatus(newStatus); // Mettre à jour l'état du statut
     try {
       if (!user) {
         console.error('Utilisateur non connecté')
@@ -48,7 +50,7 @@ export default function NewArticlePage() {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         isDraft,
-        status,
+        status: newStatus,
         category,
         authorId: user.uid,
         authorName: user.displayName || 'Auteur inconnu',
@@ -83,8 +85,9 @@ export default function NewArticlePage() {
               isLoading={isSaving}
             />
             <TagSubmitNewArticle 
-              onSubmit={(status) => handleSave(false, status)}
+              onSubmit={(newStatus) => handleSave(false, newStatus)}
               isLoading={isSaving}
+              initialStatus={status}
             />
           </div>
           <EditorMeta 

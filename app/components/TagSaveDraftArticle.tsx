@@ -51,7 +51,7 @@ export default function TagSaveDraftArticle({
             <button
                 onClick={handleSaveAsDraft}
                 disabled={isLoading || isDraft}
-                className={`inline-flex justify-center items-center gap-2 px-3 py-2 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt cursor-pointer transition-colors duration-200 ${
+                className={`inline-flex justify-center items-center gap-2 px-3 py-2 bg-[#F3DEDE] rounded-full font-semibold font-neulisalt transition-colors duration-200 ${
                     isLoading || isDraft ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#E8B7B7]'
                 }`}
                 title={isDraft ? "Déjà enregistré comme brouillon" : "Enregistrer comme brouillon"}

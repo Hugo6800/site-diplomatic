@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import ArticleSpotlight from '../ArticleSpotlight';
 import { SpotlightArticle } from '../../types/spotlightArticle';
@@ -16,35 +16,28 @@ export default function SpotlightSection() {
         async function fetchSpotlightArticle() {
             setIsLoading(true);
             const articlesRef = collection(db, 'articles');
-            // Requête pour obtenir l'article le plus récent
+            // Requête pour obtenir les articles publiés, triés par date
             const q = query(
                 articlesRef,
+                where('status', '==', 'published'),
+                where('isDraft', '==', false),
                 orderBy('createdAt', 'desc'),
-                limit(1)
+                limit(5) // Récupérer plusieurs articles au cas où certains ne répondraient pas aux critères
             );
             const querySnapshot = await getDocs(q);
 
             if (!querySnapshot.empty) {
-                // Filtrer pour exclure les articles avec le statut "waiting"
-                const publishedDocs = querySnapshot.docs.filter(doc => {
-                    const data = doc.data();
-                    const status = data.status || 'published'; // Default to published if not specified
-                    return status !== 'waiting';
+                // Prendre le premier article publié (le plus récent)
+                const recentDoc = querySnapshot.docs[0];
+                const data = recentDoc.data();
+                setArticle({
+                    id: recentDoc.id, // Utiliser l'ID du document Firestore
+                    title: data.title,
+                    authorName: data.authorName,
+                    category: data.category,
+                    imageUrl: data.imageUrl,
+                    createdAt: data.createdAt
                 });
-                
-                if (publishedDocs.length > 0) {
-                    // Prendre le premier article publié (le plus récent)
-                    const recentDoc = publishedDocs[0];
-                    const data = recentDoc.data();
-                    setArticle({
-                        id: recentDoc.id, // Utiliser l'ID du document Firestore
-                        title: data.title,
-                        authorName: data.authorName,
-                        category: data.category,
-                        imageUrl: data.imageUrl,
-                        createdAt: data.createdAt
-                    });
-                }
             }
             setIsLoading(false);
         }

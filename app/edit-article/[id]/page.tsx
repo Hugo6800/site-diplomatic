@@ -20,7 +20,7 @@ export default function EditArticlePage() {
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isDraft, setIsDraft] = useState(true)
-  const [, setStatus] = useState('published')
+  const [status, setStatus] = useState('published')
 
   useEffect(() => {
     async function fetchArticle() {
@@ -44,7 +44,7 @@ export default function EditArticlePage() {
   return (
     <ArticleAuthorProtection articleId={articleId}>
       <main className="min-h-screen bg-header">
-        <div className="max-w-5xl mx-auto px-4 py-8 mt-20">
+        <div className="max-w-5xl mx-auto px-4 pt-16 pb-8 mt-20">
           <div className="flex flex-col items-center mb-4">
             <EditorHeader 
               imageUrl={imageUrl} 
@@ -63,6 +63,7 @@ export default function EditArticlePage() {
                 <TagSubmitArticle
                   articleId={articleId}
                   onStatusChange={setStatus}
+                  initialStatus={status}
                 />
               </div>
             )}  

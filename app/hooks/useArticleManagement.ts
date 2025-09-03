@@ -138,9 +138,12 @@ export function useArticleManagement() {
             const articleRef = doc(db, 'articles', articleId);
             
             // Créer un objet de mise à jour avec le nouveau statut
-            const updateData = { status: newStatus };
+            // Si le statut est 'published', mettre également isDraft à false
+            const updateData = newStatus === 'published' 
+                ? { status: newStatus, isDraft: false } 
+                : { status: newStatus };
             
-            // Mettre à jour dans Firestore avec merge: true pour éviter les problèmes de structure
+            // Mettre à jour dans Firestore
             await updateDoc(articleRef, updateData);
             
             // Mettre à jour l'état local

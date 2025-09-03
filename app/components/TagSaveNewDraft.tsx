@@ -22,7 +22,7 @@ export default function TagSaveNewDraft({
 
         try {
             // Appeler la fonction de sauvegarde avec isDraft=true et redirect=false
-            await onSave(true, 'published', false);
+            await onSave(true, 'waiting', false);
         } catch (err) {
             console.error('Erreur lors de l\'enregistrement comme brouillon:', err);
             setError('Une erreur est survenue lors de l\'enregistrement');

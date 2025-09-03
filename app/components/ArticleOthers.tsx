@@ -8,7 +8,7 @@ import { ArticleProps } from '../types/articleProps';
 interface ExtendedArticleProps extends ArticleProps {
     showDraftIndicator?: boolean;
     disableNavigation?: boolean;
-    paywall?: boolean; // Conservé pour compatibilité avec les props passées
+    paywall?: boolean;
 }
 
 export default function Article({ id, name, className, author, title, date, imageUrl, showDraftIndicator = false, disableNavigation = false }: ExtendedArticleProps) {
