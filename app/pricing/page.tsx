@@ -19,7 +19,6 @@ export default function Pricing() {
                         line1={plan.line1}
                         line2={plan.line2}
                         line3={plan.line3}
-                        line4={plan.line4}
                         duration={plan.duration}
                     />
                 ))}

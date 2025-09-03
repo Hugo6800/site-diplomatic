@@ -20,7 +20,7 @@ export default function EditArticlePage() {
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isDraft, setIsDraft] = useState(true)
-  const [_status, setStatus] = useState('published')
+  const [, setStatus] = useState('published')
 
   useEffect(() => {
     async function fetchArticle() {
