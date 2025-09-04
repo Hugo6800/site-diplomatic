@@ -14,7 +14,7 @@ export async function addContactToBrevoList(
   email: string,
   firstName?: string,
   lastName?: string,
-  listId: number = 4 // ID de liste par défaut, à ajuster selon votre configuration Brevo
+  listId: number = 3
 ): Promise<{ success: boolean; message: string }> {
   try {
     const apiKey = process.env.NEXT_PUBLIC_BREVO_API_KEY;
