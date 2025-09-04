@@ -15,7 +15,8 @@ export default function ArticleManagement() {
         setOpenStatusMenu,
         changeArticleStatus,
         searchArticlesByTitle,
-        fetchAllArticles
+        fetchAllArticles,
+        deleteArticle
     } = useArticleManagement()
     
     // Utiliser le hook de pagination avec 10 éléments par page
@@ -53,6 +54,7 @@ export default function ArticleManagement() {
                         changeArticleStatus={changeArticleStatus}
                         searchArticlesByTitle={searchArticlesByTitle}
                         fetchAllArticles={fetchAllArticles}
+                        deleteArticle={deleteArticle}
                         loading={loading}
                         searching={searching}
                     />

@@ -167,13 +167,13 @@ export default function UsersTable({
                                                 // Rafraîchir la liste des utilisateurs après la suppression
                                                 await fetchAllUsers();
                                             }}
-                                            className="text-[#4D0506] bg-[#B9B9B9] px-2 py-1 rounded-2xl text-[1rem] font-semibold dark:bg-[#414141] dark:text-[#EECECE]"
+                                            className="text-[#4D0506] bg-[#B9B9B9] cursor-pointer px-2 py-1 rounded-2xl text-[1rem] font-semibold dark:bg-[#414141] dark:text-[#EECECE]"
                                         >
                                             Confirmer
                                         </button>
                                         <button 
                                             onClick={() => setConfirmDelete(null)}
-                                            className="text-white bg-red-500 px-2 py-1 rounded-2xl text-[1rem] font-semibold dark:bg-[#414141] dark:text-[#EECECE]"
+                                            className="text-white bg-red-500 cursor-pointer px-2 py-1 rounded-2xl text-[1rem] font-semibold"
                                         >
                                             Annuler
                                         </button>

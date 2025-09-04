@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Timestamp } from 'firebase/firestore'
 import TagArticle from '@/app/components/TagArticle'
+import { useAuth } from '@/app/hooks/useAuth'
 import SearchFilter from './SearchFilter'
 
 interface Article {
@@ -23,6 +25,7 @@ interface ArticlesTableProps {
     changeArticleStatus?: (articleId: string, newStatus: 'published' | 'waiting') => Promise<{ success: boolean; error?: unknown }>
     searchArticlesByTitle?: (title: string) => Promise<void>
     fetchAllArticles?: () => Promise<void>
+    deleteArticle?: (articleId: string) => Promise<void>
     loading?: boolean
     searching?: boolean
 }
@@ -35,10 +38,14 @@ export default function ArticlesTable({
     changeArticleStatus,
     searchArticlesByTitle,
     fetchAllArticles,
+    deleteArticle,
     loading = false,
     searching = false
 }: ArticlesTableProps) {
     const [searchTerm, setSearchTerm] = useState('');
+    const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null);
+    const { user } = useAuth();
+    const router = useRouter();
 
     // Fonction pour gérer la recherche
     const handleSearch = async (term: string) => {
@@ -235,18 +242,65 @@ export default function ArticlesTable({
                             <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
                                 <div className="flex items-center gap-2">
                                     <button
+                                        onClick={() => {
+                                            // Vérifier si l'utilisateur connecté est l'auteur de l'article
+                                            const isAuthor = user?.email === article.authorEmail;
+                                            
+                                            if (isAuthor) {
+                                                // Rediriger vers la page d'édition
+                                                router.push(`/edit-article/${article.id}`);
+                                            } else {
+                                                // Rediriger vers la page d'aperçu
+                                                router.push(`/article/${article.id}?preview=true`);
+                                            }
+                                        }}
                                         className="min-w-[90px] p-2 rounded-full text-[12px] sm:text-[14px] font-bold font-neulisalt flex items-center justify-center gap-1 text-[#4D0506] bg-[#F3DEDE] cursor-pointer hover:bg-[#F3DEDE]/80 transition-colors"
-                                        title="Éditer l'article"
+                                        title={user?.email === article.authorEmail ? "Éditer l'article" : "Voir l'article"}
                                     >
-                                        <Image src="/icons/edit.svg" alt="Éditer" width={16} height={16} />
-                                        <span>Éditer</span>
+                                        <Image 
+                                            src={user?.email === article.authorEmail ? "/icons/edit.svg" : "/icons/visibility.svg"} 
+                                            alt={user?.email === article.authorEmail ? "Éditer" : "Voir"} 
+                                            width={16} 
+                                            height={16} 
+                                        />
+                                        <span>{user?.email === article.authorEmail ? "Éditer" : "Voir"}</span>
                                     </button>
-                                    <button
-                                        className="p-2 rounded-full flex items-center justify-center text-[#4D0506] bg-[#F58688] cursor-pointer w-10 h-10 hover:bg-[#F58688]/80 transition-colors"
-                                        title="Supprimer l'article"
-                                    >
-                                        <Image src="/icons/delete_forever.svg" alt="Supprimer" width={20} height={20} />
-                                    </button>
+                                    {confirmingDelete === article.id ? (
+                                        <div className="flex items-center gap-1">
+                                            <button
+                                                onClick={() => {
+                                                    if (deleteArticle) {
+                                                        deleteArticle(article.id);
+                                                        setConfirmingDelete(null);
+                                                    }
+                                                }}
+                                                className="p-2 rounded-full flex items-center justify-center text-white bg-green-600 cursor-pointer w-10 h-10 hover:bg-green-700 transition-colors"
+                                                title="Confirmer la suppression"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                            </button>
+                                            <button
+                                                onClick={() => setConfirmingDelete(null)}
+                                                className="p-2 rounded-full flex items-center justify-center text-white bg-red-600 cursor-pointer w-10 h-10 hover:bg-red-700 transition-colors"
+                                                title="Annuler"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            onClick={() => setConfirmingDelete(article.id)}
+                                            className="p-2 rounded-full flex items-center justify-center text-[#4D0506] bg-[#F58688] cursor-pointer w-10 h-10 hover:bg-[#F58688]/80 transition-colors"
+                                            title="Supprimer l'article"
+                                        >
+                                            <Image src="/icons/delete_forever.svg" alt="Supprimer" width={20} height={20} />
+                                        </button>
+                                    )}
                                 </div>
                             </td>
                         </tr>
