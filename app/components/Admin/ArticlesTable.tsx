@@ -158,7 +158,7 @@ export default function ArticlesTable({
                                 {formatDate(article.createdAt)}
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
-                                <TagArticle name={article.category} className={`tag-${article.category.toLowerCase()}`} />
+                                <TagArticle name={article.category || 'default'} className={`tag-${article.category ? article.category.toLowerCase() : 'default'}`} />
                             </td>
                             <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold dark:text-[#EECECE]">
                                 {article.authorEmail}

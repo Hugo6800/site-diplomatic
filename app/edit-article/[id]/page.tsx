@@ -21,6 +21,7 @@ export default function EditArticlePage() {
   const [content, setContent] = useState('')
   const [isDraft, setIsDraft] = useState(true)
   const [status, setStatus] = useState('published')
+  const [category, setCategory] = useState('default')
 
   useEffect(() => {
     async function fetchArticle() {
@@ -35,6 +36,7 @@ export default function EditArticlePage() {
           setContent(data.content || '')
           setIsDraft(data.isDraft ?? true)
           setStatus(data.status || 'published')
+          setCategory(data.category || 'default')
         }
       }
     }
@@ -59,12 +61,14 @@ export default function EditArticlePage() {
                   articleId={articleId}
                   isDraft={isDraft}
                   onDraftStatusChange={setIsDraft}
+                  category={category}
                 />
                 <TagSubmitArticle
                   articleId={articleId}
                   onStatusChange={setStatus}
                   initialStatus={status}
                   isDraft={isDraft}
+                  category={category}
                 />
               </div>
             )}  
@@ -74,6 +78,8 @@ export default function EditArticlePage() {
             keywords={keywords}
             onTitleChange={setTitle}
             onKeywordsChange={setKeywords}
+            category={category}
+            onCategoryChange={setCategory}
           />
           <TiptapEditor content={content} onUpdate={setContent} />
         </div>

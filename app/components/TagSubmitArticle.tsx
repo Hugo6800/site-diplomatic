@@ -10,13 +10,15 @@ interface TagSubmitArticleProps {
     onStatusChange?: (status: string) => void;
     initialStatus?: string;
     isDraft?: boolean;
+    category?: string;
 }
 
 export default function TagSubmitArticle({ 
     articleId,
     onStatusChange,
     initialStatus,
-    isDraft = true
+    isDraft = true,
+    category = 'default'
 }: TagSubmitArticleProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -32,7 +34,8 @@ export default function TagSubmitArticle({
             const articleRef = doc(db, 'articles', articleId);
             await updateDoc(articleRef, {
                 status: 'waiting',
-                updatedAt: Timestamp.now()
+                updatedAt: Timestamp.now(),
+                category // Mettre à jour la catégorie
             });
             
             if (onStatusChange) {

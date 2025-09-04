@@ -4,7 +4,7 @@ export interface FirestoreArticle {
     id: number;
     title: string;
     authorName: string;
-    category: string;
+    category?: string;
     content: string;
     imageUrl: string;
     createdAt: Timestamp;

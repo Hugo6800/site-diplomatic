@@ -22,6 +22,7 @@ export default function NewArticlePage() {
   const [content, setContent] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [status, setStatus] = useState('')  // Initialiser avec une chaîne vide pour un nouvel article
+  const [category, setCategory] = useState('default')
   
   // Fonction pour calculer le temps de lecture estimé
   const calculateReadTime = (content: string): string => {
@@ -50,6 +51,7 @@ export default function NewArticlePage() {
         updatedAt: Timestamp.now(),
         isDraft,
         status: newStatus,
+        category,
         authorId: user.uid,
         authorName: user.displayName || 'Auteur inconnu',
         authorEmail: user.email || '',
@@ -93,6 +95,8 @@ export default function NewArticlePage() {
             onTitleChange={setTitle}
             keywords={keywords}
             onKeywordsChange={setKeywords}
+            category={category}
+            onCategoryChange={setCategory}
           />
           <TiptapEditor content={content} onUpdate={setContent} />
         </div>

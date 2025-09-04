@@ -28,7 +28,7 @@ export default function ArticleContent() {
             id: articleSnap.id,
             title: articleData.title,
             authorName: articleData.authorName,
-            category: articleData.category,
+            category: articleData.category || 'default',
             content: articleData.content,
             imageUrl: articleData.imageUrl,
             createdAt: formatDate(

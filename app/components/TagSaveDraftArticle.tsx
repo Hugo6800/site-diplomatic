@@ -9,12 +9,14 @@ interface TagSaveDraftArticleProps {
     articleId: string;
     isDraft: boolean;
     onDraftStatusChange: (isDraft: boolean) => void;
+    category?: string;
 }
 
 export default function TagSaveDraftArticle({ 
     articleId, 
     isDraft,
-    onDraftStatusChange 
+    onDraftStatusChange,
+    category = 'default'
 }: TagSaveDraftArticleProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -31,7 +33,8 @@ export default function TagSaveDraftArticle({
             await updateDoc(articleRef, {
                 isDraft: true,
                 updatedAt: Timestamp.now(),
-                status: 'published' // S'assurer que le statut est défini
+                status: 'waiting', // Définir le statut sur "waiting" pour les brouillons
+                category // Mettre à jour la catégorie
             });
             
             // Pas de redirection, on reste sur la page

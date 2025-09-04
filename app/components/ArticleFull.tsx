@@ -68,8 +68,8 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
             </div>
             <div className="flex items-center gap-4">
                 <TagArticle
-                    name={category}
-                    className={`text-tag-${category.toLowerCase()} border-2 border-tag-${category.toLowerCase()} transition-colors`}
+                    name={category || 'default'}
+                    className={`text-tag-${category ? category.toLowerCase() : 'default'} border-2 border-tag-${category ? category.toLowerCase() : 'default'} transition-colors`}
                 />
                 <div className="flex items-center gap-4 text-black font-semibold dark:text-[#EECECE]">
                     <span>{authorName}</span>
