@@ -130,6 +130,7 @@ export default function ArticlePage() {
           id={article.id}
           title={article.title}
           authorName={article.authorName || 'Auteur inconnu'}
+          authorEmail={article.authorEmail}
           date={article.date}
           content={article.content}
           imageUrl={article.imageUrl || '/placeholder_view.webp'}

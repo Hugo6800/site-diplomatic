@@ -6,12 +6,11 @@ import TagArticle from './TagArticle';
 import { ArticleProps } from '../types/articleProps';
 
 interface ExtendedArticleProps extends ArticleProps {
-    showDraftIndicator?: boolean;
     disableNavigation?: boolean;
     paywall?: boolean;
 }
 
-export default function Article({ id, name, className, author, title, date, imageUrl, showDraftIndicator = false, disableNavigation = false }: ExtendedArticleProps) {
+export default function Article({ id, name, className, author, title, date, imageUrl, disableNavigation = false }: ExtendedArticleProps) {
     const { user } = useAuth();
 
     const handleArticleClick = () => {
@@ -38,11 +37,6 @@ export default function Article({ id, name, className, author, title, date, imag
                         name={name}
                         className={className}
                     />
-                    {showDraftIndicator && (
-                        <div className="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-xs font-medium">
-                            Brouillon
-                        </div>
-                    )}
                 </div>
                 <p className="mt-2 font-semibold text-[1rem] font-neulisalt dark:text-[#C5B0B0]">{author} - {date}</p>
                 <h3 className="font-bold font-fractul text-2xl line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-[#F4DFDF]">{title}</h3>

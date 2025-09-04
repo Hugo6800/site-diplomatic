@@ -122,7 +122,6 @@ export default function MyDraftsPanel() {
                                 name={draft.category}
                                 className={`tag-${draft.category.toLowerCase()}`}
                                 colorCircle={getColorCircle(draft.category)}
-                                showDraftIndicator={true}
                                 disableNavigation={true}
                             />
                         </Link>
