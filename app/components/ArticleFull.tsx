@@ -64,7 +64,7 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
             <div className="flex gap-2 mb-4">
                 <TagAddFavoriteArticle articleId={id} />
                 <TagShareArticle />
-                {user?.role === 'journalist' && user?.displayName === authorName && <TagEditorArticle articleId={id} />}
+                {user?.role === 'journalist' || user?.role === 'admin' && user?.displayName === authorName && <TagEditorArticle articleId={id} />}
             </div>
             <div className="flex items-center gap-4">
                 <TagArticle

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 interface TagSaveDraftArticleProps {
@@ -30,7 +30,7 @@ export default function TagSaveDraftArticle({
             const articleRef = doc(db, 'articles', articleId);
             await updateDoc(articleRef, {
                 isDraft: true,
-                updatedAt: new Date().toISOString(),
+                updatedAt: Timestamp.now(),
                 status: 'published' // S'assurer que le statut est défini
             });
             

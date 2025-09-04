@@ -45,7 +45,7 @@ export default function EditArticlePage() {
     <ArticleAuthorProtection articleId={articleId}>
       <main className="min-h-screen bg-header">
         <div className="max-w-5xl mx-auto px-4 pt-16 pb-8 mt-20">
-          <div className="flex flex-col items-center mb-4">
+          <div className="flex flex-col mb-4">
             <EditorHeader 
               imageUrl={imageUrl} 
             />
@@ -64,6 +64,7 @@ export default function EditArticlePage() {
                   articleId={articleId}
                   onStatusChange={setStatus}
                   initialStatus={status}
+                  isDraft={isDraft}
                 />
               </div>
             )}  

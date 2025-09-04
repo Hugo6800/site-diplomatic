@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, Timestamp } from 'firebase/firestore'
 import { db } from '@/app/lib/firebase'
 import EditorHeader from '@/app/components/EditorHeader'
 import EditorMeta from '@/app/components/EditorMeta'
@@ -21,7 +21,6 @@ export default function NewArticlePage() {
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isSaving, setIsSaving] = useState(false)
-  const [category, setCategory] = useState('default')
   const [status, setStatus] = useState('')  // Initialiser avec une chaîne vide pour un nouvel article
   
   // Fonction pour calculer le temps de lecture estimé
@@ -47,11 +46,10 @@ export default function NewArticlePage() {
         title,
         keywords: keywords.split(',').map(k => k.trim()),
         content,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
         isDraft,
         status: newStatus,
-        category,
         authorId: user.uid,
         authorName: user.displayName || 'Auteur inconnu',
         authorEmail: user.email || '',
@@ -95,8 +93,6 @@ export default function NewArticlePage() {
             onTitleChange={setTitle}
             keywords={keywords}
             onKeywordsChange={setKeywords}
-            category={category}
-            onCategoryChange={setCategory}
           />
           <TiptapEditor content={content} onUpdate={setContent} />
         </div>

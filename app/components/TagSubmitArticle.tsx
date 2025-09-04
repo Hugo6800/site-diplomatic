@@ -2,23 +2,24 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 interface TagSubmitArticleProps {
     articleId: string;
     onStatusChange?: (status: string) => void;
     initialStatus?: string;
+    isDraft?: boolean;
 }
 
 export default function TagSubmitArticle({ 
     articleId,
     onStatusChange,
-    initialStatus
+    initialStatus,
+    isDraft = true
 }: TagSubmitArticleProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    // Vérifier si l'article est déjà soumis (status waiting) ou publié (status published)
     const [isSubmitted, setIsSubmitted] = useState(initialStatus === 'waiting' || initialStatus === 'published');
 
     const handleSubmitForValidation = async () => {
@@ -28,19 +29,16 @@ export default function TagSubmitArticle({
         setError(null);
 
         try {
-            // Mettre à jour l'article dans Firestore
             const articleRef = doc(db, 'articles', articleId);
             await updateDoc(articleRef, {
                 status: 'waiting',
-                updatedAt: new Date().toISOString()
+                updatedAt: Timestamp.now()
             });
             
-            // Mettre à jour l'état local via le callback si disponible
             if (onStatusChange) {
                 onStatusChange('waiting');
             }
             
-            // Marquer comme soumis
             setIsSubmitted(true);
         } catch (err) {
             console.error('Erreur lors de la soumission pour validation:', err);
@@ -58,7 +56,7 @@ export default function TagSubmitArticle({
                 className={`inline-flex justify-center items-center gap-2 px-3 py-2 bg-[#F3E8DE] rounded-full font-semibold font-neulisalt transition-colors duration-200 ${
                     isLoading || isSubmitted ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-[#E8D0B7]'
                 }`}
-                title={isSubmitted ? "Déjà soumis pour validation" : "Soumettre pour validation"}
+                title={isSubmitted ? (initialStatus === 'published' && !isDraft ? "Article publié" : "Déjà soumis pour validation") : "Soumettre pour validation"}
             >
                 <Image
                     src="/icons/arrow_upload_progress.svg"
@@ -68,7 +66,7 @@ export default function TagSubmitArticle({
                     className="w-6 h-6 object-cover"
                 />
                 <span className="font-bold font-neulisalt text-sm text-[#3F3525]">
-                    {isLoading ? 'Soumission...' : isSubmitted ? 'En attente de validation' : 'Soumettre pour validation'}
+                    {isLoading ? 'Soumission...' : isSubmitted ? (initialStatus === 'published' && !isDraft ? 'Publié' : 'En attente de validation') : 'Soumettre pour validation'}
                 </span>
             </button>
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
