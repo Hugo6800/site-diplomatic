@@ -19,6 +19,7 @@ interface Article {
     title: string;
     date: string;
     imageUrl: string;
+    status?: "published" | "waiting";
 }
 
 export default function ArticlesWriting() {
@@ -36,6 +37,7 @@ export default function ArticlesWriting() {
             );
 
             const querySnapshot = await getDocs(articlesQuery);
+            
             const articlesData = querySnapshot.docs.map(doc => {
                 const data = doc.data();
                 // Gérer les différents formats de date possibles
@@ -58,6 +60,17 @@ export default function ArticlesWriting() {
                     dateObj = new Date();
                 }
                 
+                let articleStatus;
+                if (data.status) {
+                    articleStatus = data.status;
+                } else if (data.isDraft === false) {
+                    // Si isDraft est explicitement false, considérer comme publié
+                    articleStatus = 'published';
+                } else {
+                    // Par défaut, considérer comme brouillon
+                    articleStatus = 'waiting';
+                }
+            
                 return {
                     id: doc.id,
                     name: data.category || 'default',
@@ -66,7 +79,8 @@ export default function ArticlesWriting() {
                     author: data.authorName || 'Auteur inconnu',
                     title: data.title || 'Sans titre',
                     date: formatDate(dateObj),
-                    imageUrl: data.imageUrl || '/placeholder_view.webp'
+                    imageUrl: data.imageUrl || '/placeholder_view.webp',
+                    status: articleStatus
                 };
             });
 
@@ -123,6 +137,7 @@ export default function ArticlesWriting() {
                             title={article.title}
                             date={article.date}
                             imageUrl={article.imageUrl}
+                            status={article.status}
                         />
                     ))}
                 </div>

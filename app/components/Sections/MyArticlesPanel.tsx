@@ -15,6 +15,7 @@ interface Article {
     category: string;
     authorName: string;
     createdAt: Date;
+    status?: "published" | "waiting";
 }
 
 export default function MyArticlesPanel() {
@@ -62,7 +63,8 @@ export default function MyArticlesPanel() {
                     imageUrl: data.imageUrl || '/placeholder_view.webp',
                     category: data.category || 'default',
                     authorName: data.authorName || 'Auteur inconnu',
-                    createdAt: createdAtDate
+                    createdAt: createdAtDate,
+                    status: data.status
                 };
             });
 
@@ -93,6 +95,7 @@ export default function MyArticlesPanel() {
                             title={article.title}
                             date={formatDate(article.createdAt)}
                             imageUrl={article.imageUrl}
+                            status={article.status}
                         />
                     ))}
                 </div>
