@@ -122,7 +122,11 @@ export default function ArticlePage() {
           <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6">
             <p className="flex items-center">
               <span className="font-bold">Mode aperçu</span>
-              <span className="ml-2">{`Cet article n'est pas encore publié.`}</span>
+              {article.status === 'published' ? (
+                <span className="ml-2">{`Cet article est publié.`}</span>
+              ) : (
+                <span className="ml-2">{`Cet article n'est pas encore publié.`}</span>
+              )}
             </p>
           </div>
         )}
