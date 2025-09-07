@@ -3,9 +3,16 @@
   font-family: system-ui, -apple-system, sans-serif;
 }
 
-.tiptap-editor .ProseMirror > p {
+.tiptap-editor .ProseMirror>p {
   margin-bottom: 1em;
   line-height: 1.5;
+}
+
+.tiptap-editor .ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 2em 0 1em;
+  color: #1a1a1a;
 }
 
 .tiptap-editor .ProseMirror h2 {
@@ -19,11 +26,11 @@
   font-style: italic;
 }
 
-.tiptap-editor .ProseMirror > p:first-child {
+.tiptap-editor .ProseMirror>p:first-child {
   margin-top: 0;
 }
 
-.tiptap-editor .ProseMirror > p:last-child {
+.tiptap-editor .ProseMirror>p:last-child {
   margin-bottom: 0;
 }
 
@@ -33,4 +40,16 @@
   color: #adb5bd;
   pointer-events: none;
   height: 0;
+}
+
+.ProseMirror {
+  caret-color: #DE595C;
+  /* Couleur du curseur */
+}
+
+.ProseMirror-focused {
+  caret-color: #DE595C !important;
+  /* Force la couleur du curseur même avec focus */
+  outline: none !important;
+  /* Supprime le contour qui pourrait être ajouté */
 }

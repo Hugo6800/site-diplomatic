@@ -4,13 +4,14 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { CategoryValue } from './CustomCategorySelect';
 
 interface TagSubmitArticleProps {
     articleId: string;
     onStatusChange?: (status: string) => void;
     initialStatus?: string;
     isDraft?: boolean;
-    category?: string;
+    category?: CategoryValue;
 }
 
 export default function TagSubmitArticle({ 
@@ -18,7 +19,7 @@ export default function TagSubmitArticle({
     onStatusChange,
     initialStatus,
     isDraft = true,
-    category = 'default'
+    category = 'international'
 }: TagSubmitArticleProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);

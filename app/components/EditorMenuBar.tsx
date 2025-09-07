@@ -3,21 +3,79 @@
 import { Editor } from '@tiptap/react'
 import Button from './Button'
 import Image from 'next/image'
+import { useEffect, useState, useCallback } from 'react'
 
 type Props = {
   editor: Editor | null
 }
 
 export default function EditorMenuBar({ editor }: Props) {
+  // États pour les nœuds et marques
+  // const [isH1Active, setIsH1Active] = useState(false);
+  const [isH2Active, setIsH2Active] = useState(false);
+  const [isParagraphActive, setIsParagraphActive] = useState(false);
+  const [isBoldActive, setIsBoldActive] = useState(false);
+  const [isItalicActive, setIsItalicActive] = useState(false);
+  const [isUnderlineActive, setIsUnderlineActive] = useState(false);
+  const [isLinkActive, setIsLinkActive] = useState(false);
+  const [isBulletListActive, setIsBulletListActive] = useState(false);
+  const [isOrderedListActive, setIsOrderedListActive] = useState(false);
+  const [isBlockquoteActive, setIsBlockquoteActive] = useState(false);
+  
+  const updateAllStates = useCallback(() => {
+    if (!editor) return;
+    
+    setTimeout(() => {
+      // setIsH1Active(editor.isActive('heading', { level: 1 }));
+      setIsH2Active(editor.isActive('heading', { level: 2 }));
+      setIsParagraphActive(editor.isActive('paragraph'));
+      setIsBoldActive(editor.isActive('bold'));
+      setIsItalicActive(editor.isActive('italic'));
+      setIsUnderlineActive(editor.isActive('underline'));
+      setIsLinkActive(editor.isActive('link'));
+      setIsBulletListActive(editor.isActive('bulletList'));
+      setIsOrderedListActive(editor.isActive('orderedList'));
+      setIsBlockquoteActive(editor.isActive('blockquote'));
+    }, 0);
+  }, [editor]);
+  
+  useEffect(() => {
+    const handleUpdate = () => {
+      if (!editor) return;
+      updateAllStates();
+    };
+
+    if (editor) {
+      handleUpdate();
+      
+      editor.on('selectionUpdate', handleUpdate);
+      editor.on('update', handleUpdate);
+      editor.on('focus', handleUpdate);
+      editor.on('blur', handleUpdate);
+      editor.on('transaction', handleUpdate);
+      
+      return () => {
+        editor.off('selectionUpdate', handleUpdate);
+        editor.off('update', handleUpdate);
+        editor.off('focus', handleUpdate);
+        editor.off('blur', handleUpdate);
+        editor.off('transaction', handleUpdate);
+      };
+    }
+  }, [editor, updateAllStates]);
+  
   if (!editor) return null
 
   return (
     <div className="flex flex-wrap items-center gap-2 p-2 rounded-full mb-4 bg-[#F3DEDE] dark:bg-[#433D3D] dark:border-[#575656]">
       <div className="flex gap-2 px-2 py-1 rounded-full border-2 border-[#433D3D] mr-3">
-        <Button
+        {/* <Button
           type="button"
-          variant={editor.isActive('heading', { level: 1 }) ? 'primary' : 'secondary'}
-          onClick={() => editor.chain().toggleHeading({ level: 1 }).run()}
+          variant={isH1Active ? 'primary' : 'secondary'}
+          onClick={() => {
+            editor.chain().setHeading({ level: 1 }).run();
+            updateAllStates();
+          }}
         >
           <Image
             src="/icons/TipTap/H1.svg"
@@ -26,11 +84,15 @@ export default function EditorMenuBar({ editor }: Props) {
             height={24}
             className="object-cover"
           />
-        </Button>
+        </Button> */}
         <Button
           type="button"
-          variant={editor.isActive('heading', { level: 2 }) ? 'primary' : 'secondary'}
-          onClick={() => editor.chain().toggleHeading({ level: 2 }).run()}
+          variant={isH2Active ? 'primary' : 'secondary'}
+          onClick={() => {
+            editor.chain().setHeading({ level: 2 }).run();
+            updateAllStates();
+          }}
+          title="Sous-titre"
         >
           <Image
             src="/icons/TipTap/H2.svg"
@@ -42,8 +104,12 @@ export default function EditorMenuBar({ editor }: Props) {
         </Button>
         <Button
           type="button"
-          variant={editor.isActive('paragraph') ? 'primary' : 'secondary'}
-          onClick={() => editor.chain().setParagraph().run()}
+          variant={isParagraphActive ? 'primary' : 'secondary'}
+          onClick={() => {
+            editor.chain().setParagraph().run();
+            updateAllStates();
+          }}
+          title="Paragraphe"
         >
           <Image
             src="/icons/TipTap/Aa.svg"
@@ -57,8 +123,12 @@ export default function EditorMenuBar({ editor }: Props) {
       </div>
       <Button
         type="button"
-        variant={editor.isActive('bold') ? 'primary' : 'secondary'}
-        onClick={() => editor.chain().toggleBold().run()}
+        variant={isBoldActive ? 'primary' : 'secondary'}
+        onClick={() => {
+          editor.chain().toggleBold().run();
+          updateAllStates();
+        }}
+        title="Gras"
       >
         <Image
           src="/icons/TipTap/bold.svg"
@@ -70,8 +140,12 @@ export default function EditorMenuBar({ editor }: Props) {
       </Button>
       <Button
         type="button"
-        variant={editor.isActive('italic') ? 'primary' : 'secondary'}
-        onClick={() => editor.chain().toggleItalic().run()}
+        variant={isItalicActive ? 'primary' : 'secondary'}
+        onClick={() => {
+          editor.chain().toggleItalic().run();
+          updateAllStates();
+        }}
+        title="Italique"
       >
         <Image
           src="/icons/TipTap/Italic.svg"
@@ -83,8 +157,12 @@ export default function EditorMenuBar({ editor }: Props) {
       </Button>
       <Button
         type="button"
-        variant={editor.isActive('underline') ? 'primary' : 'secondary'}
-        onClick={() => editor.chain().toggleUnderline().run()}
+        variant={isUnderlineActive ? 'primary' : 'secondary'}
+        onClick={() => {
+          editor.chain().toggleUnderline().run();
+          updateAllStates();
+        }}
+        title="Souligné"
       >
         <Image
           src="/icons/TipTap/Underline.svg"
@@ -97,8 +175,12 @@ export default function EditorMenuBar({ editor }: Props) {
       <div className="flex justify-center items-center mx-3">
         <Button
           type="button"
-          variant={editor.isActive('link') ? 'primary' : 'secondary'}
-          onClick={() => editor.chain().toggleLink().run()}
+          variant={isLinkActive ? 'primary' : 'secondary'}
+          onClick={() => {
+            editor.chain().toggleLink().run();
+            updateAllStates();
+          }}
+          title="Lien"
         >
           <Image
             src="/icons/TipTap/Link.svg"
@@ -111,8 +193,12 @@ export default function EditorMenuBar({ editor }: Props) {
       </div>
       <Button
         type="button"
-        variant={editor.isActive('bulletList') ? 'primary' : 'secondary'}
-        onClick={() => editor.chain().toggleBulletList().run()}
+        variant={isBulletListActive ? 'primary' : 'secondary'}
+        onClick={() => {
+          editor.chain().toggleBulletList().run();
+          updateAllStates();
+        }}
+        title="Liste à puces"
       >
         <Image
           src="/icons/TipTap/List_bulleted.svg"
@@ -124,8 +210,12 @@ export default function EditorMenuBar({ editor }: Props) {
       </Button>
       <Button
         type="button"
-        variant={editor.isActive('orderedList') ? 'primary' : 'secondary'}
-        onClick={() => editor.chain().toggleOrderedList().run()}
+        variant={isOrderedListActive ? 'primary' : 'secondary'}
+        onClick={() => {
+          editor.chain().toggleOrderedList().run();
+          updateAllStates();
+        }}
+        title="Liste numérotée"
       >
         <Image
           src="/icons/TipTap/List_number.svg"
@@ -138,8 +228,12 @@ export default function EditorMenuBar({ editor }: Props) {
       <div className="flex justify-center items-center mx-3">
         <Button
           type="button"
-          variant={editor.isActive('blockquote') ? 'primary' : 'secondary'}
-          onClick={() => editor.chain().toggleBlockquote().run()}
+          variant={isBlockquoteActive ? 'primary' : 'secondary'}
+          onClick={() => {
+            editor.chain().toggleBlockquote().run();
+            updateAllStates();
+          }}
+          title="Citation"
         >
           <Image
             src="/icons/TipTap/Quote.svg"
@@ -153,8 +247,10 @@ export default function EditorMenuBar({ editor }: Props) {
           type="button"
           variant={'secondary'}
           onClick={() => {
-            editor.chain().clearNodes().unsetAllMarks().run()
+            editor.chain().clearNodes().unsetAllMarks().run();
+            updateAllStates();
           }}
+          title="Supprimer le formatage"
         >
           <Image
             src="/icons/TipTap/Remove_styling.svg"

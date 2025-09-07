@@ -4,19 +4,20 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { CategoryValue } from './CustomCategorySelect';
 
 interface TagSaveDraftArticleProps {
     articleId: string;
     isDraft: boolean;
     onDraftStatusChange: (isDraft: boolean) => void;
-    category?: string;
+    category?: CategoryValue;
 }
 
 export default function TagSaveDraftArticle({ 
     articleId, 
     isDraft,
     onDraftStatusChange,
-    category = 'default'
+    category = 'international'
 }: TagSaveDraftArticleProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);

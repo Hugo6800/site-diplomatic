@@ -21,6 +21,11 @@ export default function TiptapEditor({ content, onUpdate }: Props) {
       StarterKit.configure({
         heading: {
           levels: [2],
+          HTMLAttributes: {
+            // La syntaxe correcte pour les attributs HTML des titres
+            heading: { class: 'heading-base' },
+            'heading-2': { class: 'text-xl font-bold my-3' },
+          },
         },
       }),
       Typography,

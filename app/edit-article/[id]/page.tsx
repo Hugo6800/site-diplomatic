@@ -11,6 +11,7 @@ import ArticleAuthorProtection from '@/app/components/ArticleAuthorProtection'
 import TagModifyPictureEdit from '@/app/components/TagModifyPictureEdit'
 import TagSaveDraftArticle from '@/app/components/TagSaveDraftArticle'
 import TagSubmitArticle from '@/app/components/TagSubmitArticle'
+import { CategoryValue } from '@/app/components/CustomCategorySelect'
 
 export default function EditArticlePage() {
   const params = useParams()
@@ -21,7 +22,7 @@ export default function EditArticlePage() {
   const [content, setContent] = useState('')
   const [isDraft, setIsDraft] = useState(true)
   const [status, setStatus] = useState('published')
-  const [category, setCategory] = useState('default')
+  const [category, setCategory] = useState<CategoryValue>('international')
 
   useEffect(() => {
     async function fetchArticle() {
@@ -36,7 +37,9 @@ export default function EditArticlePage() {
           setContent(data.content || '')
           setIsDraft(data.isDraft ?? true)
           setStatus(data.status || 'published')
-          setCategory(data.category || 'default')
+          // Ensure category is a valid CategoryValue
+          const categoryValue = data.category as CategoryValue
+          setCategory(categoryValue && ['international', 'societe', 'culture', 'politic'].includes(categoryValue) ? categoryValue : 'international')
         }
       }
     }
