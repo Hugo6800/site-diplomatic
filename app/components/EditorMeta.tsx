@@ -1,15 +1,24 @@
+import { CustomCategorySelect, type CategoryValue } from "./CustomCategorySelect";
+
 type Props = {
   title: string
   keywords: string
   onTitleChange: (v: string) => void
   onKeywordsChange: (v: string) => void
-  category?: string
-  onCategoryChange?: (v: string) => void
+  category?: CategoryValue
+  onCategoryChange?: (v: CategoryValue) => void
 }
 
-export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsChange, category = 'default', onCategoryChange }: Props) {
+export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsChange, category = 'international', onCategoryChange }: Props) {
   return (
-    <div className="space-y-4 mt-16">
+    <div className="space-y-4 mt-2">
+      <div className="my-4">
+        <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-[#EECECE]">Choisissez une catégorie</label>
+        <CustomCategorySelect 
+          value={category} 
+          onChange={(value) => onCategoryChange && onCategoryChange(value)}
+        />
+      </div>
       <input
         type="text"
         placeholder="Titre de l'article"
@@ -25,20 +34,6 @@ export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsC
         className="w-full border rounded-xl px-4 py-2 font-neulisalt my-4 dark:text-[#EECECE]"
       />
       
-      <div className="mt-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-[#EECECE]">Catégorie</label>
-        <select 
-          value={category} 
-          onChange={(e) => onCategoryChange && onCategoryChange(e.target.value)}
-          className="w-full border rounded-xl px-4 py-2 mb-4 font-neulisalt dark:text-[#EECECE] dark:bg-[#171414]"
-        >
-          <option value="default">Sélectionner une catégorie</option>
-          <option value="international">International</option>
-          <option value="societe">Société</option>
-          <option value="culture">Culture</option>
-          <option value="politic">Politique</option>
-        </select>
-      </div>
     </div>
   )
 }

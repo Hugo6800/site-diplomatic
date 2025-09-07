@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { addDoc, collection, Timestamp } from 'firebase/firestore'
 import { db } from '@/app/lib/firebase'
 import EditorHeader from '@/app/components/EditorHeader'
-import EditorMeta from '@/app/components/EditorMeta'
+import EditorMeta from '../components/EditorMeta'
+import { type CategoryValue } from '../components/CustomCategorySelect'
 import TiptapEditor from '@/app/components/TiptapEditor'
 import RoleProtection from '@/app/components/RoleProtection'
 import TagModifyPictureNew from '@/app/components/TagModifyPictureNew'
@@ -22,7 +23,7 @@ export default function NewArticlePage() {
   const [content, setContent] = useState('')
   const [isSaving, setIsSaving] = useState(false)
   const [status, setStatus] = useState('')  // Initialiser avec une chaîne vide pour un nouvel article
-  const [category, setCategory] = useState('default')
+  const [category, setCategory] = useState<CategoryValue>('international') // Typer explicitement avec CategoryValue
   
   // Fonction pour calculer le temps de lecture estimé
   const calculateReadTime = (content: string): string => {
@@ -71,7 +72,7 @@ export default function NewArticlePage() {
 
   return (
     <RoleProtection allowedRoles={['journalist', 'admin']}>
-      <div className="min-h-screen bg-white dark:bg-[#171414]">
+      <div className="min-h-screen bg-[#FEF5F5] dark:bg-[#171414]">
         <div className="max-w-5xl mx-auto px-4 py-8 mt-20">
           <EditorHeader 
             imageUrl={imageUrl} 

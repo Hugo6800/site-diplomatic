@@ -8,10 +8,10 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const Button = ({ children, className, variant = 'primary', ...props }: ButtonProps) => {
-  const baseStyle = 'px-4 py-2 rounded text-white font-semibold';
+  const baseStyle = 'p-2 w-12 h-12 flex justify-center items-center rounded-full text-white font-semibold';
   const variants = {
-    primary: 'bg-blue-600 hover:bg-blue-700',
-    secondary: 'bg-gray-600 hover:bg-gray-700',
+    primary: 'bg-[#DE595C]/80 rounded-full',
+    secondary: 'hover:bg-[#DE595C] rounded-full',
   };
 
   return (
