@@ -8,32 +8,67 @@ interface DarkThemeProps {
 }
 
 export default function DarkTheme({ onClick }: DarkThemeProps) {
-  const { isDark, toggleTheme } = useTheme()
+  const { theme, setThemeMode } = useTheme()
+
+  const handleClick = () => {
+    // rotation entre light -> dark -> system
+    if (theme === "light") {
+      setThemeMode("dark")
+    } else if (theme === "dark") {
+      setThemeMode("system")
+    } else {
+      setThemeMode("light")
+    }
+
+    if (onClick) onClick()
+  }
 
   return (
     <div
-      title="Changer de thème"
-      onClick={() => {
-        toggleTheme();
-        if (onClick) onClick();
-      }}
+      onClick={handleClick}
       className="flex justify-center items-center gap-4 bg-[#F3DEDE] dark:bg-[#433D3D] rounded-full p-2 cursor-pointer w-[48px] h-[48px] hover:bg-gray/80 transition-colors"
     >
-      <Image
-        src={isDark ? '/icons/brightness_empty.svg' : '/icons/bedtime.svg'}
-        alt={isDark ? 'dark' : 'light'}
-        width={48}
-        height={48}
-        className="rounded-full object-contain dark:hidden"
-      />
-      <Image
-        src={isDark ? '/icons/dark_collection/brightness_empty.png' : '/icons/bedtime.svg'}
-        alt={isDark ? 'dark' : 'light'}
-        width={48}
-        height={48}
-        className="rounded-full object-contain hidden dark:block"
-      />
+      {theme === "light" && (
+        <Image
+          src="/icons/bedtime.svg"
+          title="Thème clair"
+          alt="light"
+          width={32}
+          height={32}
+          className="rounded-full object-contain"
+        />
+      )}
+      {theme === "dark" && (
+        <Image
+          src="/icons/dark_collection/brightness_empty.png"
+          title="Thème sombre"
+          alt="dark"
+          width={32}
+          height={32}
+          className="rounded-full object-contain"
+        />
+      )}
+      {theme === "system" && (
+        <>
+          <Image
+            src="/icons/laptop.svg"
+            title="Thème système"
+            alt="system"
+            width={32}
+            height={32}
+            className="rounded-full object-contain dark:hidden"
+          />
+          <Image
+            src="/icons/dark_collection/laptop.svg"
+            alt="system"
+            width={32}
+            height={32}
+            className="rounded-full object-contain hidden dark:block"
+          />
+        </>
+      )}
     </div>
   )
 }
+
 

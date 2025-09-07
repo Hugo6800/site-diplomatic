@@ -19,7 +19,11 @@ export default function HistoryReadSection() {
 
             try {
                 const articles = await getUserReadHistory(user.uid);
-                setReadArticles(articles);
+                // Filter to only show published articles that are not drafts
+                const publishedArticles = articles.filter(article => 
+                    article.status === 'published' && article.isDraft === false
+                );
+                setReadArticles(publishedArticles);
             } catch (error) {
                 console.error('Error fetching read history:', error);
             }

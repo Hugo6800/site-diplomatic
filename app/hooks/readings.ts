@@ -21,6 +21,8 @@ export interface ArticleData {
     authorName?: string;
     createdAt?: string;
     slug?: string;
+    status?: 'published' | 'waiting';
+    isDraft?: boolean;
 }
 
 export interface ReadingSession {
@@ -132,14 +134,17 @@ export const getUserReadHistory = async (userId: string): Promise<ArticleData[]>
                 category: data.category || 'all',
                 author: data.authorName || '',
                 date: formattedDate,
-                coverImage: imageUrl || '/article_sommet.png'
+                coverImage: imageUrl || '/article_sommet.png',
+                status: data.status || 'published',
+                isDraft: data.isDraft !== undefined ? data.isDraft : false
             };
 
             return article;
         });
 
         const articles = await Promise.all(articlePromises);
-        const validArticles = articles.filter((article): article is ArticleData => article !== null);
+        // Filter out null articles
+        const validArticles = articles.filter((article): article is NonNullable<typeof article> => article !== null);
         return validArticles;
     } catch (error) {
         console.error('Erreur lors de la récupération de l\'historique de lecture:', error);

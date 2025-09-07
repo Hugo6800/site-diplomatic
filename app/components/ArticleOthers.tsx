@@ -13,8 +13,6 @@ interface ExtendedArticleProps extends ArticleProps {
 
 export default function Article({ id, name, className, author, title, date, imageUrl, disableNavigation = false, status }: ExtendedArticleProps) {
     const { user } = useAuth();
-    
-    console.log(`Article component rendered for ${id} with status:`, status);
 
     const handleArticleClick = () => {
         if (!disableNavigation) {
