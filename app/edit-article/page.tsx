@@ -14,6 +14,23 @@ import TagSubmitNewArticle from '@/app/components/TagSubmitNewArticle'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/app/hooks/useAuth'
 
+// Interface pour les données d'article
+interface ArticleData {
+  imageUrl: string
+  title: string
+  keywords: string[]
+  content: string
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  isDraft: boolean
+  category: CategoryValue
+  authorId: string
+  authorName: string
+  authorEmail: string
+  estimatedReadTime: string
+  status?: string
+}
+
 export default function NewArticlePage() {
   const router = useRouter()
   const { user } = useAuth()
@@ -22,8 +39,8 @@ export default function NewArticlePage() {
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isSaving, setIsSaving] = useState(false)
-  const [status, setStatus] = useState('')  // Initialiser avec une chaîne vide pour un nouvel article
-  const [category, setCategory] = useState<CategoryValue>('international') // Typer explicitement avec CategoryValue
+  const [status, setStatus] = useState('')  
+  const [category, setCategory] = useState<CategoryValue>('international') 
   
   // Fonction pour calculer le temps de lecture estimé
   const calculateReadTime = (content: string): string => {
@@ -33,8 +50,8 @@ export default function NewArticlePage() {
     return readTime > 0 ? `${readTime} min` : '< 1 min';
   };
 
-  const handleSave = async (isDraft = true, newStatus = 'waiting', redirect = true) => {
-    setStatus(newStatus); // Mettre à jour l'état du statut
+  const handleSave = async (isDraft = true, newStatus: string | null = null, redirect = true) => {
+    if (newStatus) setStatus(newStatus);
     try {
       if (!user) {
         console.error('Utilisateur non connecté')
@@ -43,7 +60,9 @@ export default function NewArticlePage() {
       
       setIsSaving(true)
       const ref = collection(db, 'articles')
-      const docRef = await addDoc(ref, {
+      
+      // Préparer les données de l'article
+      const articleData: ArticleData = {
         imageUrl,
         title,
         keywords: keywords.split(',').map(k => k.trim()),
@@ -51,15 +70,20 @@ export default function NewArticlePage() {
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
         isDraft,
-        status: newStatus,
         category,
         authorId: user.uid,
         authorName: user.displayName || 'Auteur inconnu',
         authorEmail: user.email || '',
         estimatedReadTime: calculateReadTime(content)
-      })
+      }
       
-      // Rediriger uniquement si demandé (pas pour les brouillons)
+      // Ajouter le statut uniquement s'il est défini
+      if (newStatus) {
+        articleData.status = newStatus
+      }
+      
+      const docRef = await addDoc(ref, articleData)
+      
       if (redirect) {
         router.push(`/edit-article/${docRef.id}`)
       }

@@ -11,6 +11,7 @@ import ArticleAuthorProtection from '@/app/components/ArticleAuthorProtection'
 import TagModifyPictureEdit from '@/app/components/TagModifyPictureEdit'
 import TagSaveDraftArticle from '@/app/components/TagSaveDraftArticle'
 import TagSubmitArticle from '@/app/components/TagSubmitArticle'
+import TagSaveModifications from '@/app/components/TagSaveModifications'
 import { CategoryValue } from '@/app/components/CustomCategorySelect'
 
 export default function EditArticlePage() {
@@ -21,7 +22,7 @@ export default function EditArticlePage() {
   const [keywords, setKeywords] = useState('')
   const [content, setContent] = useState('')
   const [isDraft, setIsDraft] = useState(true)
-  const [status, setStatus] = useState('published')
+  const [status, setStatus] = useState('')
   const [category, setCategory] = useState<CategoryValue>('international')
 
   useEffect(() => {
@@ -36,7 +37,9 @@ export default function EditArticlePage() {
           setKeywords((data.keywords || []).join(', '))
           setContent(data.content || '')
           setIsDraft(data.isDraft ?? true)
-          setStatus(data.status || 'published')
+          // Ne pas définir de valeur par défaut pour le statut
+          // Si l'article n'a pas de statut, status reste undefined
+          setStatus(data.status || '')
           // Ensure category is a valid CategoryValue
           const categoryValue = data.category as CategoryValue
           setCategory(categoryValue && ['international', 'societe', 'culture', 'politic'].includes(categoryValue) ? categoryValue : 'international')
@@ -59,6 +62,16 @@ export default function EditArticlePage() {
                 <TagModifyPictureEdit 
                   articleId={articleId || ''}
                   onImageUpdate={setImageUrl}
+                />
+                <TagSaveModifications
+                  articleId={articleId}
+                  title={title}
+                  content={content}
+                  keywords={keywords}
+                  imageUrl={imageUrl}
+                  category={category}
+                  status={status}
+                  isDraft={isDraft}
                 />
                 <TagSaveDraftArticle
                   articleId={articleId}

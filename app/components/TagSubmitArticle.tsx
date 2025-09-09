@@ -23,7 +23,12 @@ export default function TagSubmitArticle({
 }: TagSubmitArticleProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [isSubmitted, setIsSubmitted] = useState(initialStatus === 'waiting' || initialStatus === 'published');
+    // Un article est considéré comme soumis uniquement s'il a le statut 'waiting' ou 'published'
+    // Si l'article est un brouillon sans statut, il n'est pas considéré comme soumis
+    // Si initialStatus est une chaîne vide ou undefined, l'article n'est pas considéré comme soumis
+    const [isSubmitted, setIsSubmitted] = useState(
+        initialStatus === 'waiting' || initialStatus === 'published'
+    );
 
     const handleSubmitForValidation = async () => {
         if (!articleId) return;
