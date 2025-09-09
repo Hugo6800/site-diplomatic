@@ -4,9 +4,13 @@ import { FormEvent, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase';
+import FeedbackModal from '../FeedbackModal';
 
 export default function ContactForm() {
     const [isLoading, setIsLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalType, setModalType] = useState<'success' | 'error'>('success');
+    const [modalMessage, setModalMessage] = useState('');
     const [formData, setFormData] = useState({
         name: '',
         firstname: '',
@@ -25,9 +29,11 @@ export default function ContactForm() {
 
         if (!serviceId || !templateId || !publicKey) {
             console.error('EmailJS configuration is missing')
-            alert('Erreur de configuration du service d\'envoi d\'email')
-            setIsLoading(false)
-            return
+            setModalType('error');
+            setModalMessage('Erreur de configuration du service d\'envoi d\'email');
+            setModalOpen(true);
+            setIsLoading(false);
+            return;
         }
 
         try {
@@ -69,10 +75,16 @@ export default function ContactForm() {
                 message: ''
             });
 
-            alert('Message envoyé avec succès !');
+            // Afficher la modal de succès
+            setModalType('success');
+            setModalMessage('Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.');
+            setModalOpen(true);
         } catch (error) {
             console.error('Erreur lors de l\'envoi ou de l\'enregistrement:', error);
-            alert('Une erreur est survenue lors de l\'envoi du message.');
+            // Afficher la modal d'erreur
+            setModalType('error');
+            setModalMessage('Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer plus tard.');
+            setModalOpen(true);
         } finally {
             setIsLoading(false);
         }
@@ -87,7 +99,14 @@ export default function ContactForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-neulisalt">
+        <>
+            <FeedbackModal 
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                type={modalType}
+                message={modalMessage}
+            />
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-neulisalt">
             <div className="flex flex-col lg:flex-row gap-4">
                 <div className="flex flex-col lg:w-1/2">
                     <label htmlFor="name" className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-2 dark:text-[#EECECE] w-fit">Nom</label>
@@ -172,5 +191,6 @@ export default function ContactForm() {
                 {isLoading ? 'Envoi en cours...' : 'Envoyer'}
             </button>
         </form>
+        </>
     )
 }
