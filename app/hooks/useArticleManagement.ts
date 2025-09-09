@@ -138,10 +138,11 @@ export function useArticleManagement() {
             const articleRef = doc(db, 'articles', articleId);
             
             // Créer un objet de mise à jour avec le nouveau statut
-            // Si le statut est 'published', mettre également isDraft à false
+            // Si le statut est 'published', mettre isDraft à false
+            // Si le statut est 'waiting', mettre isDraft à true
             const updateData = newStatus === 'published' 
                 ? { status: newStatus, isDraft: false } 
-                : { status: newStatus };
+                : { status: newStatus, isDraft: true };
             
             // Mettre à jour dans Firestore
             await updateDoc(articleRef, updateData);

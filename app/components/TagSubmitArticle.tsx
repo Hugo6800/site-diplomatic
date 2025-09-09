@@ -40,6 +40,7 @@ export default function TagSubmitArticle({
             const articleRef = doc(db, 'articles', articleId);
             await updateDoc(articleRef, {
                 status: 'waiting',
+                isDraft: true, // Définir comme brouillon pour qu'il apparaisse dans "Gérer mes brouillons"
                 updatedAt: Timestamp.now(),
                 category // Mettre à jour la catégorie
             });
