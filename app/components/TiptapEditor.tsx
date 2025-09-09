@@ -5,6 +5,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Typography from '@tiptap/extension-typography'
 import Placeholder from '@tiptap/extension-placeholder'
+import Link from '@tiptap/extension-link'
 import EditorMenuBar from './EditorMenuBar'
 import './TiptapEditor.css'
 
@@ -32,6 +33,12 @@ export default function TiptapEditor({ content, onUpdate }: Props) {
       Placeholder.configure({
         placeholder: 'Commencez à écrire votre article...',
         emptyEditorClass: 'is-editor-empty',
+      }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: 'text-[#DE595C] underline cursor-pointer',
+        },
       }),
     ],
     content,

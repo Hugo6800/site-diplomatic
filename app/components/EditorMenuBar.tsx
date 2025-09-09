@@ -3,7 +3,7 @@
 import { Editor } from '@tiptap/react'
 import Button from './Button'
 import Image from 'next/image'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 
 type Props = {
   editor: Editor | null
@@ -21,6 +21,11 @@ export default function EditorMenuBar({ editor }: Props) {
   const [isBulletListActive, setIsBulletListActive] = useState(false);
   const [isOrderedListActive, setIsOrderedListActive] = useState(false);
   const [isBlockquoteActive, setIsBlockquoteActive] = useState(false);
+  
+  // États pour le dialogue de lien
+  const [showLinkDialog, setShowLinkDialog] = useState(false);
+  const [linkUrl, setLinkUrl] = useState('');
+  const linkInputRef = useRef<HTMLInputElement>(null);
   
   const updateAllStates = useCallback(() => {
     if (!editor) return;
@@ -172,15 +177,31 @@ export default function EditorMenuBar({ editor }: Props) {
           className="object-cover"
         />
       </Button>
-      <div className="flex justify-center items-center mx-3">
+      <div className="flex justify-center items-center mx-3 relative">
         <Button
           type="button"
           variant={isLinkActive ? 'primary' : 'secondary'}
           onClick={() => {
-            editor.chain().toggleLink().run();
-            updateAllStates();
+            // Si un lien est déjà actif, le supprimer
+            if (isLinkActive) {
+              editor.chain().unsetLink().run();
+              updateAllStates();
+            } else {
+              // Sinon, ouvrir le dialogue pour ajouter un lien
+              const selection = editor.state.selection;
+              // Vérifier si du texte est sélectionné
+              if (!selection.empty) {
+                setShowLinkDialog(true);
+                // Focus sur l'input après l'affichage du dialogue
+                setTimeout(() => {
+                  linkInputRef.current?.focus();
+                }, 0);
+              } else {
+                alert('Veuillez sélectionner du texte avant d\'insérer un lien');
+              }
+            }
           }}
-          title="Lien"
+          title={isLinkActive ? 'Supprimer le lien' : 'Insérer un lien'}
         >
           <Image
             src="/icons/TipTap/Link.svg"
@@ -190,6 +211,55 @@ export default function EditorMenuBar({ editor }: Props) {
             className="object-cover"
           />
         </Button>
+        
+        {showLinkDialog && (
+          <div className="absolute top-full left-0 mt-2 p-3 bg-white dark:bg-[#1E1E1E] border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg z-50 w-80">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="linkUrl" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                URL du lien
+              </label>
+              <input
+                ref={linkInputRef}
+                type="url"
+                id="linkUrl"
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                placeholder="https://example.com"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#DE595C] dark:bg-[#171414] dark:text-[#EECECE]"
+              />
+              <div className="flex justify-end gap-2 mt-2">
+                <button
+                  onClick={() => {
+                    setShowLinkDialog(false);
+                    setLinkUrl('');
+                  }}
+                  className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={() => {
+                    if (linkUrl) {
+                      // Ajouter http:// si l'URL ne commence pas par http:// ou https://
+                      let url = linkUrl;
+                      if (!/^https?:\/\//i.test(url)) {
+                        url = 'http://' + url;
+                      }
+                      
+                      editor.chain().setLink({ href: url }).run();
+                      setShowLinkDialog(false);
+                      setLinkUrl('');
+                      updateAllStates();
+                    }
+                  }}
+                  className="px-3 py-1 text-sm bg-[#DE595C] text-white rounded-md hover:bg-[#DE595C]/90"
+                >
+                  Appliquer
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <Button
         type="button"
