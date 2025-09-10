@@ -101,7 +101,7 @@ export default function NewArticlePage() {
           <EditorHeader 
             imageUrl={imageUrl} 
           />
-          <div className="mt-4 flex gap-4">
+          <div className="mt-4 flex flex-col md:flex-row items-start gap-4">
             <TagModifyPictureNew 
               onImageUpdate={setImageUrl}
             />

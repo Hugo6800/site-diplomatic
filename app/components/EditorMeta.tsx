@@ -14,8 +14,8 @@ export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsC
     <div className="space-y-4 mt-2">
       <div className="my-4">
         <label className="block text-sm font-medium text-gray-700 mb-1 dark:text-[#EECECE]">Choisissez une catégorie</label>
-        <CustomCategorySelect 
-          value={category} 
+        <CustomCategorySelect
+          value={category}
           onChange={(value) => onCategoryChange && onCategoryChange(value)}
         />
       </div>
@@ -33,7 +33,6 @@ export default function EditorMeta({ title, keywords, onTitleChange, onKeywordsC
         onChange={(e) => onKeywordsChange(e.target.value)}
         className="w-full border rounded-xl px-4 py-2 font-neulisalt my-4 dark:text-[#EECECE]"
       />
-      
     </div>
   )
 }

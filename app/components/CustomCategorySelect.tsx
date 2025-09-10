@@ -34,7 +34,7 @@ export function CustomCategorySelect({ value, onChange }: CustomCategorySelectPr
       {/* Élément sélectionné */}
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className={`cursor-pointer p-2 rounded-full w-1/4 flex items-center gap-2 ${selectedCategory.color} font-bold`}
+        className={`cursor-pointer p-2 rounded-full md:w-1/4 flex items-center gap-2 ${selectedCategory.color} font-bold`}
       >
         <div className={`rounded-full w-3 h-3 ${selectedCategory.colorCircle}`}></div>
         {selectedCategory.label}
@@ -49,7 +49,7 @@ export function CustomCategorySelect({ value, onChange }: CustomCategorySelectPr
 
       {/* Liste déroulante */}
       {isOpen && (
-        <div className="absolute top-full bg-[#F3DEDE] dark:bg-[#433D3D] w-1/4 p-2 left-0 mt-1 rounded-xl overflow-hidden z-50">
+        <div className="absolute top-full bg-[#F3DEDE] dark:bg-[#433D3D] md:w-1/4 p-2 left-0 mt-1 rounded-xl overflow-hidden z-50">
           <div className="flex flex-col gap-2">
             {categories.map(category => (
               <div
