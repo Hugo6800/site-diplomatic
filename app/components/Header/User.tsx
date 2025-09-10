@@ -23,10 +23,12 @@ export function User({ onClick }: UserProps) {
                 onClick={() => {
                     if (user) {
                         router.push('/profil');
+                        // Only close the menu when navigating to profile
+                        if (onClick) onClick();
                     } else {
+                        // Open the modal without closing the menu
                         setIsModalOpen(true);
                     }
-                    if (onClick) onClick();
                 }}
             >
                 {/* Image claire */}
