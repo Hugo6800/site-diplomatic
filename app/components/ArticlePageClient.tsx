@@ -22,12 +22,16 @@ interface Article {
   createdAt?: Timestamp
 }
 
-export default function ArticlePage() {
+interface ArticlePageProps {
+  id?: string;
+}
+
+export default function ArticlePage({ id }: ArticlePageProps) {
   const params = useParams()
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams()  
   const router = useRouter()
   const { user } = useAuth()
-  const articleId = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : null
+  const articleId = id || (typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : null)
   
   const [article, setArticle] = useState<Article | null>(null)
   const [loading, setLoading] = useState(true)

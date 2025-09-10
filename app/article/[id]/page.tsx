@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-export default function Page() {
-  return <ArticlePageClient />;
+export default function Page({ params }: { params: { id: string } }) {
+  return <ArticlePageClient id={params.id} />;
 }
 
