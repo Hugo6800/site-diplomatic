@@ -5,7 +5,7 @@ import { collection, getDocs, limit, orderBy, query, where } from 'firebase/fire
 import { db } from '../../lib/firebase';
 import ArticleSpotlight from '../ArticleSpotlight';
 import { SpotlightArticle } from '../../types/spotlightArticle';
-import Advertising from '../Advertising';
+// import Advertising from '../Advertising';
 import { formatDate } from '../../utils/formatDate';
 
 export default function SpotlightSection() {
@@ -65,9 +65,9 @@ export default function SpotlightSection() {
 
     return (
         <>
-            <div className="hidden xl:block fixed top-24 left-8 z-10 w-[170px] mt-24">
+            {/* <div className="hidden xl:block fixed top-24 left-8 z-10 w-[170px] mt-24">
                 <Advertising className="h-[350px]" />
-            </div>
+            </div> */}
             <section className="relative pt-12 lg:pt-24 mt-16 w-full">
                 <div className="mt-12">
                     <h2 className="font-bold font-neulisalt bg-[#F3DEDE] dark:bg-[#433D3D] flex justify-center items-center rounded-2xl px-4 py-2 italic text-[1rem] mb-4 dark:text-[#EECECE] w-fit">À la une</h2>

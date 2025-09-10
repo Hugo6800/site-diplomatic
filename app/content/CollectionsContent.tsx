@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/app/lib/firebase';
 import ArticleOthers from '@/app/components/ArticleOthers';
-import Advertising from '@/app/components/Advertising';
+// import Advertising from '@/app/components/Advertising';
 import { formatDate } from '@/app/utils/formatDate';
 import { getTagColors } from '@/app/utils/tagMapping';
 import { usePaywall } from '@/app/hooks/usePaywall';
@@ -87,14 +87,14 @@ export default function CollectionsContent() {
 
     return (
         <main className="px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
-            <div className="hidden xl:block fixed top-24 left-8 z-10 w-[170px] mt-24">
+            {/* <div className="hidden xl:block fixed top-24 left-8 z-10 w-[170px] mt-24">
                 <Advertising className="h-[350px]" />
-            </div>
+            </div> */}
             <div className="flex items-center gap-2 mb-8">
                 <div className={`w-4 h-4 rounded-full ${tagColors.circle}`}></div>
                 <h2 className={`font-bold font-fractul text-[2rem] ${tagColors.text}`}>{formattedTag}</h2>
             </div>
-            <Advertising className="mb-8" />
+            {/* <Advertising className="mb-8" /> */}
             <h2 className="font-bold font-neulisalt italic text-[1rem]  bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 mb-4 dark:text-white w-fit">Derniers articles</h2>
             {articles.length > 0 ? (
                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

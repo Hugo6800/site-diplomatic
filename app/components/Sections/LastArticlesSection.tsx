@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { SpotlightArticle } from '../../types/spotlightArticle';
-import Advertising from '../Advertising';
+// import Advertising from '../Advertising';
 import { formatDate } from '../../utils/formatDate';
 
 export default function LastArticlesSection() {
@@ -114,7 +114,7 @@ export default function LastArticlesSection() {
                     />
                 ))}
             </div>
-            <Advertising className="mt-6"/>
+            {/* <Advertising className="mt-6"/> */}
         </section >
     )
 }
