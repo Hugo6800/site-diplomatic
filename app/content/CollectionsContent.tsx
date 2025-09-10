@@ -7,7 +7,7 @@ import { db } from '@/app/lib/firebase';
 import ArticleOthers from '@/app/components/ArticleOthers';
 import Advertising from '@/app/components/Advertising';
 import { formatDate } from '@/app/utils/formatDate';
-import { tagToClass } from '@/app/utils/tagMapping';
+import { getTagColors } from '@/app/utils/tagMapping';
 import { usePaywall } from '@/app/hooks/usePaywall';
 
 interface SpotlightArticle {
@@ -24,10 +24,9 @@ export default function CollectionsContent() {
     const searchParams = useSearchParams();
     const tag = searchParams.get('tag') || '';
     const tagLower = tag.toLowerCase();
-    const cssTag = tagToClass[tagLower] || tagLower;
-    const colorCircle = tag ? `bg-tag-${cssTag}` : 'bg-tag-all';
-    const titleColor = tag ? `text-tag-${cssTag}` : 'text-tag-all';
     const formattedTag = tag ? tag.charAt(0).toUpperCase() + tag.slice(1) : 'Tous';
+    // Utiliser la fonction getTagColors pour obtenir les classes CSS adaptées au mode dark/light
+    const tagColors = getTagColors(tag || 'tous');
 
     const [articles, setArticles] = useState<SpotlightArticle[]>([]);
     const [loading, setLoading] = useState(true);
@@ -92,8 +91,8 @@ export default function CollectionsContent() {
                 <Advertising className="h-[350px]" />
             </div>
             <div className="flex items-center gap-2 mb-8">
-                <div className={`w-4 h-4 rounded-full ${colorCircle}`}></div>
-                <h2 className={`font-bold font-fractul text-[2rem] ${titleColor}`}>{formattedTag}</h2>
+                <div className={`w-4 h-4 rounded-full ${tagColors.circle}`}></div>
+                <h2 className={`font-bold font-fractul text-[2rem] ${tagColors.text}`}>{formattedTag}</h2>
             </div>
             <Advertising className="mb-8" />
             <h2 className="font-bold font-neulisalt italic text-[1rem]  bg-[#F3DEDE] dark:bg-[#1E1E1E] flex justify-center items-center rounded-2xl px-4 py-2 mb-4 dark:text-white w-fit">Derniers articles</h2>
