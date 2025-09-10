@@ -24,8 +24,9 @@ export default function DarkTheme({ onClick }: DarkThemeProps) {
   }
 
   return (
-    <div
+    <button
       onClick={handleClick}
+      aria-label="Changer le thème du site"
       className="flex justify-center items-center gap-4 bg-[#F3DEDE] dark:bg-[#433D3D] rounded-full p-2 cursor-pointer w-[48px] h-[48px] hover:bg-gray/80 transition-colors"
     >
       {theme === "light" && (
@@ -67,7 +68,7 @@ export default function DarkTheme({ onClick }: DarkThemeProps) {
           />
         </>
       )}
-    </div>
+    </button>
   )
 }
 

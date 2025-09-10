@@ -16,7 +16,8 @@ export default function ContactSubmissionsSection() {
         changeSubmissionStatus,
         searchContactsByName,
         searchContactsByEmail,
-        fetchAllSubmissions
+        fetchAllSubmissions,
+        deleteSubmission
     } = useContactSubmissions()
     
     // Utiliser le hook de pagination avec 10 éléments par page
@@ -55,6 +56,7 @@ export default function ContactSubmissionsSection() {
                         searchContactsByName={searchContactsByName}
                         searchContactsByEmail={searchContactsByEmail}
                         fetchAllSubmissions={fetchAllSubmissions}
+                        deleteSubmission={deleteSubmission}
                         loading={loading}
                         searching={searching}
                     />

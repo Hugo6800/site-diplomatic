@@ -25,6 +25,7 @@ interface ContactsTableProps {
     searchContactsByName?: (name: string) => Promise<void>
     searchContactsByEmail?: (email: string) => Promise<void>
     fetchAllSubmissions?: () => Promise<void>
+    deleteSubmission?: (submissionId: string) => Promise<void>
     loading?: boolean
     searching?: boolean
 }
@@ -38,34 +39,36 @@ export default function ContactsTable({
     searchContactsByName,
     searchContactsByEmail,
     fetchAllSubmissions,
+    deleteSubmission,
     loading,
     searching
 }: ContactsTableProps) {
     // État local pour le terme de recherche et le mode de recherche (nom ou email)
     const [searchTerm, setSearchTerm] = useState('')
     const [searchMode, setSearchMode] = useState<'name' | 'email'>('name')
-    
+    const [confirmingDelete, setConfirmingDelete] = useState<string | null>(null)
+
     // Fonction pour gérer la recherche
     const handleSearch = (value: string, mode: 'contains' | 'startsWith') => {
         setSearchTerm(value)
-        
+
         // Vérifier si les fonctions de recherche sont disponibles
         console.log('Fonctions de recherche disponibles:', {
             searchContactsByName: !!searchContactsByName,
             searchContactsByEmail: !!searchContactsByEmail,
             fetchAllSubmissions: !!fetchAllSubmissions
         });
-        
+
         if (!value || value.length < 3) {
             // Si la recherche est vide ou trop courte, réinitialiser la liste
             console.log('Recherche trop courte, réinitialisation de la liste');
             fetchAllSubmissions?.();
             return;
         }
-        
+
         // Log pour déboguer
         console.log(`Recherche avec mode: ${mode}, searchMode: ${searchMode}, valeur: ${value}`);
-        
+
         if (searchMode === 'name' && searchContactsByName) {
             console.log('Recherche par nom:', value);
             searchContactsByName(value);
@@ -76,7 +79,7 @@ export default function ContactsTable({
             console.warn('Aucune fonction de recherche appropriée disponible pour le mode:', searchMode);
         }
     };
-    
+
     // Fonction pour obtenir le texte du statut
     const getStatusText = (status: string) => {
         switch (status) {
@@ -106,19 +109,19 @@ export default function ContactsTable({
             {/* Filtre de recherche */}
             <div className="mb-4">
                 <div className="flex items-center space-x-4">
-                    <SearchFilter 
+                    <SearchFilter
                         onSearch={handleSearch}
                         placeholder={searchMode === 'name' ? "Rechercher par nom..." : "Rechercher par email..."}
                         className="flex-grow"
                     />
                     <div className="flex items-center space-x-2">
-                        <button 
+                        <button
                             onClick={() => setSearchMode('name')}
                             className={`px-3 py-1 rounded-md ${searchMode === 'name' ? 'bg-[#DE595C] text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}
                         >
                             Nom
                         </button>
-                        <button 
+                        <button
                             onClick={() => setSearchMode('email')}
                             className={`px-3 py-1 rounded-md ${searchMode === 'email' ? 'bg-[#DE595C] text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}
                         >
@@ -127,23 +130,23 @@ export default function ContactsTable({
                     </div>
                 </div>
             </div>
-            
+
             {/* Indicateur de chargement */}
             {(loading || searching) && (
                 <div className="flex justify-center items-center py-4">
                     <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 dark:border-gray-100"></div>
                 </div>
             )}
-            
+
             {/* Message si aucun contact */}
             {!loading && !searching && submissions.length === 0 && (
                 <div className="text-center py-6 text-gray-500 dark:text-gray-400">
-                    {searchTerm && searchTerm.length >= 3 ? 
-                        "Aucun contact trouvé pour cette recherche." : 
+                    {searchTerm && searchTerm.length >= 3 ?
+                        "Aucun contact trouvé pour cette recherche." :
                         "Aucun contact disponible."}
                 </div>
             )}
-            
+
             {/* Tableau des contacts */}
             {!loading && !searching && submissions.length > 0 && (
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -226,16 +229,16 @@ export default function ContactsTable({
                                 </td>
                                 <td className="px-4 py-2 whitespace-nowrap text-sm font-semibold dark:text-[#EECECE]">
                                     <div className="relative">
-                                        <button 
+                                        <button
                                             onClick={() => setOpenStatusMenu(openStatusMenu === submission.id ? null : submission.id)}
                                             className="cursor-pointer w-full"
                                         >
                                             <div className={`flex items-center justify-center gap-2 px-5 py-1 rounded-full ${getStatusClass(submission.status)}`}>
-                                                <Image 
-                                                    src={submission.status === 'closed' ? '/icons/check_circle.svg' : '/icons/arrow_upload_progress.svg'} 
-                                                    alt={submission.status === 'closed' ? 'Traité' : 'Ouvert'} 
-                                                    width={16} 
-                                                    height={16} 
+                                                <Image
+                                                    src={submission.status === 'closed' ? '/icons/check_circle.svg' : '/icons/arrow_upload_progress.svg'}
+                                                    alt={submission.status === 'closed' ? 'Traité' : 'Ouvert'}
+                                                    width={16}
+                                                    height={16}
                                                 />
                                                 <span className="min-w-[60px] text-center">{getStatusText(submission.status)}</span>
                                                 <div className="ml-1">
@@ -284,6 +287,46 @@ export default function ContactsTable({
                                                     )}
                                                 </div>
                                             </div>
+                                        )}
+                                    </div>
+                                </td>
+                                <td className="px-4 py-2 whitespace-nowrap text-[1rem] font-semibold">
+                                    <div className="flex items-center gap-2">
+                                        {confirmingDelete === submission.id ? (
+                                            <div className="flex items-center gap-1">
+                                                <button
+                                                    onClick={() => {
+                                                        if (deleteSubmission) {
+                                                            deleteSubmission(submission.id);
+                                                            setConfirmingDelete(null);
+                                                        }
+                                                    }}
+                                                    className="p-2 rounded-full flex items-center justify-center text-white bg-green-600 cursor-pointer w-10 h-10 hover:bg-green-700 transition-colors"
+                                                    title="Confirmer la suppression"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                                    </svg>
+                                                </button>
+                                                <button
+                                                    onClick={() => setConfirmingDelete(null)}
+                                                    className="p-2 rounded-full flex items-center justify-center text-white bg-red-600 cursor-pointer w-10 h-10 hover:bg-red-700 transition-colors"
+                                                    title="Annuler"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                onClick={() => setConfirmingDelete(submission.id)}
+                                                className="p-2 rounded-full flex items-center justify-center text-[#4D0506] bg-[#F58688] cursor-pointer w-10 h-10 hover:bg-[#F58688]/80 transition-colors"
+                                                title="Supprimer la soumission"
+                                            >
+                                                <Image src="/icons/delete_forever.svg" alt="Supprimer" width={20} height={20} />
+                                            </button>
                                         )}
                                     </div>
                                 </td>
