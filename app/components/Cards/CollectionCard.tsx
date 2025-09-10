@@ -10,7 +10,7 @@ export default function CollectionCard({ name, icon, category }: CollectionCardP
         <Link href={`/collections?tag=${name.toLowerCase()}`} className="block h-[312px] transition-all duration-300 ease-in-out group lg:flex-1">
             <article 
                 className={`flex justify-center items-center rounded-full ${styles.bg}
-                cursor-pointer h-full w-[170px] transition-all duration-300 ease-in-out 
+                cursor-pointer h-full w-[150px] transition-all duration-300 ease-in-out 
                 lg:w-[200px] lg:hover:w-[400px] lg:hover:flex-[2] group`}
             >
                 <div className="group-hover:hidden transition duration-300">
