@@ -16,14 +16,14 @@ export default function Header() {
             <NavBar />
             <Link href="/">
                 <Image
-                    src={"/Logo_diplomatic.png"}
+                    src="/Logo_diplomatic.png"
                     alt="Logo"
                     width={200}
                     height={100}
                     className="object-cover dark:hidden"
                 />
                 <Image
-                    src={"/Logo_blanc.png"}
+                    src="/Logo_blanc.png"
                     alt="Logo"
                     width={200}
                     height={100}
