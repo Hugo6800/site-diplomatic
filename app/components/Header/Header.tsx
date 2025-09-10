@@ -20,6 +20,7 @@ export default function Header() {
                     alt="Logo"
                     width={200}
                     height={100}
+                    className="object-cover"
                 />
             </Link>
             <div className="hidden lg:flex items-center gap-4">
