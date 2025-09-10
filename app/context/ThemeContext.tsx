@@ -16,9 +16,12 @@ const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("system");
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // 🔹 Fonction commune pour appliquer un thème
+  // 🔹 Fonction commune pour appliquer un thème (seulement côté client)
   const applyTheme = (value: Theme) => {
+    if (typeof window === 'undefined') return;
+    
     if (value === "light") {
       localStorage.setItem("theme", "light");
       setTheme("light");
@@ -32,14 +35,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } else {
       localStorage.removeItem("theme");
       setTheme("system");
-      const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setIsDark(systemDark);
-      document.documentElement.classList.toggle("dark", systemDark);
+      if (typeof window !== 'undefined') {
+        const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setIsDark(systemDark);
+        document.documentElement.classList.toggle("dark", systemDark);
+      }
     }
   };
 
-  // 🔹 Initialisation au montage
+  // 🔹 Initialisation au montage (seulement côté client)
   useEffect(() => {
+    setMounted(true);
     const savedTheme = localStorage.getItem("theme") as Theme | null;
 
     if (savedTheme === "light" || savedTheme === "dark") {
@@ -69,8 +75,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Provide a safe default value during server-side rendering
+  // and only use the real theme state after client-side hydration
+  const safeTheme = mounted ? theme : "system";
+  const safeIsDark = mounted ? isDark : false;
+
   return (
-    <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setThemeMode: applyTheme }}>
+    <ThemeContext.Provider value={{ 
+      theme: safeTheme as Theme, 
+      isDark: safeIsDark, 
+      toggleTheme, 
+      setThemeMode: applyTheme 
+    }}>
       {children}
     </ThemeContext.Provider>
   );

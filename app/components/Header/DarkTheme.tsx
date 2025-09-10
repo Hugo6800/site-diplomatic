@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useTheme } from '@/app/context/ThemeContext'
+import { useState, useEffect } from 'react'
 
 interface DarkThemeProps {
   onClick?: () => void;
@@ -9,6 +10,12 @@ interface DarkThemeProps {
 
 export default function DarkTheme({ onClick }: DarkThemeProps) {
   const { theme, setThemeMode } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  // Only show UI after first client-side render
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleClick = () => {
     // rotation entre light -> dark -> system
@@ -21,6 +28,16 @@ export default function DarkTheme({ onClick }: DarkThemeProps) {
     }
 
     if (onClick) onClick()
+  }
+
+  // Don't render anything until after client-side hydration to prevent mismatch
+  if (!mounted) {
+    return (
+      <button
+        aria-label="Changer le thème du site"
+        className="flex justify-center items-center gap-4 bg-[#F3DEDE] dark:bg-[#433D3D] rounded-full p-2 cursor-pointer w-[48px] h-[48px] hover:bg-gray/80 transition-colors"
+      ></button>
+    );
   }
 
   return (
