@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -18,6 +19,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-8696105253569762" />
+      </head>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8696105253569762"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
       <body className="font-fractul antialiased">
         <ThemeProvider>
           <UserProvider>
