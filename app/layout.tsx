@@ -8,7 +8,7 @@ import { UserProvider } from "./context/UserContext";
 
 export const metadata: Metadata = {
   title: "The Diplomatic Post",
-  description: "The Diplomatic Post",
+  description: "The Diplomatic Post, journal en ligne gratuit proposant des articles et des podcasts pour s’informer autrement, découvrir des analyses et explorer l’actualité en profondeur.",
 };
 
 export default function RootLayout({
