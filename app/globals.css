@@ -12,6 +12,14 @@
 }
 
 @font-face {
+  font-family: 'Fractul';
+  src: url('/fonts/Fractul-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'NeulisAlt';
   src: url('/fonts/NeulisAlt-Regular.woff2') format('woff2');
   font-weight: 400;
@@ -80,12 +88,6 @@
 
 .bg-gray { background-color: #F3DEDE; }
 
-
-
-.test {
-  font-family: var(--font-family-neulisalt);
-}
-
 @keyframes slide-in {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
@@ -102,4 +104,8 @@
 
 .slide-out {
   animation: slide-out 0.4s ease-in forwards;
+}
+
+.prose p {
+  font-family: 'NeulisAlt', sans-serif;
 }

@@ -23,10 +23,8 @@ export function User({ onClick }: UserProps) {
                 onClick={() => {
                     if (user) {
                         router.push('/profil');
-                        // Only close the menu when navigating to profile
                         if (onClick) onClick();
                     } else {
-                        // Open the modal without closing the menu
                         setIsModalOpen(true);
                     }
                 }}
@@ -51,7 +49,7 @@ export function User({ onClick }: UserProps) {
                     className="object-contain rounded-full hidden dark:block"
                 />
                 {user && (
-                    <span className="text-sm text-gray-700 dark:text-[#EECECE]">
+                    <span className="text-sm text-gray-700 font-neulisalt dark:text-[#EECECE]">
                         {user.displayName}
                     </span>
                 )}

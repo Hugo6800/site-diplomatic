@@ -274,7 +274,7 @@ export default function ArticlesTable({
                                                         setConfirmingDelete(null);
                                                     }
                                                 }}
-                                                className="p-2 rounded-full flex items-center justify-center text-white bg-green-600 cursor-pointer w-10 h-10 hover:bg-green-700 transition-colors"
+                                                className="p-2 rounded-full flex items-center justify-center text-black bg-[#C5FFA9] cursor-pointer w-10 h-10 hover:bg-[#458F59] transition-colors"
                                                 title="Confirmer la suppression"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -283,7 +283,7 @@ export default function ArticlesTable({
                                             </button>
                                             <button
                                                 onClick={() => setConfirmingDelete(null)}
-                                                className="p-2 rounded-full flex items-center justify-center text-white bg-red-600 cursor-pointer w-10 h-10 hover:bg-red-700 transition-colors"
+                                                className="p-2 rounded-full flex items-center justify-center text-black bg-[#F58688] cursor-pointer w-10 h-10 hover:bg-[#DE595C] transition-colors"
                                                 title="Annuler"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

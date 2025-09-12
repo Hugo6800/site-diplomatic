@@ -6,7 +6,7 @@ import { ArticleFullProps } from '../types/articleFullProps';
 import TagAddFavoriteArticle from './TagAddFavoriteArticle';
 import TagShareArticle from './TagShareArticle';
 import TagEditorArticle from './TagEditorArticle';
-import Advertising from "./Advertising";
+// import Advertising from "./Advertising";
 import { useAuth } from '../hooks/useAuth';
 import { useReadingTracker } from '../hooks/useReadingTracker';
 import { Fragment } from 'react';
@@ -71,13 +71,13 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
                     name={category || 'default'}
                     className={`text-tag-${category ? category.toLowerCase() : 'default'} border-2 border-tag-${category ? category.toLowerCase() : 'default'} transition-colors`}
                 />
-                <div className="flex items-center gap-4 text-black font-semibold dark:text-[#EECECE]">
+                <div className="flex items-center gap-4 text-black font-neulisalt font-semibold dark:text-[#EECECE]">
                     <span>{authorName}</span>
                     <span>-</span>
                     <time>{date}</time>
                 </div>
             </div>
-            <h1 className="font-bold font-fractul text-2xl md:text-4xl mt-6 mb-11 tracking-[0.03em] leading-[110%] dark:text-[#F4DFDF]">
+            <h1 className="font-bold font-fractul text-2xl lg:text-[2.125rem] mt-6 mb-11 tracking-[0.03em] leading-[110%] dark:text-[#F4DFDF]">
                 {title}
             </h1>
 
@@ -85,13 +85,13 @@ export default function ArticleFull({ id, category, title, authorName, date, ima
                 {splitContentIntoSections(content).map((section, index) => (
                     <Fragment key={index}>
                         <div
-                            className="dark:text-[#F4DFDF] prose prose-lg max-w-none prose-headings:font-fractul prose-headings:font-bold prose-p:font-neulisalt prose-h2:text-lg lg:prose-h2:text-2xl xl:prose-h2:text-3xl prose-p:text-lg prose-p:leading-relaxed dark:prose-h2:text-[#F4DFDF]"
+                            className="dark:text-[#F4DFDF] prose prose-lg max-w-none prose-h2:font-fractul prose-h2:font-bold prose-h2:text-lg lg:prose-h2:text-2xl 2xl:prose-h2:text-3xl prose-p:text-lg prose-p:leading-relaxed dark:prose-h2:text-[#F4DFDF]"
                             dangerouslySetInnerHTML={{ __html: section }}
                         />
-                        {(index === Math.floor(splitContentIntoSections(content).length * 0.25) || 
+                        {/* {(index === Math.floor(splitContentIntoSections(content).length * 0.25) || 
                           index === Math.floor(splitContentIntoSections(content).length * 0.6)) && (
                             <Advertising />
-                        )}
+                        )} */}
                     </Fragment>
                 ))}
             </div>

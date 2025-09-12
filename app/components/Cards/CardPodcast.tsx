@@ -18,7 +18,7 @@ export default function CardPodcast({ coverUrl, duration, date, title, spotifyId
             />
             <div className="flex flex-col gap-2">
                 <Image
-                    src="/Streaming_platform_tag.png"
+                    src="/Platform_Spotify.svg"
                     alt="Podcast"
                     width={100}
                     height={32}
