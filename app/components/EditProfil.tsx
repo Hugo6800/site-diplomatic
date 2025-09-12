@@ -63,12 +63,13 @@ export default function EditProfil() {
                             }}
                         />
                         <button
-                            className={`absolute bottom-0 -right-2 bg-white rounded-full p-1 shadow ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`absolute bottom-0 -right-2 bg-white rounded-full p-1 cursor-pointer ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                             onClick={() => fileInputRef.current?.click()}
                             disabled={uploading}
+                            title="Modifier la photo"
                         >
                             <Image
-                                src="/icons/pencil.svg"
+                                src="/icons/edit.svg"
                                 alt="Modifier la photo"
                                 width={24}
                                 height={24}
@@ -80,7 +81,8 @@ export default function EditProfil() {
                     <span className="text-gray-700 dark:text-[#EECECE]">{`Afficher l'adresse email`}</span>
                     <button
                         onClick={toggleEmail}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showEmail ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
+                        className={`cursor-pointer relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showEmail ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
+                        title="Afficher l'adresse email"
                     >
                         <span className="sr-only">{`Afficher l'adresse email`}</span>
                         <span
@@ -93,7 +95,8 @@ export default function EditProfil() {
                     <span className="text-gray-700 dark:text-[#EECECE]">Afficher le statut</span>
                     <button
                         onClick={toggleStatus}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showStatus ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
+                        className={`cursor-pointer relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showStatus ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
+                        title="Afficher le statut"
                     >
                         <span className="sr-only">Afficher le statut</span>
                         <span
@@ -106,7 +109,8 @@ export default function EditProfil() {
                     <span className="text-gray-700 dark:text-[#EECECE]">{`Afficher l'âge du compte`}</span>
                     <button
                         onClick={toggleAccountAge}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showAccountAge ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
+                        className={`cursor-pointer relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${showAccountAge ? 'bg-gray border-0' : 'bg-white border-2 border-black'}`}
+                        title="Afficher l'âge du compte"
                     >
                         <span className="sr-only">{`Afficher l'âge du compte`}</span>
                         <span
