@@ -38,16 +38,15 @@ export default function Article({ id, name, className, author, title, date, imag
                         name={name}
                         className={className}
                     />
-                    {/* Afficher le tag de statut uniquement s'il est fourni */}
                     {status && (
                         <div className={`px-2 py-1 rounded-full font-semibold tracking-wide ${
                             status === 'published' 
-                                ? 'bg-green-500 text-black' 
-                                : 'bg-orange-500 text-black'
+                                ? 'bg-[#9AF2A3] text-[#323232]' 
+                                : 'bg-[#A7A7A7] text-[#323232]'
                             }`}>
-                                {status === 'published' ? 'Publié' : 'Brouillon'}
-                            </div>
-                        )}
+                            {status === 'published' ? 'Publié' : 'Brouillon'}
+                        </div>
+                    )}
                 </div>
                 <p className="mt-2 font-semibold text-[1rem] font-neulisalt dark:text-[#C5B0B0]">{author} - {date}</p>
                 <h3 className="font-bold font-fractul text-2xl line-clamp-3 tracking-[0.03em] leading-[110%] dark:text-[#F4DFDF]">{title}</h3>

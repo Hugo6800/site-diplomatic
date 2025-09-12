@@ -142,7 +142,6 @@ export default function UsersTable({
                                     {openRoleMenu === user.id && (
                                         <div className="absolute z-10 mt-1 w-full bg-[#F3DEDE] rounded-2xl py-2 px-1 shadow-lg">
                                             <div className="flex flex-col gap-2" role="menu" aria-orientation="vertical">
-                                                {/* N'afficher que les rôles différents du rôle actuel */}
                                                 {roles.filter(roleOption => roleOption !== user.role).map(roleOption => (
                                                     <button
                                                         key={roleOption}
