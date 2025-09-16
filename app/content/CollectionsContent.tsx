@@ -18,6 +18,8 @@ interface SpotlightArticle {
     imageUrl: string;
     createdAt: { seconds: number };
     paywall?: boolean;
+    status?: string;
+    isDraft?: boolean;
 }
 
 export default function CollectionsContent() {
@@ -53,11 +55,12 @@ export default function CollectionsContent() {
                     imageUrl: doc.data().imageUrl,
                     createdAt: doc.data().createdAt,
                     paywall: doc.data().paywall || false,
-                    status: doc.data().status || 'published'
+                    status: doc.data().status || 'published',
+                    isDraft: doc.data().isDraft || false
                 }));
 
                 const filteredArticles = fetchedArticles.filter(article => 
-                    article.status !== 'waiting'
+                    article.status === 'published' && article.isDraft === false
                 );
 
                 const sortedArticles = filteredArticles.sort((a, b) =>

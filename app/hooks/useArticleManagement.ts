@@ -41,11 +41,17 @@ export function useArticleManagement() {
             const q = query(articlesRef, orderBy('createdAt', 'desc'))
             const snapshot = await getDocs(q)
             
-            const articlesData = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data(),
-                createdAt: doc.data().createdAt || Timestamp.now()
-            })) as Article[]
+            const articlesData = snapshot.docs
+                .map(doc => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        ...data,
+                        createdAt: data.createdAt || Timestamp.now(),
+                        status: data.status as 'published' | 'waiting' | undefined
+                    };
+                })
+                .filter(article => article.status === 'published' || article.status === 'waiting') as Article[]
             
             // Trier les articles pour mettre ceux avec le statut "waiting" en premier
             const sortedArticles = sortArticlesByStatusAndDate(articlesData);
@@ -80,15 +86,27 @@ export function useArticleManagement() {
             
             // Filtrer les articles dont le titre contient le terme de recherche (insensible à la casse)
             const articlesData = snapshot.docs
-                .map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                    createdAt: doc.data().createdAt || Timestamp.now()
-                }) as Article)
+                .map(doc => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        ...data,
+                        title: data.title || '',
+                        createdAt: data.createdAt || Timestamp.now(),
+                        category: data.category || '',
+                        authorEmail: data.authorEmail || '',
+                        status: data.status as 'published' | 'waiting' | undefined
+                    };
+                })
                 .filter(article => {
+                    // Vérifier que l'article a un statut défini
+                    if (article.status !== 'published' && article.status !== 'waiting') {
+                        return false;
+                    }
+                    // Vérifier que le titre contient le terme de recherche
                     const titleLower = article.title.toLowerCase();
                     return titleLower.includes(searchTermLower);
-                });
+                }) as Article[];
             
             // Trier les articles pour mettre ceux avec le statut "waiting" en premier
             const sortedArticles = sortArticlesByStatusAndDate(articlesData);
