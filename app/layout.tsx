@@ -22,35 +22,18 @@ export default function RootLayout({
       <head>
         <meta name="google-adsense-account" content="ca-pub-6566445911552828" />
       </head>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6566445911552828"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
       <body className="font-fractul antialiased">
         <ThemeProvider>
           <UserProvider>
             <UserPreferencesProvider>
               <Header />
               {children}
-              <div style={{ margin: "20px 0", textAlign: "center" }}>
-                <ins
-                  className="adsbygoogle"
-                  style={{ display: "block" }}
-                  data-ad-client="ca-pub-6566445911552828"
-                  data-ad-slot="1234567890" // ⚠️ remplace par ton vrai ad slot
-                  data-ad-format="auto"
-                  data-full-width-responsive="true"
-                ></ins>
-              </div>
-
-              {/* Initialisation du bloc */}
-              <Script id="adsbygoogle-init" strategy="afterInteractive">
-                {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-              </Script>
-
-              {/* Script global AdSense */}
-              <Script
-                async
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6566445911552828"
-                crossOrigin="anonymous"
-                strategy="afterInteractive"
-              />
               <Footer />
             </UserPreferencesProvider>
           </UserProvider>
