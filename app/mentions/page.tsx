@@ -1,5 +1,15 @@
 import Link from "next/link";
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-48B8PFD2C7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-48B8PFD2C7');
+</script>
+    
 export default function Mentions() {
     return (
         <main className="flex flex-col gap-4 px-6 md:px-24 xl:px-64 mt-28 lg:mt-48 mb-20">
