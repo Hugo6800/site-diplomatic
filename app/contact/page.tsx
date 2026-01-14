@@ -1,5 +1,15 @@
 'use client'
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-48B8PFD2C7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-48B8PFD2C7');
+</script>
+    
 import ContactForm from '@/app/components/Forms/ContactForm'
 
 export default function Contact() {
