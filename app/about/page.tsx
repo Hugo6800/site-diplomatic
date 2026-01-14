@@ -1,5 +1,14 @@
 export default function About() {
     return (
+        <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HGKN7W4F3K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HGKN7W4F3K');
+</script>
         <main className="flex flex-col gap-4 px-6 md:px-24 xl:px-36 mt-28 lg:mt-48 mb-20">
             <h2 className="font-bold font-fractul text-5xl dark:text-[#F4DFDF]">À propos</h2>
             <div className="flex flex-col gap-2">
