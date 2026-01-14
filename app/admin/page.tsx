@@ -7,6 +7,16 @@ import ContactSubmissionsSection from '../components/Sections/ContactSubmissions
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-48B8PFD2C7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-48B8PFD2C7');
+</script>
+    
 export default function Admin() {
     const router = useRouter();
     return (
