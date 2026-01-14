@@ -2,6 +2,16 @@ import Advertising from "@/app/components/Advertising";
 import CardTeam from "@/app/components/CardTeam";
 import { team } from "@/app/utils/team";
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-48B8PFD2C7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-48B8PFD2C7');
+</script>
+    
 export default function Team() {
     return (
         <main className="px-6 md:px-24 xl:px-64 mt-32 mb-16">
